@@ -11,7 +11,7 @@ firebase.initializeApp({
 });
 var database = firebase.database();
 
-var bottoken = process.env.KaleBotToken
+var bottoken = process.env.KALEBOTTOKEN
 console.log(bottoken)
 database.ref('/').once('value').then((snapshot) => {
     var fullconfig = snapshot.val();
