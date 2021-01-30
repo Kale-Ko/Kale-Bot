@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
+
 var firebase = require('firebase');
 firebase.initializeApp({
     apiKey: "AIzaSyDJZAe3wLHxAGyP20_tps9M2PwATKBeNm0",
@@ -10,9 +11,9 @@ firebase.initializeApp({
     appId: "1:653348399347:web:9a738d13c9170bf61bef86"
 });
 var database = firebase.database();
- 
+
 var bottoken = process.env.KALEBOTTOKEN
-console.log(bottoken)
+
 database.ref('/').once('value').then((snapshot) => {
     var fullconfig = snapshot.val();
     var status = fullconfig.status;
@@ -22,20 +23,15 @@ database.ref('/').once('value').then((snapshot) => {
 
     client.on('ready', () => {
         console.log("Bot Logged in as " + client.user.tag);
-        //sendembed(client.channels.cache.get("787053542460227624"), "Restarted/update", "The Bot has restarted/updated", "")
 
         if (statusenabled) {
             client.user.setActivity(status, { type: statustype })
         }
     });
 
-
-
     client.on("guildCreate", (guild) => {
         console.log("Joined server: " + guild.name);
     })
-
-
 
     client.on('message', message => {
         database.ref('servers/' + message.guild.id).once('value').then((snapshot) => {
@@ -81,11 +77,7 @@ database.ref('/').once('value').then((snapshot) => {
         });
     });
 
-
-
     client.login(bottoken);
-
-
 
     function commands(message, config) {
         var prefix = config.prefix;
@@ -268,50 +260,15 @@ database.ref('/').once('value').then((snapshot) => {
         }
     }
 
-
-
     if (bindtoport) {
         const express = require('express');
         const path = require('path');
         const app = express();
         const port = process.env.PORT || 5000;
-
-        //https://the-kale-bot.herokuapp.com/update/?serverid=&prefix=&allowcommandsinallchannels=&botcommandschannelid=&musicchannelid=&modrollid=&mutedroleid=&deletecommands=&deletecommandstimeout=&deleteresponses=&deleteresponsestimeout=
-        //https://the-kale-bot.herokuapp.com/update/?serverid=787052330129686560&prefix=!&allowcommandsinallchannels=true&botcommandschannelid=787053542460227624&musicchannelid=787509663100305468&modrollid=787052727535927376&mutedroleid=787054043029569537&deletecommands=false&deletecommandstimeout=3&deleteresponses=false&deleteresponsestimeout=5
-
         app.get('*', (req, res) => {
-            /*var contents;
-            var reqpath = req.url
-            reqpath = reqpath.replace('/', '');
-            var action = reqpath.substr(0, reqpath.indexOf("?") - 1)
-            var params = reqpath.substr(reqpath.indexOf("?"))
-            params = new URLSearchParams(params)
-
-            var serverid = params.get("serverid")
-
-            if (action == "fetch") {
-                var contents = JSON.stringify(fullconfig[serverid])
-            } else if (action = "update") {
-                var config = {
-                    "prefix": params.get("prefix"),
-                    "allowcommandsinallchannels": params.get("allowcommandsinallchannels"),
-                    "multiblebots": params.get("multiblebots"),
-                    "botcommandschannelid": params.get("botcommandschannelid"),
-                    "musicchannelid": params.get("musicchannelid"),
-                    "modrollid": params.get("modrollid"),
-                    "mutedroleid": params.get("mutedroleid"),
-                    "deletecommands": params.get("deletecommands"),
-                    "deletecommandstimeout": params.get("deletecommandstimeout"),
-                    "deleteresponses": params.get("deleteresponses"),
-                    "deleteresponsestimeout": params.get("deleteresponsestimeout")
-                }
-                database.ref('servers/' + serverid).set(config);
-            }*/
-
             res.writeHead(200, { 'Content-Type': 'application/json' });
             res.end("Online", "utf8");
         });
-
         app.listen(port, () => console.log("Bound to port " + port));
     }
 
