@@ -10,7 +10,7 @@ firebase.initializeApp({
     appId: "1:653348399347:web:9a738d13c9170bf61bef86"
 });
 var database = firebase.database();
-
+ 
 var bottoken = process.env.KALEBOTTOKEN
 console.log(bottoken)
 database.ref('/').once('value').then((snapshot) => {
