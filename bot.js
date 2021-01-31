@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-
+ 
 var firebase = require('firebase');
 firebase.initializeApp({
     apiKey: "AIzaSyDJZAe3wLHxAGyP20_tps9M2PwATKBeNm0",
