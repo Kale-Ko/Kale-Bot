@@ -39,7 +39,7 @@ client.on('message', message => {
                 sendembed(message.channel, "Music", "Playing " + musicurl + " in the music channel", "https://static.thenounproject.com/png/928-200.png")
             }
         } else if (message.content.startsWith(prefix + "kick")) {
-            if (message.member.roles.cache.has(modrollid)) {
+            if (message.member.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) {
                 const user = message.mentions.users.first()
                 if (user) {
                     const member = message.guild.member(user)
@@ -64,7 +64,7 @@ client.on('message', message => {
                 sendembed(message.channel, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
             }
         } else if (message.content.startsWith(prefix + "ban")) {
-            if (message.member.roles.cache.has(modrollid)) {
+            if (message.member.hasPermission('BAN_MEMBERS', { checkAdmin: true, checkOwner: true })) {
                 const user = message.mentions.users.first()
                 if (user) {
                     const member = message.guild.member(user)
@@ -91,7 +91,7 @@ client.on('message', message => {
                 sendembed(message.channel, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
             }
         } else if (message.content.startsWith(prefix + "mute")) {
-            if (message.member.roles.cache.has(modrollid)) {
+            if (message.member.hasPermission('MUTE_MEMBERS', { checkAdmin: true, checkOwner: true })) {
                 const user = message.mentions.users.first()
                 if (user) {
                     const member = message.guild.member(user)
@@ -130,7 +130,7 @@ client.on('message', message => {
                 sendembed(message.channel, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
             }
         } else if (message.content.startsWith(prefix + "clear")) {
-            if (message.member.roles.cache.has(modrollid)) {
+            if (message.member.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
                 async function clear() {
                     message.delete()
                     const fetched = await message.channel.messages.fetch({ limit: 100 })
