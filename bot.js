@@ -32,26 +32,32 @@ client.on('message', message => {
         } else if (message.content.startsWith(prefix + "music")) {
             var params = message.content.split(" ")
             var musicurl = params[1]
+
             if (musicurl == undefined) {
                 sendembed(message.channel, "Music", "You must specify a song url to play", "https://static.thenounproject.com/png/928-200.png")
             } else {
                 music.play(musicurl, musicchannelid)
+
                 sendembed(message.channel, "Music", "Playing " + musicurl + " in the music channel", "https://static.thenounproject.com/png/928-200.png")
             }
         } else if (message.content.startsWith(prefix + "kick")) {
             if (message.member.hasPermission('KICK_MEMBERS', { checkAdmin: true, checkOwner: true })) {
                 const user = message.mentions.users.first()
+
                 if (user) {
                     const member = message.guild.member(user)
+
                     if (member) {
                         member
                             .kick("They were bad!")
                             .then(() => {
                                 sendembed(message.channel, "Kick", "Successfully kicked " + user.tag, "https://static.thenounproject.com/png/642338-200.png")
+
                                 user.send('You were kicked from ' + message.guild.name)
                             })
                             .catch(err => {
                                 sendembed(message.channel, "Kick", "I was unable to kick the member", "https://static.thenounproject.com/png/642338-200.png")
+
                                 console.error(err)
                             })
                     } else {
@@ -66,8 +72,10 @@ client.on('message', message => {
         } else if (message.content.startsWith(prefix + "ban")) {
             if (message.member.hasPermission('BAN_MEMBERS', { checkAdmin: true, checkOwner: true })) {
                 const user = message.mentions.users.first()
+
                 if (user) {
                     const member = message.guild.member(user)
+
                     if (member) {
                         member
                             .ban({
@@ -75,10 +83,12 @@ client.on('message', message => {
                             })
                             .then(() => {
                                 sendembed(message.channel, "Ban", "Successfully banned " + user.tag, "https://static.thenounproject.com/png/1873121-200.png")
+
                                 user.send('You were banned from ' + message.guild.name)
                             })
                             .catch(err => {
                                 sendembed(message.channel, "Ban", "I was unable to ban the member", "https://static.thenounproject.com/png/1873121-200.png")
+
                                 console.error(err)
                             })
                     } else {
@@ -93,11 +103,15 @@ client.on('message', message => {
         } else if (message.content.startsWith(prefix + "mute")) {
             if (message.member.hasPermission('MUTE_MEMBERS', { checkAdmin: true, checkOwner: true })) {
                 const user = message.mentions.users.first()
+
                 if (user) {
                     const member = message.guild.member(user)
+
                     if (member) {
                         member.roles.add(message.guild.roles.cache.get(mutedroleid))
+
                         sendembed(message.channel, "Mute", "Successfully muted " + user.tag, "https://static.thenounproject.com/png/136618-200.png")
+
                         user.send('You were muted in ' + message.guild.name)
                     } else {
                         sendembed(message.channel, "Mute", "That user isn't in this server!", "https://static.thenounproject.com/png/136618-200.png")
@@ -111,11 +125,14 @@ client.on('message', message => {
         } else if (message.content.startsWith(prefix + "unmute")) {
             if (message.member.roles.cache.has(modrollid)) {
                 const user = message.mentions.users.first()
+
                 if (user) {
                     const member = message.guild.member(user)
+
                     if (member) {
                         if (member.roles.cache.has(mutedroleid)) {
                             member.roles.remove(message.guild.roles.cache.get(mutedroleid))
+
                             sendembed(message.channel, "Unmute", "Successfully unmuted " + user.tag, "https://static.thenounproject.com/png/136618-200.png")
                         } else {
                             sendembed(message.channel, "Unmute", "That user isn't muted!", "")
@@ -133,7 +150,9 @@ client.on('message', message => {
             if (message.member.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
                 async function clear() {
                     message.delete()
+
                     const fetched = await message.channel.messages.fetch({ limit: 100 })
+
                     message.channel.bulkDelete(fetched)
                 }
                 clear()
