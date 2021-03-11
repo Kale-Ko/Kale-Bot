@@ -1,7 +1,7 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
 
-var prefix = ">"
+var prefix = ">" 
 var musicchannelid = "787509663100305468"
 var modrollid = "787052727535927376"
 var mutedroleid = "787054043029569537"
