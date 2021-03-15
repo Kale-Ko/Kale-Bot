@@ -33,7 +33,7 @@ function sendEmbed(channel, title, description, thumbnail) {
     channel.send(embed)
 }
 
-function handleCommand (message) {
+function handleCommand(message) {
     if (message.content.startsWith(prefix + "about")) {
         sendEmbed(message.channel, "About", "Kale bot is a miscellaneous Discord bot made by Kale Ko#8048", "")
     } else if (message.content.startsWith(prefix + "help")) {
