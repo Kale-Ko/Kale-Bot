@@ -1,5 +1,6 @@
 const Discord = require('discord.js')
 const client = new Discord.Client()
+const fs = require('fs')
 
 var prefix = "?"
 var status = prefix + "help for help"
@@ -8,6 +9,20 @@ client.on('ready', () => {
     console.log("Bot Logged in as " + client.user.tag)
 
     client.user.setActivity(status, { type: "PLAYING" })
+
+    fs.stat("restarting.txt", function (err, stats) {
+        if (err) return
+
+        fs.readFile("restarting.txt", "utf8", (err, data) => {
+            if (err) throw err
+
+            client.channels.fetch(data).then(function (result) {
+                sendEmbed(result, "Restart", "The bot has restarted", "")
+            })
+
+            fs.unlinkSync("restarting.txt")
+        })
+    })
 })
 
 client.on("guildCreate", (guild) => {
@@ -51,6 +66,20 @@ function handleCommand(message) {
         } else {
             sendEmbed(message.channel, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
         }
+    } else if (message.content.startsWith(prefix + "restart")) {
+        if (message.member.id != 622242352433725451) {
+            sendEmbed(message.channel, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
+
+            return
+        }
+
+        fs.writeFileSync("restarting.txt", message.channel.id)
+
+        sendEmbed(message.channel, "Restarting", "I'll be back in a moment", "")
+
+        setTimeout(() => {
+            restartSlashIntentionalCrash()
+        }, 200);
     } else {
         sendEmbed(message.channel, "Unknown Command", "That is not a command, use " + prefix + "help for a list of commands", "")
     }
