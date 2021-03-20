@@ -4,6 +4,7 @@ const fs = require('fs')
 
 var prefix = "?"
 var status = prefix + "help for help"
+var deleteTimeout = 5
 
 var data
 var startTime = new Date()
@@ -21,6 +22,15 @@ client.on('ready', () => {
 
             client.channels.fetch(data).then(function (result) {
                 sendEmbed(result, "Restart", "The bot has restarted", "")
+
+                setTimeout(() => {
+                    async function clear() {
+                        const fetched = await result.messages.fetch({ limit: 2 })
+
+                        result.bulkDelete(fetched)
+                    }
+                    clear()
+                }, 2000)
             })
 
             fs.unlinkSync("restarting.txt")
@@ -47,6 +57,16 @@ client.on("guildCreate", (guild) => {
 
 client.on('message', message => {
     if (!message.author.bot && message.content.startsWith(prefix)) handleCommand(message)
+
+    if (message.channel.name == "bot-commands") {
+        if (!message.author.bot) {
+            message.delete()
+        } else {
+            setTimeout(() => {
+                message.delete()
+            }, deleteTimeout * 1000)
+        }
+    }
 })
 
 client.login(process.env.KALEBOTTOKEN)
@@ -67,9 +87,9 @@ function sendEmbed(channel, title, description, thumbnail) {
 function handleCommand(message) {
     if (message.content.startsWith(prefix + "help")) {
         sendEmbed(message.channel, "Help", "**Unranked**\nUse " + prefix + "help to show this\nUse " + prefix + "about to get info about the bot\nUse " + prefix + "uptime to get how long the bot has been online\n\n**Admins**\nUse " + prefix + "clear to clear a channels messages", "")
-    } else if (message.content.startsWith(prefix + "about")) {
+    } else if (message.content.toLowerCase().startsWith(prefix + "about")) {
         sendEmbed(message.channel, "About", "Kale bot is a miscellaneous Discord bot made by Kale Ko#8048", "")
-    } else if (message.content.startsWith(prefix + "uptime")) {
+    } else if (message.content.toLowerCase().startsWith(prefix + "uptime")) {
         var difference = Math.abs(new Date() - startTime)
         var differentDays = Math.ceil(difference / (1000 * 60 * 60 * 24) - 1)
         var differentHours = Math.ceil(difference / (1000 * 60 * 60) - 1) - differentDays * 24
@@ -77,7 +97,7 @@ function handleCommand(message) {
         var differentSeconds = Math.ceil(difference / 1000 - 1) - differentMinutes * 60
 
         sendEmbed(message.channel, "Uptime", "The bot has been online for " + differentDays + " days, " + differentHours + " hours, and " + differentMinutes + " minutes and " + differentSeconds + " seconds\nIt last went offline because of " + data.lastDowntimeReason, "")
-    } else if (message.content.startsWith(prefix + "restart")) {
+    } else if (message.content.toLowerCase().startsWith(prefix + "restart")) {
         if (message.member.id != 622242352433725451) {
             sendEmbed(message.channel, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
 
@@ -86,19 +106,14 @@ function handleCommand(message) {
 
         fs.writeFileSync("restarting.txt", message.channel.id)
 
-        data.lastDowntimeReason = "an intentional restart"
-        fs.writeFileSync("data.json", JSON.stringify(data))
-
         sendEmbed(message.channel, "Restarting", "I'll be back in a moment", "")
 
         setTimeout(() => {
-            restartSlashIntentionalCrash()
+            process.exit()
         }, 200)
-    } else if (message.content.startsWith(prefix + "clear")) {
+    } else if (message.content.toLowerCase().startsWith(prefix + "clear")) {
         if (message.member.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
             async function clear() {
-                message.delete()
-
                 const fetched = await message.channel.messages.fetch({ limit: 100 })
 
                 message.channel.bulkDelete(fetched)
@@ -111,3 +126,15 @@ function handleCommand(message) {
         sendEmbed(message.channel, "Unknown Command", "That is not a command, use " + prefix + "help for a list of commands", "")
     }
 }
+
+var exceptionOccurred = false
+process.on('SIGINT', function () { process.exit() })
+process.on('uncaughtException', function (err) {
+    exceptionOccurred = true
+    console.log(err)
+    process.exit()
+})
+process.on('exit', function (code) {
+    if (!exceptionOccurred) { data.lastDowntimeReason = "an intentional restart" } else { data.lastDowntimeReason = "a crash" }
+    fs.writeFileSync("data.json", JSON.stringify(data))
+})
