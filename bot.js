@@ -5,7 +5,7 @@ const fs = require('fs')
 var prefix = "?"
 var status = prefix + "help for help"
 var deleteTimeout = 3
-var atSender = true;
+var atSender = true
 
 var data
 var startTime = new Date()
@@ -136,15 +136,18 @@ function handleCommand(message) {
 }
 
 var exceptionOccurred = false
+
 process.on('SIGINT', function () {
     process.exit(0)
 })
+
 process.on('uncaughtException', function (err) {
     console.log(err)
 
     exceptionOccurred = true
 
-    process.exit(0)
+    p
+    rocess.exit(0)
 })
 process.on('exit', function (code) {
     if (!exceptionOccurred) { data.lastDowntimeReason = "an intentional restart" } else { data.lastDowntimeReason = "a crash" }
