@@ -4,13 +4,13 @@
     "servers": {
         "787052330129686560": {
             "prefix": "?",
-            "deleteTimeout": 3,
-            "atSender": true
+            "deleteTimeout": 8,
+            "atSender": false
         }
     },
     "defaultConfig": {
         "prefix": "?",
-        "deleteTimeout": 3,
+        "deleteTimeout": 5,
         "atSender": true
     }
 }
