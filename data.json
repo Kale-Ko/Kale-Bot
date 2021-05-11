@@ -1,6 +1,6 @@
 {
-    "lastDowntimeReason": "an intentional restart",
-    "status": "?help for help",
+    "lastDowntimeReason": "a crash",
+    "status": "for ?help",
     "servers": {
         "787052330129686560": {
             "prefix": "?",
@@ -10,7 +10,7 @@
     },
     "defaultConfig": {
         "prefix": "?",
-        "deleteTimeout": 5,
+        "deleteTimeout": 8,
         "atSender": true
     }
 }

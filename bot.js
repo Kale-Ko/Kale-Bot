@@ -1,6 +1,7 @@
-const Discord = require('discord.js')
+const Discord = require("discord.js")
 const client = new Discord.Client()
-const fs = require('fs')
+const WOKCommands = require("wokcommands")
+const fs = require("fs")
 
 var data = {}
 
@@ -14,13 +15,19 @@ fs.stat("./data.json", function (err, stats) {
 
         fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
 
-        client.on('ready', () => {
+        client.on("ready", () => {
             console.log("Bot Logged in as " + client.user.tag)
 
-            client.user.setActivity(data.status, { type: "PLAYING" })
+            client.user.setPresence({ activity: { name: data.status, type: "WATCHING" }, afk: false })
+
+            new WOKCommands(client, {
+                commandsDir: "commands",
+                testServers: ["787052330129686560"],
+                showWarns: false,
+            }).setDefaultPrefix(data.prefix)
         })
 
-        client.on('message', message => {
+        client.on("message", message => {
             if (message.channel.type != "dm") var config = data.servers[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
             if (!message.author.bot && message.content.startsWith(config.prefix)) handleCommand(message, config)
@@ -42,7 +49,7 @@ fs.stat("./data.json", function (err, stats) {
             }
         })
 
-        client.on('guildCreate', guild => {
+        client.on("guildCreate", guild => {
             data.servers[guild.id] = data.defaultConfig
         })
 
@@ -85,7 +92,7 @@ fs.stat("./data.json", function (err, stats) {
 
                 sendEmbed(message.channel, message.author, config, "Uptime", "The bot has been online for " + differentDays + " days, " + differentHours + " hours, and " + differentMinutes + " minutes and " + differentSeconds + " seconds\nIt last went offline because of " + data.lastDowntimeReason)
             } else if (command == "clear" && message.channel.type != "dm") {
-                if (message.member.hasPermission('MANAGE_MESSAGES', { checkAdmin: true, checkOwner: true })) {
+                if (message.member.hasPermission("MANAGE_MESSAGES", { checkAdmin: true, checkOwner: true })) {
                     var amount = args[0]
                     if (amount == undefined || amount == null || amount == "") amount = 100
 
@@ -100,7 +107,7 @@ fs.stat("./data.json", function (err, stats) {
                     sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
                 }
             } else if (command == "prefix" && message.channel.type != "dm") {
-                if (message.member.hasPermission('MANAGE_SERVER', { checkAdmin: true, checkOwner: true })) {
+                if (message.member.hasPermission("MANAGE_SERVER", { checkAdmin: true, checkOwner: true })) {
                     if (args[0] == undefined || args[0] == "") { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid prefix"); return }
 
                     config.prefix = args[0]
@@ -112,7 +119,7 @@ fs.stat("./data.json", function (err, stats) {
                     sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
                 }
             } else if (command == "deletetimeout" && message.channel.type != "dm") {
-                if (message.member.hasPermission('MANAGE_SERVER', { checkAdmin: true, checkOwner: true })) {
+                if (message.member.hasPermission("MANAGE_SERVER", { checkAdmin: true, checkOwner: true })) {
                     if (args[0] == undefined || args[0] == "") { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid amount"); return }
 
                     config.deleteTimeout = parseFloat(args[0])
@@ -124,7 +131,7 @@ fs.stat("./data.json", function (err, stats) {
                     sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
                 }
             } else if (command == "atsender" && message.channel.type != "dm") {
-                if (message.member.hasPermission('MANAGE_SERVER', { checkAdmin: true, checkOwner: true })) {
+                if (message.member.hasPermission("MANAGE_SERVER", { checkAdmin: true, checkOwner: true })) {
                     if (args[0] != "true" && args[0] != true && args[0] == "false" && args[0] == false) { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid bollean"); return }
 
                     var value = true; if (args[0] == "false" || args[0] == false) value = false
@@ -144,15 +151,15 @@ fs.stat("./data.json", function (err, stats) {
         }
 
         var exceptionOccurred = false
-        process.on('SIGINT', function () { process.exit(0) })
-        process.on('uncaughtException', function (err) {
+        process.on("SIGINT", function () { process.exit(0) })
+        process.on("uncaughtException", function (err) {
             console.error(err)
 
             exceptionOccurred = true
 
             process.exit(0)
         })
-        process.on('exit', function (code) {
+        process.on("exit", function (code) {
             if (!exceptionOccurred) { data.lastDowntimeReason = "an intentional restart" } else { data.lastDowntimeReason = "a crash" }
 
             fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
