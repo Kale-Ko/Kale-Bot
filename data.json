@@ -1,7 +1,13 @@
 {
-    "lastDowntimeReason": "a crash",
+    "lastDowntimeReason": "an intentional restart",
     "status": "?help for help",
-    "servers": {},
+    "servers": {
+        "787052330129686560": {
+            "prefix": "?",
+            "deleteTimeout": 8,
+            "atSender": true
+        }
+    },
     "defaultConfig": {
         "prefix": "?",
         "deleteTimeout": 5,
