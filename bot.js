@@ -59,7 +59,7 @@ fs.stat("./data.json", function (err, stats) {
             embed.setTimestamp(new Date())
 
             if (config.atSender && author != undefined) {
-                channel.send("<@" + author.id + ">\n", { "embed": embed })
+                channel.send("<@" + author.id + ">\n", { embed: embed })
             } else {
                 channel.send(embed)
             }
@@ -138,7 +138,8 @@ fs.stat("./data.json", function (err, stats) {
                     sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
                 }
             } else {
-                sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
+                if (message.channel.type != "dm") sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
+                else sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command or you cant use that command in dms, use " + config.prefix + "help for a list of commands")
             }
         }
 
