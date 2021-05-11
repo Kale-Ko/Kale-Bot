@@ -41,7 +41,7 @@ fs.stat("./data.json", function (err, stats) {
                     }, config.deleteTimeout * 1000)
                 }
             } else {
-                if (message.author.bot) {
+                if (message.author.id == client.user.id) {
                     setTimeout(() => {
                         if (!message.deleted) message.delete()
                     }, config.deleteTimeout * 1000)
