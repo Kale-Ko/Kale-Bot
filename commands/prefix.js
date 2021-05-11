@@ -1,11 +1,12 @@
 var { createEmbed, data } = require("../bot.js")
 
 module.exports = {
-    name: "ping",
-    description: "Ping Pong!",
+    name: "prefix",
+    description: "Set the prefix",
     testOnly: true,
     slash: true,
+    hidden: true,
     callback: ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        return createEmbed("Pong!", "Ping Pong")
+        return createEmbed("Error", "Please use ?prefix to set the prefix")
     }
 }

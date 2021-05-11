@@ -1,11 +1,12 @@
 var { createEmbed, data } = require("../bot.js")
 
 module.exports = {
-    name: "ping",
-    description: "Ping Pong!",
+    name: "deletetimeout",
+    description: "Set the delete timeout",
     testOnly: true,
     slash: true,
+    hidden: true,
     callback: ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        return createEmbed("Pong!", "Ping Pong")
+        return createEmbed("Error", "Please use ?deletetimeout to set the delete timeout")
     }
 }

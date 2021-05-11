@@ -18,13 +18,13 @@ fs.stat("./data.json", function (err, stats) {
         client.on("ready", () => {
             console.log("Bot Logged in as " + client.user.tag)
 
-            client.user.setPresence({ activity: { name: data.status, type: "WATCHING" }, afk: false })
+            client.user.setPresence({ status: 'online', activity: { name: data.status, type: "WATCHING" } })
 
             new WOKCommands(client, {
                 commandsDir: "commands",
                 testServers: ["787052330129686560"],
                 showWarns: false,
-            }).setDefaultPrefix(data.prefix)
+            })
         })
 
         client.on("message", message => {
@@ -56,6 +56,14 @@ fs.stat("./data.json", function (err, stats) {
         client.login(process.env.KALEBOTTOKEN)
 
         function sendEmbed(channel, author, config, title, description, thumbnail) {
+            if (config.atSender && author != undefined) {
+                channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
+            } else {
+                channel.send(createEmbed(title, description, thumbnail))
+            }
+        }
+
+        function createEmbed(title, description, thumbnail) {
             const embed = new Discord.MessageEmbed()
             embed.setColor(0xffaa00)
             embed.setAuthor(client.user.username, client.user.displayAvatarURL())
@@ -65,11 +73,7 @@ fs.stat("./data.json", function (err, stats) {
             embed.setFooter(client.user.username)
             embed.setTimestamp(new Date())
 
-            if (config.atSender && author != undefined) {
-                channel.send("<@" + author.id + ">\n", { embed: embed })
-            } else {
-                channel.send(embed)
-            }
+            return embed
         }
 
         function handleCommand(message, config) {
@@ -91,15 +95,19 @@ fs.stat("./data.json", function (err, stats) {
                 var differentSeconds = Math.ceil(difference / 1000 - 1) - ((differentMinutes * 60) + (differentHours * 60 * 60) + (differentDays * 24 * 60 * 60))
 
                 sendEmbed(message.channel, message.author, config, "Uptime", "The bot has been online for " + differentDays + " days, " + differentHours + " hours, and " + differentMinutes + " minutes and " + differentSeconds + " seconds\nIt last went offline because of " + data.lastDowntimeReason)
+            } else if (command == "ping") {
+                sendEmbed(message.channel, message.author, config, "Pong!", "Ping Pong")
             } else if (command == "clear" && message.channel.type != "dm") {
                 if (message.member.hasPermission("MANAGE_MESSAGES", { checkAdmin: true, checkOwner: true })) {
                     var amount = args[0]
                     if (amount == undefined || amount == null || amount == "") amount = 100
 
                     async function clear() {
-                        const fetched = await message.channel.messages.fetch({ limit: amount })
+                        var fetched = await message.channel.messages.fetch({ limit: amount })
 
                         message.channel.bulkDelete(fetched)
+
+                        sendEmbed(message.channel, message.author, config, "Cleared", "Cleared the last " + amount + " messages")
                     }
 
                     clear()
@@ -164,5 +172,7 @@ fs.stat("./data.json", function (err, stats) {
 
             fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
         })
+
+        module.exports = { createEmbed, data }
     })
 })
