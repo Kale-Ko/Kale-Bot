@@ -1,9 +1,10 @@
+const fs = require("fs")
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const WOKCommands = require("wokcommands")
-const fs = require("fs")
 
 var data = {}
+var commands = []
 
 fs.stat("./data.json", function (err, stats) {
     if (err) return
@@ -20,11 +21,9 @@ fs.stat("./data.json", function (err, stats) {
 
             client.user.setPresence({ status: 'online', activity: { name: data.status, type: "WATCHING" } })
 
-            new WOKCommands(client, {
-                commandsDir: "commands",
-                testServers: ["787052330129686560"],
-                showWarns: false,
-            })
+            new WOKCommands(client, { commandsDir: "slashCommands", testServers: ["787052330129686560"], showWarns: false, })
+
+            registerCommands()
         })
 
         client.on("message", message => {
@@ -76,83 +75,37 @@ fs.stat("./data.json", function (err, stats) {
             return embed
         }
 
+        function registerCommands() {
+            var commandlist = fs.readdirSync("./commands")
+
+            var commandCount = 0
+            commandlist.forEach(file => {
+                const command = require("./commands/" + file)
+
+                commands.push({ name: command.name, description: command.description, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })
+
+                commandCount++
+            })
+
+            console.log("CustomCommands > Loaded " + commandCount + (commands.length == 1 ? " command." : " commands."))
+        }
+
         function handleCommand(message, config) {
             var command = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
             var args = message.content.toLowerCase().split(" "); args.shift()
 
-            if (command == "help") {
-                var help = "**Unranked**\nUse " + config.prefix + "help to show this\nUse " + config.prefix + "about to get info about the bot\nUse " + config.prefix + "uptime to get how long the bot has been online"
-                if (message.channel.type != "dm") help += "\n\n**Admins**\nUse " + config.prefix + "clear to clear a channels messages\nUse " + config.prefix + "prefix to set the prefix\nUse " + config.prefix + "deletetimeout to set the delete timeout\nUse " + config.prefix + "atsender to change whether it ats the sender of the message"
+            var ran = false
+            commands.forEach(customCommand => {
+                if (!customCommand.worksInDms && message.channel.type == "dm") return
 
-                sendEmbed(message.channel, message.author, config, "Help", help)
-            } else if (command == "about") {
-                sendEmbed(message.channel, message.author, config, "About", "Kale bot is a miscellaneous Discord bot made by <@622242352433725451>")
-            } else if (command == "uptime") {
-                var difference = Math.abs(new Date() - client.readyTimestamp)
-                var differentDays = Math.ceil(difference / (1000 * 60 * 60 * 24) - 1)
-                var differentHours = Math.ceil(difference / (1000 * 60 * 60) - 1) - (differentDays * 24)
-                var differentMinutes = Math.ceil(difference / (1000 * 60) - 1) - ((differentHours * 60) + (differentDays * 24 * 60))
-                var differentSeconds = Math.ceil(difference / 1000 - 1) - ((differentMinutes * 60) + (differentHours * 60 * 60) + (differentDays * 24 * 60 * 60))
+                if (customCommand.name == command) {
+                    customCommand.run({ message, args, client, config })
 
-                sendEmbed(message.channel, message.author, config, "Uptime", "The bot has been online for " + differentDays + " days, " + differentHours + " hours, and " + differentMinutes + " minutes and " + differentSeconds + " seconds\nIt last went offline because of " + data.lastDowntimeReason)
-            } else if (command == "ping") {
-                sendEmbed(message.channel, message.author, config, "Pong!", "Ping Pong")
-            } else if (command == "clear" && message.channel.type != "dm") {
-                if (message.member.hasPermission("MANAGE_MESSAGES", { checkAdmin: true, checkOwner: true })) {
-                    var amount = args[0]
-                    if (amount == undefined || amount == null || amount == "") amount = 100
-
-                    async function clear() {
-                        var fetched = await message.channel.messages.fetch({ limit: amount })
-
-                        message.channel.bulkDelete(fetched)
-
-                        sendEmbed(message.channel, message.author, config, "Cleared", "Cleared the last " + amount + " messages")
-                    }
-
-                    clear()
-                } else {
-                    sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
+                    ran = true
                 }
-            } else if (command == "prefix" && message.channel.type != "dm") {
-                if (message.member.hasPermission("MANAGE_SERVER", { checkAdmin: true, checkOwner: true })) {
-                    if (args[0] == undefined || args[0] == "") { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid prefix"); return }
+            })
 
-                    config.prefix = args[0]
-
-                    fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
-
-                    sendEmbed(message.channel, message.author, config, "Successfully set", "Successfully set the prefix to " + args[0])
-                } else {
-                    sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
-                }
-            } else if (command == "deletetimeout" && message.channel.type != "dm") {
-                if (message.member.hasPermission("MANAGE_SERVER", { checkAdmin: true, checkOwner: true })) {
-                    if (args[0] == undefined || args[0] == "") { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid amount"); return }
-
-                    config.deleteTimeout = parseFloat(args[0])
-
-                    fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
-
-                    sendEmbed(message.channel, message.author, config, "Successfully set", "Successfully set the delete timout to " + args[0])
-                } else {
-                    sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
-                }
-            } else if (command == "atsender" && message.channel.type != "dm") {
-                if (message.member.hasPermission("MANAGE_SERVER", { checkAdmin: true, checkOwner: true })) {
-                    if (args[0] != "true" && args[0] != true && args[0] == "false" && args[0] == false) { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid bollean"); return }
-
-                    var value = true; if (args[0] == "false" || args[0] == false) value = false
-
-                    config.atSender = value
-
-                    fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
-
-                    sendEmbed(message.channel, message.author, config, "Successfully set", "Successfully set at sender to " + value)
-                } else {
-                    sendEmbed(message.channel, message.author, config, "Denied", "You do not have the permission to do that", "https://static.thenounproject.com/png/372212-200.png")
-                }
-            } else {
+            if (!ran) {
                 if (message.channel.type != "dm") sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
                 else sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command or you cant use that command in dms, use " + config.prefix + "help for a list of commands")
             }
@@ -173,6 +126,6 @@ fs.stat("./data.json", function (err, stats) {
             fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
         })
 
-        module.exports = { createEmbed, data }
+        module.exports = { createEmbed, sendEmbed, data }
     })
 })

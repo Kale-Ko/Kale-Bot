@@ -1,24 +1,18 @@
-var { createEmbed, data } = require("../bot.js")
+var { sendEmbed, data } = require("../bot.js")
 
 module.exports = {
     name: "clear",
     description: "Clear a channels messages",
-    expectedArgs: '<amount>',
-    minArgs: 0,
-    maxArgs: 1,
-    testOnly: true,
-    slash: true,
-    hidden: true,
-    callback: async ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        if (channel.type == "dm") return createEmbed("Denied", "You can't do that in dms", "https://static.thenounproject.com/png/372212-200.png")
+    requiredPermissions: ["MANAGE_MESSAGES"],
+    worksInDms: false,
+    callback: async ({ message, args, client, config }) => {
+        var amount = args[0]
+        if (amount == undefined || amount == null || amount == "") amount = 100
 
-        var [amount] = args
-        if (amount == undefined || amount == null || amount == "" || amount == 0) amount = 100
+        var fetched = await message.channel.messages.fetch({ limit: amount })
 
-        var fetched = await channel.messages.fetch({ limit: amount })
+        message.channel.bulkDelete(fetched)
 
-        channel.bulkDelete(fetched)
-
-        return createEmbed("Cleared", "Cleared the last " + amount + " messages")
+        sendEmbed(message.channel, message.author, config, "Cleared", "Cleared the last " + amount + " messages")
     }
 }

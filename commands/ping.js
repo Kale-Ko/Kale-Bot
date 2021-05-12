@@ -1,11 +1,11 @@
-var { createEmbed, data } = require("../bot.js")
+var { sendEmbed, data } = require("../bot.js")
 
 module.exports = {
     name: "ping",
-    description: "Ping Pong!",
-    testOnly: true,
-    slash: true,
-    callback: ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        return createEmbed("Pong!", "Ping Pong")
+    description: "Ping the bot",
+    requiredPermissions: [],
+    worksInDms: true,
+    callback: ({ message, args, client, config }) => {
+        sendEmbed(message.channel, message.author, config, "Pong!")
     }
 }

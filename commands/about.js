@@ -1,11 +1,11 @@
-var { createEmbed, data } = require("../bot.js")
+var { sendEmbed, data } = require("../bot.js")
 
 module.exports = {
     name: "about",
     description: "Get info about the bot",
-    testOnly: true,
-    slash: true,
-    callback: ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        return createEmbed("About", "Kale bot is a miscellaneous Discord bot made by <@622242352433725451>")
+    requiredPermissions: [],
+    worksInDms: true,
+    callback: ({ message, args, client, config }) => {
+        sendEmbed(message.channel, message.author, config, "About", "Kale bot is a miscellaneous Discord bot made by <@622242352433725451>")
     }
 }

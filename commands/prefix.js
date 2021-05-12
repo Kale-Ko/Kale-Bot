@@ -1,12 +1,18 @@
-var { createEmbed, data } = require("../bot.js")
+const fs = require("fs")
+var { sendEmbed, data } = require("../bot.js")
 
 module.exports = {
     name: "prefix",
     description: "Set the prefix",
-    testOnly: true,
-    slash: true,
-    hidden: true,
-    callback: ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        return createEmbed("Error", "Please use ?prefix to set the prefix")
+    requiredPermissions: ["MANAGE_SERVER"],
+    worksInDms: false,
+    callback: ({ message, args, client, config }) => {
+        if (args[0] == undefined || args[0] == "") { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid prefix"); return }
+
+        config.prefix = args[0]
+
+        fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
+
+        sendEmbed(message.channel, message.author, config, "Successfully set", "Successfully set the prefix to " + args[0])
     }
 }

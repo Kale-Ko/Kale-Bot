@@ -1,12 +1,18 @@
-var { createEmbed, data } = require("../bot.js")
+const fs = require("fs")
+var { sendEmbed, data } = require("../bot.js")
 
 module.exports = {
     name: "deletetimeout",
     description: "Set the delete timeout",
-    testOnly: true,
-    slash: true,
-    hidden: true,
-    callback: ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        return createEmbed("Error", "Please use ?deletetimeout to set the delete timeout")
+    requiredPermissions: ["MANAGE_SERVER"],
+    worksInDms: false,
+    callback: ({ message, args, client, config }) => {
+        if (args[0] == undefined || args[0] == "") { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid amount"); return }
+
+        config.deleteTimeout = parseFloat(args[0])
+
+        fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
+
+        sendEmbed(message.channel, message.author, config, "Successfully set", "Successfully set the delete timout to " + args[0])
     }
 }
