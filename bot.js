@@ -46,6 +46,12 @@ fs.stat("./data.json", function (err, stats) {
                     }, config.deleteTimeout * 1000)
                 }
             }
+
+            if (message.embeds[0] != null) if (message.embeds[0].title == "Poll") {
+                var args = message.content.toLowerCase().split(" "); args.shift()
+
+                require("./commands/poll.js").addReactions({ message, args, client, config })
+            }
         })
 
         client.on("guildCreate", guild => {
@@ -126,6 +132,6 @@ fs.stat("./data.json", function (err, stats) {
             fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
         })
 
-        module.exports = { createEmbed, sendEmbed, data }
+        module.exports = { createEmbed, sendEmbed, data, commands }
     })
 })
