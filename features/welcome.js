@@ -1,4 +1,4 @@
-var { sendEmbed, client, data } = require("../bot.js")
+const { sendEmbed } = require("../util.js")
 
 module.exports = {
     name: "welcome",

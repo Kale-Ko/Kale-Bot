@@ -1,5 +1,5 @@
 const WOKCommands = require("wokcommands")
-var { sendEmbed, client, data } = require("../bot.js")
+var { client } = require("../bot.js")
 
 module.exports = {
     name: "slashCommands",

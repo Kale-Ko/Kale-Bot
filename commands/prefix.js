@@ -1,5 +1,6 @@
 const fs = require("fs")
-var { sendEmbed, data } = require("../bot.js")
+var { data } = require("../bot.js")
+const { sendEmbed } = require("../util.js")
 
 module.exports = {
     name: "prefix",

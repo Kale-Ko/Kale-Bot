@@ -1,7 +1,6 @@
 const fs = require("fs")
 const Discord = require("discord.js")
 const client = new Discord.Client()
-const { sendEmbed, createEmbed } = require("./util.js")
 
 var data = {}
 var features = []
@@ -12,8 +11,6 @@ fs.readFile("./data.json", "utf8", (err, newData) => {
 
     client.on("ready", () => {
         console.log("Bot Logged in as " + client.user.tag)
-
-        client.user.setPresence({ status: 'online', activity: { name: data.status, type: "WATCHING" } })
 
         registerFeatures()
     })
@@ -44,6 +41,6 @@ fs.readFile("./data.json", "utf8", (err, newData) => {
 
         console.log("CustomFeatures > Loaded " + featureCount + (commands.length == 1 ? " feature." : " features."))
     }
-})
 
-module.exports = { createEmbed, sendEmbed, data, client, features, commands }
+    module.exports = { data, client, features, commands }
+})

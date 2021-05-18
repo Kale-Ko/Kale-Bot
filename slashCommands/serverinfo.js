@@ -1,4 +1,4 @@
-var { createEmbed, data } = require("../bot.js")
+const { createEmbed } = require("../util.js")
 
 module.exports = {
     name: "serverinfo",

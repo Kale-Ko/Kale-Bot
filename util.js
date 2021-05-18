@@ -1,3 +1,6 @@
+const Discord = require("discord.js")
+var { client, data } = require("./bot.js")
+
 function sendEmbed(channel, author, config, title, description, thumbnail) {
     if (config.atSender && author != undefined) {
         channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })

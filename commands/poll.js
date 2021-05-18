@@ -1,4 +1,4 @@
-var { sendEmbed, data } = require("../bot.js")
+const { sendEmbed } = require("../util.js")
 
 var numbers = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"]
 

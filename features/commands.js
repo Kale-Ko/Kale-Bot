@@ -1,12 +1,13 @@
 const fs = require("fs")
-var { sendEmbed, client, data, commands } = require("../bot.js")
+var { client, data, commands } = require("../bot.js")
+const { sendEmbed } = require("../util.js")
 
 module.exports = {
     name: "commands",
     description: "Adds commands to your server",
     required: true,
     events: ["register", "message"],
-    run: (name, data) => {
+    run: (name, message) => {
         if (name == "register") {
             var commandlist = fs.readdirSync("./commands")
 
@@ -21,8 +22,6 @@ module.exports = {
 
             console.log("CustomCommands > Loaded " + commandCount + (commands.length == 1 ? " command." : " commands."))
         } else {
-            var message = data
-
             if (message.channel.type != "dm") var config = data.servers[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
             if (message.channel.name == "bot-commands") {

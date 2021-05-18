@@ -1,4 +1,4 @@
-var { sendEmbed, client, data } = require("../bot.js")
+var { data } = require("../bot.js")
 
 module.exports = {
     name: "config",
