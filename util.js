@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-var { client, data } = require("./bot.js")
+var { client } = require("./bot.js")
 
 function sendEmbed(channel, author, config, title, description, thumbnail) {
     if (config.atSender && author != undefined) {
