@@ -39,7 +39,7 @@ fs.readFile("./data.json", "utf8", (err, newData) => {
             featureCount++
         })
 
-        console.log("CustomFeatures > Loaded " + featureCount + (features.length == 1 ? " feature." : " features."))
+        console.log("Features > Loaded " + featureCount + (features.length == 1 ? " feature." : " features."))
     }
 
     module.exports = { client, data, features, commands }

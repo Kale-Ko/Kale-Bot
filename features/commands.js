@@ -20,7 +20,7 @@ module.exports = {
                 commandCount++
             })
 
-            console.log("CustomCommands > Loaded " + commandCount + (commands.length == 1 ? " command." : " commands."))
+            console.log("Commands > Loaded " + commandCount + (commands.length == 1 ? " command." : " commands."))
         } else {
             if (message.channel.type != "dm") var config = data.servers[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
