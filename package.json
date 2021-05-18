@@ -3,11 +3,18 @@
     "version": "1.0.0",
     "main": "bot.js",
     "scripts": {
-        "start": "node bot.js"
+        "start": "nodemon bot.js",
+        "test": "node bot.js"
     },
     "dependencies": {
         "discord.js": "^12.5.3",
         "fs": "^0.0.1-security",
         "wokcommands": "^1.3.5"
+    },
+    "nodemonConfig": {
+        "ignore": [
+            "node_modules/*",
+            "data.json"
+        ]
     }
 }

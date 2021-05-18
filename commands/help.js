@@ -1,4 +1,4 @@
-var { sendEmbed, data } = require("../bot.js")
+var { sendEmbed, data, commands } = require("../bot.js")
 
 module.exports = {
     name: "help",
@@ -6,9 +6,27 @@ module.exports = {
     requiredPermissions: [],
     worksInDms: true,
     callback: ({ message, args, client, config }) => {
-        var help = "**Unranked**\nUse " + config.prefix + "help to show this\nUse " + config.prefix + "about to get info about the bot\nUse " + config.prefix + "uptime to get how long the bot has been online"
-        if (message.channel.type != "dm") help += "\n\n**Admins**\nUse " + config.prefix + "clear to clear a channels messages\nUse " + config.prefix + "prefix to set the prefix\nUse " + config.prefix + "deletetimeout to set the delete timeout\nUse " + config.prefix + "atsender to change whether it ats the sender of the message"
+        var help = "**Unranked**"
+        var admin = "\n\n**Admin**"
 
-        sendEmbed(message.channel, message.author, config, "Help", help)
+        commands.forEach(command => {
+            if (!command.worksInDms) {
+                if (JSON.stringify(command.requiredPermissions) == JSON.stringify([])) {
+                    help += "\n" + config.prefix + command.name + " - " + command.description
+                } else {
+                    admin += "\n" + config.prefix + command.name + " - " + command.description
+                }
+            } else {
+                if (message.channel.type != "dm") {
+                    if (JSON.stringify(command.requiredPermissions) == JSON.stringify([])) {
+                        help += "\n" + config.prefix + command.name + " - " + command.description
+                    } else {
+                        admin += "\n" + config.prefix + command.name + " - " + command.description
+                    }
+                }
+            }
+        })
+
+        sendEmbed(message.channel, message.author, config, "Help", help + admin)
     }
 }

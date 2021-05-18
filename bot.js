@@ -12,10 +12,6 @@ fs.stat("./data.json", function (err, stats) {
     fs.readFile("./data.json", "utf8", (err, newData) => {
         data = JSON.parse(newData)
 
-        data.lastDowntimeReason = "a crash"
-
-        fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
-
         client.on("ready", () => {
             console.log("Bot Logged in as " + client.user.tag)
 

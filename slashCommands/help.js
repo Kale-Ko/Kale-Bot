@@ -1,4 +1,4 @@
-var { createEmbed, data } = require("../bot.js")
+var { createEmbed, data, commands } = require("../bot.js")
 
 module.exports = {
     name: "help",
@@ -6,9 +6,27 @@ module.exports = {
     testOnly: true,
     slash: true,
     callback: ({ message, channel, args, text, client, prefix, instance, interaction }) => {
-        var help = "**Unranked**\nUse /help to show this\nUse /about to get info about the bot\nUse /uptime to get how long the bot has been online"
-        if (message.channel.type != "dm") help += "\n\n**Admins**\nUse /clear to clear a channels messages\nUse /prefix to set the prefix\nUse /deletetimeout to set the delete timeout\nUse /atsender to change whether it ats the sender of the message"
+        var help = "**Unranked**"
+        var admin = "\n\n**Admin**"
 
-        return createEmbed("Help", help)
+        commands.forEach(command => {
+            if (!command.worksInDms) {
+                if (JSON.stringify(command.requiredPermissions) == JSON.stringify([])) {
+                    help += "\n/" + command.name + " - " + command.description
+                } else {
+                    admin += "\n/" + command.name + " - " + command.description
+                }
+            } else {
+                if (channel.type != "dm") {
+                    if (JSON.stringify(command.requiredPermissions) == JSON.stringify([])) {
+                        help += "\n/" + command.name + " - " + command.description
+                    } else {
+                        admin += "\n/" + command.name + " - " + command.description
+                    }
+                }
+            }
+        })
+
+        return createEmbed("Help", help + admin)
     }
 }
