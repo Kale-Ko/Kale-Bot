@@ -28,22 +28,34 @@ module.exports = {
 }
 
 function update(guild) {
-    var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
+    var config = data.servers[guild.id]
 
-    if (statsCategory == null) guild.channels.create("Stats", { type: "category", position: 0 }).then(statsCategory => { next() }); else next()
+    if (config.stats.enabled) {
+        var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
 
-    function next() {
-        statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
+        if (statsCategory == null) guild.channels.create("Stats", { type: "category", position: 0 }).then(statsCategory => { next() }); else next()
 
-        if (statsCategory == null) return
+        function next() {
+            statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
 
-        guild.channels.cache.filter(channel => channel.parent == statsCategory.id).forEach(channel => {
-            channel.delete()
-        })
+            if (statsCategory == null) return
 
-        guild.channels.create("Members: " + guild.memberCount, { type: "voice", parent: statsCategory.id })
-        guild.channels.create("Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size, { type: "voice", parent: statsCategory.id })
-        guild.channels.create("Roles: " + guild.roles.cache.filter(role => true).size, { type: "voice", parent: statsCategory.id })
-        guild.channels.create("Boosts: " + guild.premiumSubscriptionCount, { type: "voice", parent: statsCategory.id })
+            guild.channels.cache.filter(channel => channel.parent == statsCategory.id).forEach(channel => {
+                channel.delete()
+            })
+
+            if (config.stats.members) guild.channels.create("Members: " + guild.memberCount, { type: "voice", parent: statsCategory.id })
+            if (config.stats.channels) guild.channels.create("Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size, { type: "voice", parent: statsCategory.id })
+            if (config.stats.roles) guild.channels.create("Roles: " + guild.roles.cache.filter(role => true).size, { type: "voice", parent: statsCategory.id })
+            if (config.stats.boosts) guild.channels.create("Boosts: " + guild.premiumSubscriptionCount, { type: "voice", parent: statsCategory.id })
+        }
+    } else {
+        var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
+
+        if (statsCategory != null) {
+            statsCategory.children.forEach(channel => channel.delete())
+
+            statsCategory.delete()
+        }
     }
 }
