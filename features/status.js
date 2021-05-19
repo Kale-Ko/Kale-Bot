@@ -6,6 +6,6 @@ module.exports = {
     required: true,
     events: ["register"],
     run: (name, event) => {
-        client.user.setPresence({ status: 'online', activity: { name: data.status, type: data.statusType } })
+        client.user.setPresence({ status: "online", activity: { name: data.status, type: data.statusType } })
     }
 }

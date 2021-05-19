@@ -20,11 +20,10 @@ fs.readFile("./data.json", "utf8", (err, newData) => {
     function registerFeatures() {
         var featureList = fs.readdirSync("./features")
 
-        var featureCount = 0
         featureList.forEach(file => {
             const feature = require("./features/" + file)
 
-            features.push({ name: feature.name, description: feature.description, required: feature.required, events: feature.events, run: feature.run })
+            features.push(feature)
 
             feature.events.forEach(event => {
                 if (event == "register") {
@@ -35,11 +34,9 @@ fs.readFile("./data.json", "utf8", (err, newData) => {
                     })
                 }
             })
-
-            featureCount++
         })
 
-        console.log("Features > Loaded " + featureCount + (features.length == 1 ? " feature." : " features."))
+        console.log("Features > Loaded " + features.length + (features.length == 1 ? " feature." : " features."))
     }
 
     module.exports = { client, data, features, commands }

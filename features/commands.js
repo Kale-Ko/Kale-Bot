@@ -11,16 +11,13 @@ module.exports = {
         if (name == "register") {
             var commandlist = fs.readdirSync("./commands")
 
-            var commandCount = 0
             commandlist.forEach(file => {
                 const command = require("../commands/" + file)
 
-                commands.push({ name: command.name, description: command.description, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })
-
-                commandCount++
+                commands.push(command)
             })
 
-            console.log("Commands > Loaded " + commandCount + (commands.length == 1 ? " command." : " commands."))
+            console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
         } else {
             if (message.channel.type != "dm") var config = data.servers[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
