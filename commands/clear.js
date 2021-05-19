@@ -5,7 +5,7 @@ module.exports = {
     description: "Clear a channels messages",
     requiredPermissions: ["MANAGE_MESSAGES"],
     worksInDms: false,
-    callback: async ({ message, args, client, config }) => {
+    callback: async (message, args, client, config) => {
         var amount = args[0]
         if (amount == undefined || amount == null || amount == "") amount = 100
 

@@ -4,9 +4,8 @@ module.exports = {
     name: "statistics",
     description: "Puts statistics at the top of your server",
     required: false,
-    events: ["register", "guildCreate", "channelCreate", "channelDelete", "guildMemberAdd", "guildMemberRemove", "roleCreate", "roleDelete"],
+    events: ["register", "guildCreate", "channelCreate", "channelDelete", "guildMemberAdd", "guildMemberRemove", "guildMemberUpdate", "roleCreate", "roleDelete"],
     run: (name, event) => {
-        var config = ""
         if (name == "register") {
             client.guilds.cache.forEach(guild => {
                 update(guild)
@@ -15,6 +14,15 @@ module.exports = {
             update(event)
         } else if (name == "channelCreate" || name == "channelDelete" || name == "guildMemberAdd" || name == "guildMemberRemove" || name == "roleCreate" || name == "roleDelete") {
             if (name == "channelCreate" || name == "channelDelete") { if (event.parent != event.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0).id) { update(event.guild) } } else update(event.guild)
+        } else if (name == "guildMemberUpdate") {
+            var max = new Date()
+            max.setMinutes(max.getMinutes() + 1)
+            var min = new Date()
+            min.setMinutes(min.getMinutes() - 1)
+
+            if (event.premiumSinceTimestamp <= max && event.premiumSinceTimestamp >= min) {
+                update(event.guild)
+            }
         }
     }
 }

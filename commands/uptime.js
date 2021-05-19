@@ -5,7 +5,7 @@ module.exports = {
     description: "Get how long the bot has been online",
     requiredPermissions: [],
     worksInDms: true,
-    callback: ({ message, args, client, config }) => {
+    callback: (message, args, client, config) => {
         var difference = Math.abs(new Date() - client.readyTimestamp)
         var differentDays = Math.ceil(difference / (1000 * 60 * 60 * 24) - 1)
         var differentHours = Math.ceil(difference / (1000 * 60 * 60) - 1) - (differentDays * 24)

@@ -7,7 +7,7 @@ module.exports = {
     description: "Set the prefix",
     requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,
-    callback: ({ message, args, client, config }) => {
+    callback: (message, args, client, config) => {
         if (args[0] == undefined || args[0] == "") { sendEmbed(message.channel, message.author, config, "Invalid", "That is not a valid prefix"); return }
 
         config.prefix = args[0]

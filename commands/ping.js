@@ -5,7 +5,7 @@ module.exports = {
     description: "Ping the bot",
     requiredPermissions: [],
     worksInDms: true,
-    callback: ({ message, args, client, config }) => {
+    callback: (message, args, client, config) => {
         sendEmbed(message.channel, message.author, config, "Pong!", "")
     }
 }

@@ -42,7 +42,7 @@ module.exports = {
             if (message.embeds[0] != null) if (message.embeds[0].title == "Poll") {
                 var args = message.content.toLowerCase().split(" "); args.shift()
 
-                require("../commands/poll.js").addReactions({ message, args, client, config })
+                require("../commands/poll.js").addReactions(message, args, client, config)
             }
 
             if (!message.author.bot && message.content.startsWith(config.prefix)) {
@@ -54,7 +54,7 @@ module.exports = {
                     if (!customCommand.worksInDms && message.channel.type == "dm") return
 
                     if (customCommand.name == command) {
-                        customCommand.run({ message, args, client, config })
+                        customCommand.run(message, args, client, config)
 
                         ran = true
                     }

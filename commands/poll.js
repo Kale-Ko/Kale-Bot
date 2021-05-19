@@ -7,7 +7,7 @@ module.exports = {
     description: "Create a poll",
     requiredPermissions: [],
     worksInDms: false,
-    callback: ({ message, args, client, config }) => {
+    callback: (message, args, client, config) => {
         var options = ""
 
         while (args.length > 11) args.splice(args.length - 1, 1)
@@ -23,7 +23,7 @@ module.exports = {
 
         sendEmbed(message.channel, message.author, config, "Poll", "**" + args[0] + "**\n" + options)
     },
-    addReactions: async ({ message, args, client, config }) => {
+    addReactions: async (message, args, client, config) => {
         for (var index = 0; index < (parseInt(message.embeds[0].description.split("\n").pop().split(".")[0]) + 1); index++) message.react(numbers[index])
     }
 }

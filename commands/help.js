@@ -6,7 +6,7 @@ module.exports = {
     description: "Get help with the bot",
     requiredPermissions: [],
     worksInDms: true,
-    callback: ({ message, args, client, config }) => {
+    callback: (message, args, client, config) => {
         var help = "**Unranked**"
         var admin = "\n\n**Admin**"
 
