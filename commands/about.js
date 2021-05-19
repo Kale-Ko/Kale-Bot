@@ -3,6 +3,7 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "about",
     description: "Get info about the bot",
+    category: "Info",
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {

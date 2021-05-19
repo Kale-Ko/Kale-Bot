@@ -3,6 +3,7 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "clear",
     description: "Clear a channels messages",
+    category: "Management",
     requiredPermissions: ["MANAGE_MESSAGES"],
     worksInDms: false,
     callback: async (message, args, client, config) => {

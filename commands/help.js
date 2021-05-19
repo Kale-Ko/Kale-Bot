@@ -4,30 +4,36 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "help",
     description: "Get help with the bot",
+    category: "Info",
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {
-        var help = "**Unranked**"
-        var admin = "\n\n**Admin**"
+        var help = {}
 
         commands.forEach(command => {
             if (!command.worksInDms) {
-                if (JSON.stringify(command.requiredPermissions) == JSON.stringify([])) {
-                    help += "\n" + config.prefix + command.name + " - " + command.description
-                } else {
-                    admin += "\n" + config.prefix + command.name + " - " + command.description
-                }
+                if (help[command.category] == null) help[command.category] = []
+
+                help[command.category].push("\n" + config.prefix + command.name + " - " + command.description)
             } else {
                 if (message.channel.type != "dm") {
-                    if (JSON.stringify(command.requiredPermissions) == JSON.stringify([])) {
-                        help += "\n" + config.prefix + command.name + " - " + command.description
-                    } else {
-                        admin += "\n" + config.prefix + command.name + " - " + command.description
-                    }
+                    if (help[command.category] == null) help[command.category] = []
+
+                    help[command.category].push("\n" + config.prefix + command.name + " - " + command.description)
                 }
             }
         })
 
-        sendEmbed(message.channel, message.author, config, "Help", help + admin)
+        var helpString = ""
+
+        for (var key of Object.keys(help)) {
+            helpString += "\n\n**" + key + "**"
+
+            help[key].forEach(string => {
+                helpString += string
+            })
+        }
+
+        sendEmbed(message.channel, message.author, config, "Help", helpString)
     }
 }

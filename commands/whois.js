@@ -3,6 +3,7 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "whois",
     description: "Get info about a user",
+    category: "Info",
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {

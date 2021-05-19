@@ -3,6 +3,7 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "serverinfo",
     description: "Get info about a server",
+    category: "Info",
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {

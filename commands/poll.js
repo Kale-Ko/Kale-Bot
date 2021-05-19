@@ -5,6 +5,7 @@ var numbers = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣",
 module.exports = {
     name: "poll",
     description: "Create a poll",
+    category: "Fun",
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {
@@ -24,6 +25,6 @@ module.exports = {
         sendEmbed(message.channel, message.author, config, "Poll", "**" + args[0] + "**\n" + options)
     },
     addReactions: async (message, args, client, config) => {
-        for (var index = 0; index < (parseInt(message.embeds[0].description.split("\n").pop().split(".")[0]) + 1); index++) message.react(numbers[index])
+        for (var index = 0; index < (parseInt(message.embeds[0].description.split("\n").pop().split(".")[0]) + 1); index++) if (!message.deleted) message.react(numbers[index])
     }
 }
