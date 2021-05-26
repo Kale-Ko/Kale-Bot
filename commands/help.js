@@ -20,7 +20,7 @@ module.exports = {
                 if (message.channel.type != "dm") {
                     if (help[command.category] == null) help[command.category] = []
 
-                    help[command.category].push("\n" + config.prefix + command.name + " - " + command.description)
+                    help[command.category].push("\n" + config.prefix + command.name + (command.paramiters != null ? " " + command.paramiters : "") + " - " + command.description)
                 }
             }
         })

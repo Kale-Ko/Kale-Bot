@@ -4,7 +4,7 @@ module.exports = {
     name: "clear",
     description: "Clear a channels messages",
     category: "Management",
-    paramiters: "?{Amount}",
+    paramiters: "{Amount (Optional)}",
     requiredPermissions: ["MANAGE_MESSAGES"],
     worksInDms: false,
     callback: async (message, args, client, config) => {

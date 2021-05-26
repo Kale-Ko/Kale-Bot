@@ -6,7 +6,7 @@ module.exports = {
     name: "poll",
     description: "Create a poll",
     category: "Fun",
-    paramiters: "{Title}, {Option 1}, {Option 2}, ?{Option 3}, ?{Option 4}, ?{Option 5}, ?{Option 6}, ?{Option 7}, ?{Option 8}, ?{Option 9}, ?{Option 10}",
+    paramiters: "{Title}, {Option 1 (Optional)}, {Option 2 (Optional)}, {Option 3 (Optional)}, {Option 4 (Optional)}, {Option 5 (Optional)}, {Option 6 (Optional)}, {Option 7 (Optional)}, {Option 8 (Optional)}, {Option 9 (Optional)}, {Option 10 (Optional)}",
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {
