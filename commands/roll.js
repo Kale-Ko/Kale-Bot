@@ -4,6 +4,7 @@ module.exports = {
     name: "roll",
     description: "Roll a die",
     category: "Fun",
+    paramiters: "",
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {

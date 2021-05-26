@@ -4,6 +4,7 @@ module.exports = {
     name: "serverinfo",
     description: "Get info about a server",
     category: "Info",
+    paramiters: "",
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {
