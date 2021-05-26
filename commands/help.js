@@ -5,6 +5,7 @@ module.exports = {
     name: "help",
     description: "Get help with the bot",
     category: "Info",
+    paramiters: "",
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {
