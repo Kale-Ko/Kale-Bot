@@ -14,7 +14,7 @@ module.exports = {
             commandlist.forEach(file => {
                 const command = require("../commands/" + file)
 
-                commands.push({ name: command.name, description: command.description, category: command.category, requiredPermissions: command.requiredPermissions, worksInDms: command.requiredPermissions, run: command.callback })
+                commands.push({ name: command.name, description: command.description, category: command.category, paramiters: command.paramiters, requiredPermissions: command.requiredPermissions, worksInDms: command.requiredPermissions, run: command.callback })
             })
 
             console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
