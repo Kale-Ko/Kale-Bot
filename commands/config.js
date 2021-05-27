@@ -5,5 +5,7 @@ module.exports = {
     paramiters: "(Get, Set) {Key} {Value (Set)}",
     requiredPermissions: [],
     worksInDms: false,
-    callback: (message, args, client, config) => { }
+    callback: (message, args, client, config) => {
+        
+    }
 }
