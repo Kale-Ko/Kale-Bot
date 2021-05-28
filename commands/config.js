@@ -12,9 +12,16 @@ module.exports = {
         if (args[0] == "get") {
             var helpText = ""
             
-            for (var key of Object.keys(config)) {
-                helpText += key + " - " + config[key]
+            function decode(parent, indent) {
+                for (var key of Object.keys(parent)) {
+                   if (parent[key] == "[object Object]") { helpText += indent + key + ":\n"; decode(parent[key], indent + "  "); continue }
+ 
+                    helpText += indent + key + " - " + parent[key] + "\n"
+                }
             }
+            decode(config, "")
+
+            helpText = helpText.replace(/, /ig, ",").replace(/,/ig, ", ")
             
             sendEmbed(message.channel, message.author, config, "Config", helpText)
         } else if (args[0] == "set") {
