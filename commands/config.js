@@ -13,7 +13,7 @@ module.exports = {
             var helpText = ""
             
             for (var key of Object.keys(config)) {
-                var helpText += key + " - " + config[key]
+                helpText += key + " - " + config[key]
             }
             
             sendEmbed(message.channel, message.author, config, "Config", helpText)
