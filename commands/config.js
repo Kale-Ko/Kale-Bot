@@ -37,7 +37,7 @@ module.exports = {
                 if (key != keys[keys.length - 1]) configKey = configKey[key]
             })
             
-            fs.writeFileSync("../config.json", JSON.stringify(config, null, 4))
+            //fs.writeFileSync("../config.json", JSON.stringify(config, null, 4))
             
             configKey = value
             
