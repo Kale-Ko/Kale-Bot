@@ -1,4 +1,5 @@
 const { sendEmbed } = require("../util.js")
+const { runCommand } = require("../features/commands.js")
 
 var numbers = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"]
 
@@ -11,6 +12,8 @@ module.exports = {
     worksInDms: false,
     callback: (message, args, client, config) => {
         var options = ""
+        
+        if (args.length < 3) { var newMessage = message; newMessage.content = config.prefix + "help " + module.exports.name; runCommand(newMessage, config) return }
 
         while (args.length > 11) args.splice(args.length - 1, 1)
 
