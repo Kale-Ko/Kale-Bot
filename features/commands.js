@@ -49,7 +49,7 @@ module.exports = {
                 this.runCommand(message, config)
             }
         }
-    }
+    },
     runCommand: (message, config) => {
         var command = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
         var args = message.content.toLowerCase().split(" "); args.shift()
