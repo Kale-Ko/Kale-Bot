@@ -46,7 +46,7 @@ module.exports = {
             }
 
             if (!message.author.bot && message.content.startsWith(config.prefix)) {
-                this.runCommand(message, config)
+                module.exports.runCommand(message, config)
             }
         }
     },
