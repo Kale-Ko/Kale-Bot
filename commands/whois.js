@@ -9,7 +9,7 @@ module.exports = {
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {
-        if (args.length < 1) { var newMessage = message; newMessage.content = config.prefix + "help " + module.exports.name; runCommand(newMessage, config) return }
+        if (args.length < 1) { var newMessage = message; newMessage.content = config.prefix + "help " + module.exports.name; runCommand(newMessage, config); return }
 
         client.users.fetch(args[0].replace("<@!", "").replace("<@", "").replace(">", "")).then(user => {
             sendEmbed(message.channel, message.author, config, "User info", "**Username:** " + user.tag + "\n**Id:** " + user.id + "\n**Is bot:** " + (user.bot ? "yes\n**Is verifyied:** " + (user.verified ? "no" : "yes") : "no") + "\n**Created on:** " + new Date(user.createdAt))
