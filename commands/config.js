@@ -1,3 +1,4 @@
+const fs = require("fs")
 const { sendEmbed } = require("../util.js")
 const { runCommand } = require("../features/commands.js")
 
@@ -39,6 +40,8 @@ module.exports = {
             fs.writeFileSync("../config.json", config)
             
             configKey = value
+            
+            sendEmbed(message.channel, message.author, config, "Config", "Succsefuly set " + args[1] + " to " + args[2])
         } else {
             var newMessage = message
             newMessage.content = config.prefix + "help " + module.exports.name
