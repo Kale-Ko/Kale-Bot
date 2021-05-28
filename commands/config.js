@@ -5,7 +5,7 @@ module.exports = {
     description: "Get info about the bot",
     category: "Management",
     paramiters: "(Get, Set) {Key} {Value (Set)}",
-    requiredPermissions: [],
+    requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,
     callback: (message, args, client, config) => {
         if (args[0] == "get") {
@@ -16,7 +16,7 @@ module.exports = {
             
         } else {
             var newMessage = message
-            newMessage.content = config.prefix + "help " + this.name
+            newMessage.content = config.prefix + "help " + module.exports.name
             runCommand(newMessage, config)
         }
     }
