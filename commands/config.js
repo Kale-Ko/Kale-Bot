@@ -31,15 +31,9 @@ module.exports = {
             var keys = args[1].split(".")
             var value = args[2]
             
-            var configKey = config
-            
-            keys.forEach(key => { configKey = configKey[key] })
-            
             //fs.writeFileSync("../config.json", JSON.stringify(config, null, 4))
             
-            configKey = value
-            
-            sendEmbed(message.channel, message.author, config, "Config", "Succsefuly set " + args[1] + " to " + args[2])
+            //sendEmbed(message.channel, message.author, config, "Config", "Succsefuly set " + args[1] + " to " + args[2])
         } else {
             var newMessage = message
             newMessage.content = config.prefix + "help " + module.exports.name
