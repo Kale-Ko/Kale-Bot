@@ -1,3 +1,4 @@
+const { sendEmbed } = require("../util.js")
 const { runCommand } = require("../features/commands.js")
 
 module.exports = {
@@ -9,9 +10,13 @@ module.exports = {
     worksInDms: false,
     callback: (message, args, client, config) => {
         if (args[0] == "get") {
+            var helpText = ""
+            
             for (var key of Object.keys(config)) {
-                
+                var helpText += key + " - " + config[key]
             }
+            
+            sendEmbed(message.channel, message.author, config, "Config", helpText)
         } else if (args[0] == "set") {
             
         } else {
