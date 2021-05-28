@@ -3,8 +3,8 @@
     "version": "1.0.0",
     "main": "bot.js",
     "scripts": {
-        "start": "nodemon bot.js",
-        "test": "node bot.js"
+        "start": "node bot.js",
+        "autostart": "nodemon bot.js"
     },
     "dependencies": {
         "discord.js": "^12.5.3",
