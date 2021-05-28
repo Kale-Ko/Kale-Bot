@@ -8,7 +8,8 @@
     },
     "dependencies": {
         "discord.js": "^12.5.3",
-        "fs": "^0.0.1-security"
+        "fs": "^0.0.1-security",
+        "http": "^0.0.1-security"
     },
     "nodemonConfig": {
         "ignore": [
