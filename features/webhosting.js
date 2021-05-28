@@ -2,8 +2,8 @@ const http = require("http")
 var { data } = require("../bot.js")
 
 module.exports = {
-    name: "config",
-    description: "Configurate a server with custom options",
+    name: "webhosting",
+    description: "Creates a web server so that the bot does not crash on hosting sites",
     required: true,
     events: ["register"],
     run: (name, event) => {
