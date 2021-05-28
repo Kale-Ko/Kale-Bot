@@ -33,9 +33,7 @@ module.exports = {
             
             var configKey = config
             
-            keys.forEach(key => {
-                if (key != keys[keys.length - 1]) configKey = configKey[key]
-            })
+            keys.forEach(key => { configKey = configKey[key] })
             
             //fs.writeFileSync("../config.json", JSON.stringify(config, null, 4))
             
