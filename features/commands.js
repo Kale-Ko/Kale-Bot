@@ -46,25 +46,28 @@ module.exports = {
             }
 
             if (!message.author.bot && message.content.startsWith(config.prefix)) {
-                var command = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
-                var args = message.content.toLowerCase().split(" "); args.shift()
-
-                var ran = false
-                commands.forEach(customCommand => {
-                    if (!customCommand.worksInDms && message.channel.type == "dm") return
-
-                    if (customCommand.name == command) {
-                        customCommand.run(message, args, client, config)
-
-                        ran = true
-                    }
-                })
-
-                if (!ran) {
-                    if (message.channel.type != "dm") sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
-                    else sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command or you cant use that command in dms, use " + config.prefix + "help for a list of commands")
-                }
+                this.runCommand(message, config)
             }
+        }
+    }
+    runCommand: (message, config) => {
+        var command = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
+        var args = message.content.toLowerCase().split(" "); args.shift()
+        
+        var ran = false
+        commands.forEach(customCommand => {
+            if (!customCommand.worksInDms && message.channel.type == "dm") return
+    
+            if (customCommand.name == command) {
+                customCommand.run(message, args, client, config)
+    
+                ran = true
+            }
+        })
+
+        if (!ran) {
+            if (message.channel.type != "dm") sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
+            else sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command or you cant use that command in dms, use " + config.prefix + "help for a list of commands")
         }
     }
 }
