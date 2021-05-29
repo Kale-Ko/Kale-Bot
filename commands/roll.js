@@ -9,7 +9,7 @@ module.exports = {
     worksInDms: true,
     callback: (message, args, client, config) => {
         var sides = args[0] || 6
-        
+
         sendEmbed(message.channel, message.author, config, "Dice roll", Math.floor(Math.random() * sides))
     }
 }

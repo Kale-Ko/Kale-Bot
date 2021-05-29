@@ -53,14 +53,14 @@ module.exports = {
     runCommand: (message, config) => {
         var command = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
         var args = message.content.toLowerCase().split(" "); args.shift()
-        
+
         var ran = false
         commands.forEach(customCommand => {
             if (!customCommand.worksInDms && message.channel.type == "dm") return
-    
+
             if (customCommand.name == command) {
                 customCommand.run(message, args, client, config)
-    
+
                 ran = true
             }
         })
