@@ -21,13 +21,9 @@ function fixConfig(guild) {
     function fix(config, expected) {
         for (var key of Object.keys(expected)) {
             if (!JSON.stringify(expected[key]).startsWith("{")) {
-                console.log(key, config[key])
-
                 if (config[key] == null || config[key] == undefined) config[key] = expected[key]
             } else {
                 if (config[key] == null || config[key] == undefined) config[key] = expected[key]
-
-                console.log(config)
 
                 config[key] = fix(config[key], expected[key])
             }
