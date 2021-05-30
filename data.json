@@ -10,7 +10,7 @@
                 "enabled": true,
                 "members": true,
                 "channels": true,
-                "roles": true,
+                "roles": false,
                 "boosts": false
             }
         }

@@ -5,7 +5,7 @@ module.exports = {
     name: "whois",
     description: "Get info about a user",
     category: "Info",
-    paramiters: "{User}",
+    paramiters: [{ type: "paramiter", name: "User", optional: false }],
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {

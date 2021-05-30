@@ -5,7 +5,6 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "commands",
     description: "Adds commands to your server",
-    required: true,
     events: ["register", "message"],
     run: (name, message) => {
         if (name == "register") {

@@ -4,7 +4,6 @@ var { client, data } = require("../bot.js")
 module.exports = {
     name: "config",
     description: "Configurate a server with custom options",
-    required: true,
     events: ["register", "guildCreate"],
     run: (name, guild) => {
         if (name == "register") {

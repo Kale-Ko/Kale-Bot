@@ -4,7 +4,7 @@ module.exports = {
     name: "uptime",
     description: "Get how long the bot has been online",
     category: "Info",
-    paramiters: "",
+    paramiters: [],
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {

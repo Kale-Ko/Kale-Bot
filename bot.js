@@ -23,7 +23,7 @@ fs.readFile("./data.json", "utf8", (err, newData) => {
         featureList.forEach(file => {
             const feature = require("./features/" + file)
 
-            features.push({ name: feature.name, description: feature.description })
+            features.push({ name: feature.name, description: feature.description, events: feature.events, run: feature.run })
 
             feature.events.forEach(event => {
                 if (event == "register") {

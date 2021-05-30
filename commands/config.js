@@ -1,4 +1,5 @@
 const fs = require("fs")
+const { data } = require("../bot.js")
 const { sendEmbed } = require("../util.js")
 const { runCommand } = require("../features/commands.js")
 
@@ -6,7 +7,7 @@ module.exports = {
     name: "config",
     description: "Get info about the bot",
     category: "Management",
-    paramiters: "(Get, Set) {Key (Set)} {Value (Set)}",
+    paramiters: [{ tpye: "subcommands", commands: [{ name: "Get", paramiters: [] }, { name: "Set", paramiters: [{ name: "Key", optional: false }, { name: "Value", optional: false }] }] }],
     requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,
     callback: (message, args, client, config) => {
@@ -28,12 +29,30 @@ module.exports = {
         } else if (args[0] == "set") {
             if (args.length < 3) { var newMessage = message; newMessage.content = config.prefix + "help " + module.exports.name; runCommand(newMessage, config); return }
 
-            var keys = args[1].split(".")
-            var value = args[2]
+            updateNestedValueOfObj(config, args[1], args[2])
 
-            //fs.writeFileSync("../config.json", JSON.stringify(config, null, 4))
+            data.servers[message.guild.id] = config
 
-            //sendEmbed(message.channel, message.author, config, "Config", "Succsefuly set " + args[1] + " to " + args[2])
+            fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
+
+            sendEmbed(message.channel, message.author, config, "Config", "Successfully set " + args[1] + " to " + args[2])
+
+            function updateNestedValueOfObj(data, string, value) {
+                let tempObj = data
+                var args = string.split(".")
+
+                for (var index = 0; index < args.length - 1; index++) {
+                    var element = args[index]
+
+                    if (!tempObj[element]) tempObj[element] = {}
+
+                    tempObj = tempObj[element]
+                }
+
+                if (!value) { return tempObj[args[args.length - 1]] }
+
+                tempObj[args[args.length - 1]] = value
+            }
         } else {
             var newMessage = message
             newMessage.content = config.prefix + "help " + module.exports.name

@@ -4,7 +4,7 @@ module.exports = {
     name: "flip",
     description: "Flip a coin",
     category: "Fun",
-    paramiters: "",
+    paramiters: [],
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {
