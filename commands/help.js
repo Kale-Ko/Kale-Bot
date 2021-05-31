@@ -5,7 +5,7 @@ module.exports = {
     name: "help",
     description: "Get help with the bot",
     category: "Info",
-    paramiters: [{ type: "paramiter", name: "Command", optional: true }],
+    paramiters: [{ type: "paramiter", name: "command", optional: true }],
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {
@@ -17,16 +17,12 @@ module.exports = {
                 if (!command.worksInDms) {
                     if (help[command.category] == null) help[command.category] = []
 
-                    var paramiters = null
-
-                    help[command.category].push("\n" + config.prefix + command.name + (paramiters != null ? " " + paramiters : "") + " - " + command.description)
+                    help = createCommands(command, help, config)
                 } else {
                     if (message.channel.type != "dm") {
                         if (help[command.category] == null) help[command.category] = []
 
-                        var paramiters = null
-
-                        help[command.category].push("\n" + config.prefix + command.name + (paramiters != null ? " " + paramiters : "") + " - " + command.description)
+                        help = createCommands(command, help, config)
                     }
                 }
             } else {
@@ -52,4 +48,39 @@ module.exports = {
 
         sendEmbed(message.channel, message.author, config, "Help", helpString)
     }
+}
+
+function createCommands(command, help, config) {
+    var paramiters = ""
+    //var subCommandMade = false
+
+    command.paramiters.forEach(paramiter => {
+        if (paramiter.type == "paramiter") {
+            paramiters += " {" + paramiter.name + (paramiter.optional ? " (Optional)" : "") + "}"
+        } else if (paramiter.type == "subcommands") {
+            var commands = ""
+
+            paramiter.commands.forEach(subCommand => {
+                commands += (commands == "" ? subCommand.name : ", " + subCommand.name)
+
+                /*subCommandMade = true
+
+                var commandsPeramiters = ""
+
+                subCommand.paramiters.forEach(paramiter => {
+                    if (paramiter.type == "paramiter") {
+                        commandsPeramiters += " {" + paramiter.name + (paramiter.optional ? " (Optional)" : "") + "}"
+                    }
+                })
+
+                help[command.category].push("\n" + config.prefix + command.name + " " + subCommand.name + " - " + subCommand.description)*/
+            })
+
+            paramiters += " (" + commands + ")"
+        }
+    })
+
+    /*if (!subCommandMade)*/ help[command.category].push("\n" + config.prefix + command.name + paramiters + " - " + command.description)
+
+    return help
 }

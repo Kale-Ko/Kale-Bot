@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 var { client } = require("./bot.js")
 
 function sendEmbed(channel, author, config, title, description, thumbnail) {
-    if (config.atSender) {
+    if (config.atsender) {
         channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
     } else {
         channel.send(createEmbed(title, description, thumbnail))

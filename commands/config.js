@@ -5,9 +5,9 @@ const { runCommand } = require("../features/commands.js")
 
 module.exports = {
     name: "config",
-    description: "Get info about the bot",
+    description: "Get and set config values",
     category: "Management",
-    paramiters: [{ tpye: "subcommands", commands: [{ name: "Get", paramiters: [] }, { name: "Set", paramiters: [{ name: "Key", optional: false }, { name: "Value", optional: false }] }] }],
+    paramiters: [{ type: "subcommands", commands: [{ name: "get", description: "Get all the config values" }, { name: "set", description: "Set config values" }] }, { type: "paramiter", name: "key", optional: false }, { type: "paramiter", name: "value", optional: false }],
     requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,
     callback: (message, args, client, config) => {
@@ -29,7 +29,11 @@ module.exports = {
         } else if (args[0] == "set") {
             if (args.length < 3) { var newMessage = message; newMessage.content = config.prefix + "help " + module.exports.name; runCommand(newMessage, config); return }
 
-            updateNestedValueOfObj(config, args[1], args[2])
+            var value = args[2]
+            if (value == "true") value = true
+            if (value == "false") value = false
+
+            updateNestedValueOfObj(config, args[1], value)
 
             data.servers[message.guild.id] = config
 

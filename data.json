@@ -4,23 +4,21 @@
     "servers": {
         "787052330129686560": {
             "prefix": "?",
-            "deleteTimeout": 8,
-            "atSender": true,
+            "deletetimeout": "100",
+            "atsender": true,
             "stats": {
-                "enabled": true,
                 "members": true,
                 "channels": true,
-                "roles": false,
+                "roles": true,
                 "boosts": false
             }
         }
     },
     "defaultConfig": {
         "prefix": "?",
-        "deleteTimeout": 8,
-        "atSender": true,
+        "deletetimeout": "8",
+        "atsender": true,
         "stats": {
-            "enabled": true,
             "members": true,
             "channels": true,
             "roles": true,

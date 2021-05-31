@@ -20,33 +20,7 @@ module.exports = {
         } else {
             if (message.channel.type != "dm") var config = data.servers[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
-            if (message.channel.name == "bot-commands") {
-                if (!message.author.bot) {
-                    if (!message.deleted) message.delete()
-                } else {
-                    setTimeout(() => {
-                        if (!message.deleted) message.delete()
-                    }, config.deleteTimeout * 1000)
-                }
-            } else {
-                if (message.embeds[0] != null) { if (message.embeds[0].title == "Welcome" || message.embeds[0].title == "Poll") return }
-
-                if (message.author.id == client.user.id) {
-                    setTimeout(() => {
-                        if (!message.deleted) message.delete()
-                    }, config.deleteTimeout * 1000)
-                }
-            }
-
-            if (message.embeds[0] != null) if (message.embeds[0].title == "Poll") {
-                var args = message.content.toLowerCase().split(" "); args.shift()
-
-                require("../commands/poll.js").addReactions(message, args, client, config)
-            }
-
-            if (!message.author.bot && message.content.startsWith(config.prefix)) {
-                module.exports.runCommand(message, config)
-            }
+            if (!message.author.bot && message.content.startsWith(config.prefix)) module.exports.runCommand(message, config)
         }
     },
     runCommand: (message, config) => {

@@ -1,13 +1,13 @@
 const { sendEmbed } = require("../util.js")
 const { runCommand } = require("../features/commands.js")
 
-var numbers = ["0️⃣", "1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣"]
+var numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
 
 module.exports = {
     name: "poll",
     description: "Create a poll",
     category: "Fun",
-    paramiters: [{ type: "paramiter", name: "Title", optional: false }, { type: "paramiter", name: "Option 1", optional: false }, { type: "paramiter", name: "Option 2", optional: false }, { type: "paramiter", name: "Option 3-10", optional: true }],
+    paramiters: [{ type: "paramiter", name: "title", optional: false }, { type: "paramiter", name: "option 1", optional: false }, { type: "paramiter", name: "option 2", optional: false }, { type: "paramiter", name: "option 3-10", optional: true }],
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {
@@ -21,7 +21,7 @@ module.exports = {
         args.forEach(arg => {
             if (index == 1) { index++; return }
 
-            options += (index - 2) + ". " + arg + "\n"
+            options += (index - 1) + ". " + arg + "\n"
 
             index++
         })
