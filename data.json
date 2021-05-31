@@ -1,10 +1,10 @@
 {
     "statusType": "WATCHING",
     "status": "for ?help",
-    "servers": {
+    "configs": {
         "787052330129686560": {
             "prefix": "?",
-            "deletetimeout": "100",
+            "deletetimeout": 8,
             "atsender": true,
             "stats": {
                 "members": true,
@@ -14,9 +14,41 @@
             }
         }
     },
+    "logs": {
+        "787052330129686560": {
+            "mutes": {},
+            "warns": {},
+            "actions": [
+                {
+                    "type": "ban",
+                    "by": "622242352433725451",
+                    "against": "848953785430835240",
+                    "for": "e"
+                },
+                {
+                    "type": "unban",
+                    "by": "622242352433725451",
+                    "against": "848953785430835240",
+                    "for": "a"
+                },
+                {
+                    "type": "ban",
+                    "by": "622242352433725451",
+                    "against": "848953785430835240",
+                    "for": "d"
+                },
+                {
+                    "type": "unban",
+                    "by": "622242352433725451",
+                    "against": "848953785430835240",
+                    "for": "e"
+                }
+            ]
+        }
+    },
     "defaultConfig": {
         "prefix": "?",
-        "deletetimeout": "8",
+        "deletetimeout": 8,
         "atsender": true,
         "stats": {
             "members": true,
@@ -24,5 +56,10 @@
             "roles": true,
             "boosts": true
         }
+    },
+    "defaultLogs": {
+        "mutes": {},
+        "warns": {},
+        "actions": []
     }
 }

@@ -18,7 +18,7 @@ module.exports = {
 
             console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
         } else {
-            if (message.channel.type != "dm") var config = data.servers[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
+            if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
             if (!message.author.bot && message.content.startsWith(config.prefix)) module.exports.runCommand(message, config)
         }
@@ -32,7 +32,17 @@ module.exports = {
             if (!customCommand.worksInDms && message.channel.type == "dm") return
 
             if (customCommand.name == command) {
-                customCommand.run(message, args, client, config)
+                var hasPerms = true
+                var failedPerm = ""
+
+                customCommand.requiredPermissions.forEach(permission => {
+                    if (!message.guild.member(message.author).hasPermission(permission, { checkAdmin: true, checkOwner: true })) {
+                        hasPerms = false
+                        failedPerm = permission
+                    }
+                })
+
+                if (hasPerms) customCommand.run(message, args, client, config); else sendEmbed(message.channel, message.author, config, "Denied", "You need to have the permission " + failedPerm + " to use that command")
 
                 ran = true
             }

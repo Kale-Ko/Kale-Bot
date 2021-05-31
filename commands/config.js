@@ -35,7 +35,7 @@ module.exports = {
 
             updateNestedValueOfObj(config, args[1], value)
 
-            data.servers[message.guild.id] = config
+            data.configs[message.guild.id] = config
 
             fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
 

@@ -5,6 +5,8 @@ module.exports = {
     description: "Puts statistics at the top of your server",
     events: ["register", "guildCreate", "channelCreate", "channelDelete", "guildMemberAdd", "guildMemberRemove", "guildMemberUpdate", "roleCreate", "roleDelete"],
     run: (name, event) => {
+        if (event.type == "dm") return
+
         if (name == "register") {
             client.guilds.cache.forEach(guild => {
                 update(guild)
@@ -27,7 +29,7 @@ module.exports = {
 }
 
 function update(guild) {
-    var config = data.servers[guild.id]
+    var config = data.configs[guild.id]
 
     var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
 
