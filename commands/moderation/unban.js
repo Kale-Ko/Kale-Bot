@@ -9,7 +9,7 @@ module.exports = {
     requiredPermissions: ["BAN_MEMBERS"],
     worksInDms: false,
     callback: (message, args, client, config) => {
-        message.guild.fetchBan(args[0].replace("<@!", "").replace(">", "")).then(ban => {
+        message.guild.fetchBan(args[0].replace("<@!", "").replace("<@", "").replace(">", "")).then(ban => {
             if (ban == null || ban == undefined) sendEmbed(message.channel, message.author, config, "Error", "That user is not banned")
             
             message.guild.members.unban(ban.user)

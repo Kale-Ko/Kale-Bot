@@ -9,7 +9,7 @@ module.exports = {
     requiredPermissions: ["KICK_MEMBERS"],
     worksInDms: false,
     callback: (message, args, client, config) => {
-        message.guild.members.fetch(args[0].replace("<@!", "").replace(">", "")).then(user => {
+        message.guild.members.fetch(args[0].replace("<@!", "").replace("<@", "").replace(">", "")).then(user => {
             user.send(createEmbed("Kicked", "You have been kicked in " + user.guild.name + " for " + (args[1] || ""))).then(() => {
                 user.kick(args[1] || "")
 

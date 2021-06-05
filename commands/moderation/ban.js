@@ -9,7 +9,7 @@ module.exports = {
     requiredPermissions: ["BAN_MEMBERS"],
     worksInDms: false,
     callback: (message, args, client, config) => {
-        message.guild.members.fetch(args[0].replace("<@!", "").replace(">", "")).then(user => {
+        message.guild.members.fetch(args[0].replace("<@!", "").replace("<@", "").replace(">", "")).then(user => {
             user.send(createEmbed("Banned", "You have been banned in " + user.guild.name + " for " + (args[1] || ""))).then(() => {
                 user.ban({ reason: args[1] || "", days: 1 })
 
