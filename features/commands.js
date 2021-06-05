@@ -8,12 +8,16 @@ module.exports = {
     events: ["register", "message"],
     run: (name, message) => {
         if (name == "register") {
-            var commandlist = fs.readdirSync("./commands")
+            var categorylist = fs.readdirSync("./commands")
+            
+            categoryList.forEach(category => {
+                var commandlist = fs.readdirSync("./commands/" + category)
 
-            commandlist.forEach(file => {
-                const command = require("../commands/" + file)
+                commandlist.forEach(file => {
+                    const command = require("../commands/" + category + "/" + file)
 
-                commands.push({ name: command.name, description: command.description, category: command.category, paramiters: command.paramiters, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })
+                    commands.push({ name: command.name, description: command.description, category, paramiters: command.paramiters, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })
+                })
             })
 
             console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
