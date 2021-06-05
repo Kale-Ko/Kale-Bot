@@ -41,7 +41,7 @@ module.exports = {
         
         for (var key of Object.keys(help)) { sortLength++ }
         
-        console.log(sortLength)
+        console.log(sortLength, help)
         
         for (var sortIndex = 1; sortIndex < sortLength; sortIndex++) {
             for (var key of Object.keys(help)) {
