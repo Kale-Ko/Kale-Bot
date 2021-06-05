@@ -14,7 +14,7 @@ module.exports = {
                 var mutedRole = user.guild.roles.cache.find(role => role.name == "Muted")
                 if (mutedRole == null || mutedRole == undefined) { sendEmbed(message.channel, message,author, config, "Error", "There must be a role called 'Muted' in the server"); return }
                 
-                user.removeRole(mutedRole)
+                user.roles.remove(mutedRole.id)
 
                 sendEmbed(message.channel, message.author, config, "Unmuted", "Successfully unmuted <@" + user.id + "> for " + (args[1] || ""))
 
