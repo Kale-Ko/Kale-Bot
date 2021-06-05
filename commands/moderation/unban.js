@@ -10,6 +10,8 @@ module.exports = {
     worksInDms: false,
     callback: (message, args, client, config) => {
         message.guild.fetchBan(args[0].replace("<@!", "").replace(">", "")).then(ban => {
+            if (ban == null || ban == undefined) sendEmbed(message.channel, message.author, config, "Error", "That user is not banned")
+            
             message.guild.members.unban(ban.user)
 
             sendEmbed(message.channel, message.author, config, "Unbanned", "Successfully unbanned <@" + ban.user.id + "> for " + (args[1] || ""))
