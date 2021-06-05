@@ -93,5 +93,5 @@ function createCommands(command, help, config) {
 }
 
 function getCategory(name) {
-   return JSON.parse(fs.readFileSync("./commands" + name + "/category.json"))
+   return JSON.parse(fs.readFileSync("./commands/" + name + "/category.json"))
 }
