@@ -36,13 +36,20 @@ module.exports = {
         })
 
         var helpString = ""
+        var sortLength = 0
+        
+        for (var key of Object.keys(help)) { sortLength++ }
+        
+        for (var sortIndex = 1; sortIndex < sortLength; sortIndex++) {
+            for (var key of Object.keys(help)) {
+                if (getCategory(key).position != sortIndex) return
+                
+                helpString += "\n\n**" + key + "**"
 
-        for (var key of Object.keys(help)) {
-            helpString += "\n\n**" + key + "**"
-
-            help[key].forEach(string => {
-                helpString += string
-            })
+                help[key].forEach(string => {
+                    helpString += string
+                })
+            }
         }
 
         sendEmbed(message.channel, message.author, config, "Help", helpString)
@@ -82,4 +89,8 @@ function createCommands(command, help, config) {
     /*if (!subCommandMade)*/ help[command.category].push("\n" + config.prefix + command.name + paramiters + " - " + command.description)
 
     return help
+}
+
+function getCategory(name) {
+   return JSON.parse(fs.readFileSync("./commands" + name + "/category.json"))
 }
