@@ -4,7 +4,6 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "help",
     description: "Get help with the bot",
-    category: "Info",
     paramiters: [{ type: "paramiter", name: "command", optional: true }],
     requiredPermissions: [],
     worksInDms: true,

@@ -6,7 +6,6 @@ const { runCommand } = require("../features/commands.js")
 module.exports = {
     name: "config",
     description: "Get and set config values",
-    category: "Management",
     paramiters: [{ type: "subcommands", commands: [{ name: "get", description: "Get all the config values" }, { name: "set", description: "Set config values" }] }, { type: "paramiter", name: "key", optional: false }, { type: "paramiter", name: "value", optional: false }],
     requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,

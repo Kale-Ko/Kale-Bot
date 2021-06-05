@@ -6,7 +6,6 @@ var numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣",
 module.exports = {
     name: "poll",
     description: "Create a poll",
-    category: "Fun",
     paramiters: [{ type: "paramiter", name: "title", optional: false }, { type: "paramiter", name: "option 1", optional: false }, { type: "paramiter", name: "option 2", optional: false }, { type: "paramiter", name: "option 3-10", optional: true }],
     requiredPermissions: [],
     worksInDms: false,

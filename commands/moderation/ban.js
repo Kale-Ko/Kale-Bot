@@ -5,7 +5,6 @@ const { sendEmbed, createEmbed } = require("../util.js")
 module.exports = {
     name: "ban",
     description: "Ban a person from the server",
-    category: "Moderation",
     paramiters: [{ type: "paramiter", name: "user", optional: false }, { type: "paramiter", name: "reason", optional: true }],
     requiredPermissions: ["BAN_MEMBERS"],
     worksInDms: false,

@@ -3,7 +3,6 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "uptime",
     description: "Get how long the bot has been online",
-    category: "Info",
     paramiters: [],
     requiredPermissions: [],
     worksInDms: true,

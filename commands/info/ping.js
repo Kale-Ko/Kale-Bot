@@ -3,7 +3,6 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "ping",
     description: "Ping the bot",
-    category: "Info",
     paramiters: [],
     requiredPermissions: [],
     worksInDms: true,
