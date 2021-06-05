@@ -41,7 +41,7 @@ module.exports = {
         
         for (var key of Object.keys(help)) { sortLength++ }
         
-        for (var sortIndex = 1; sortIndex < sortLength; sortIndex++) {
+        for (var sortIndex = 0; sortIndex < sortLength + 1; sortIndex++) {
             for (var key of Object.keys(help)) {
                 if (JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position != sortIndex) continue
                 
