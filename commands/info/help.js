@@ -44,7 +44,7 @@ module.exports = {
         for (var sortIndex = 1; sortIndex < sortLength; sortIndex++) {
             console.log(sortIndex)
             for (var key of Object.keys(help)) {
-                console.log(fs.readFileSync("./commands/" + key + "/category.json"))
+                console.log(JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position)
                 
                 if (JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position != sortIndex) return
                 
