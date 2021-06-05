@@ -43,7 +43,9 @@ module.exports = {
         
         for (var sortIndex = 1; sortIndex < sortLength; sortIndex++) {
             for (var key of Object.keys(help)) {
-                if (getCategory(key).position != sortIndex) return
+                console.log(JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")), sortIndex)
+                
+                if (JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position != sortIndex) return
                 
                 helpString += "\n\n**" + key + "**"
 
@@ -52,6 +54,8 @@ module.exports = {
                 })
             }
         }
+        
+        console.log(helpString)
 
         sendEmbed(message.channel, message.author, config, "Help", helpString)
     }
@@ -90,8 +94,4 @@ function createCommands(command, help, config) {
     /*if (!subCommandMade)*/ help[command.category].push("\n" + config.prefix + command.name + paramiters + " - " + command.description)
 
     return help
-}
-
-function getCategory(name) {
-   return JSON.parse(fs.readFileSync("./commands/" + name + "/category.json"))
 }
