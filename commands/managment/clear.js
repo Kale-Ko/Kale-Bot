@@ -1,4 +1,4 @@
-const { sendEmbed } = require("../util.js")
+const { sendEmbed } = require("../../util.js")
 
 module.exports = {
     name: "clear",

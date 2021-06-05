@@ -1,7 +1,7 @@
 const fs = require("fs")
-const { data } = require("../bot.js")
-const { sendEmbed } = require("../util.js")
-const { runCommand } = require("../features/commands.js")
+const { data } = require("../../bot.js")
+const { sendEmbed } = require("../../util.js")
+const { runCommand } = require("../../features/commands.js")
 
 module.exports = {
     name: "config",

@@ -1,6 +1,6 @@
 const fs = require("fs")
-const { data } = require("../bot.js")
-const { sendEmbed } = require("../util.js")
+const { data } = require("../../bot.js")
+const { sendEmbed } = require("../../util.js")
 
 module.exports = {
     name: "unban",

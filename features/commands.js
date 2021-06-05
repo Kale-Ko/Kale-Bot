@@ -8,9 +8,9 @@ module.exports = {
     events: ["register", "message"],
     run: (name, message) => {
         if (name == "register") {
-            var categoryList = fs.readdirSync("./commands")
+            var categorylist = fs.readdirSync("./commands")
             
-            categoryList.forEach(category => {
+            categorylist.forEach(category => {
                 var commandlist = fs.readdirSync("./commands/" + category)
 
                 commandlist.forEach(file => {

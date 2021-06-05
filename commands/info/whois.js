@@ -1,5 +1,5 @@
-const { sendEmbed } = require("../util.js")
-const { runCommand } = require("../features/commands.js")
+const { sendEmbed } = require("../../util.js")
+const { runCommand } = require("../../features/commands.js")
 
 module.exports = {
     name: "whois",
