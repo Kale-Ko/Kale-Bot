@@ -42,11 +42,8 @@ module.exports = {
         for (var key of Object.keys(help)) { sortLength++ }
         
         for (var sortIndex = 1; sortIndex < sortLength; sortIndex++) {
-            console.log(sortIndex)
             for (var key of Object.keys(help)) {
-                console.log(JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position)
-                
-                if (JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position != sortIndex) return
+                if (JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position != sortIndex) continue
                 
                 helpString += "\n\n**" + key + "**"
 
@@ -55,8 +52,6 @@ module.exports = {
                 })
             }
         }
-        
-        console.log(helpString)
 
         sendEmbed(message.channel, message.author, config, "Help", helpString)
     }
