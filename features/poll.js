@@ -10,7 +10,7 @@ module.exports = {
         if (message.embeds[0] != null) if (message.embeds[0].title == "Poll") {
             var args = message.content.toLowerCase().split(" "); args.shift()
 
-            require("../commands/poll.js").addReactions(message, args, client, config)
+            require("../commands/fun/poll.js").addReactions(message, args, client, config)
         }
     }
 }

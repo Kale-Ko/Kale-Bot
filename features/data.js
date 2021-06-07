@@ -1,5 +1,5 @@
 var { client, config, data } = require("../bot.js")
-const { uploadData, downloadData } = require("../util.js")
+const { uploadData } = require("../util.js")
 
 module.exports = {
     name: "data",
@@ -7,8 +7,6 @@ module.exports = {
     events: ["register", "guildCreate"],
     run: (name, guild) => {
         if (name == "register") {
-            data = downloadData()
-
             client.guilds.cache.forEach(guild => { fixConfig(guild) })
         } else {
             data.configs[guild.id] = config.defaultConfig
