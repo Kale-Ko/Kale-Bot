@@ -9,13 +9,13 @@ module.exports = {
     run: (name, message) => {
         if (name == "register") {
             var categorylist = fs.readdirSync("./commands")
-            
+
             categorylist.forEach(category => {
                 var commandlist = fs.readdirSync("./commands/" + category)
 
                 commandlist.forEach(file => {
                     if (file == "category.json") return
-                    
+
                     const command = require("../commands/" + category + "/" + file)
 
                     commands.push({ name: command.name, description: command.description, category, paramiters: command.paramiters, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })

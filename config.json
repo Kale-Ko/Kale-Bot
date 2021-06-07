@@ -1,0 +1,19 @@
+{
+    "statusType": "WATCHING",
+    "status": "for ?help",
+    "defaultConfig": {
+        "prefix": "?",
+        "deletetimeout": 8,
+        "atsender": true,
+        "stats": {
+            "members": true,
+            "channels": true,
+            "roles": true,
+            "boosts": true
+        }
+    },
+    "defaultLogs": {
+        "warns": {},
+        "actions": []
+    }
+}

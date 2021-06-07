@@ -22,4 +22,12 @@ function createEmbed(title, description, thumbnail) {
     return embed
 }
 
-module.exports = { sendEmbed, createEmbed }
+function uploadData() {
+
+}
+
+function downloadData() {
+
+}
+
+module.exports = { sendEmbed, createEmbed, uploadData, downloadData }

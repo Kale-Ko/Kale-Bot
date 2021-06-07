@@ -1,5 +1,5 @@
-const fs = require("fs")
-var { client, data } = require("../bot.js")
+var { client, config, data } = require("../bot.js")
+const { uploadData } = require("../util.js")
 
 module.exports = {
     name: "data",
@@ -9,14 +9,16 @@ module.exports = {
         if (name == "register") {
             client.guilds.cache.forEach(guild => { fixConfig(guild) })
         } else {
-            data.configs[guild.id] = data.defaultConfig
-            data.logs[guild.id] = data.defaultLogs
+            data.configs[guild.id] = config.defaultConfig
+            data.logs[guild.id] = config.defaultLogs
+
+            uploadData()
         }
     }
 }
 
 function fixConfig(guild) {
-    var config = data.configs[guild.id]
+    var serverconfig = data.configs[guild.id]
     var logs = data.logs[guild.id]
 
     function fix(data, expected) {
@@ -32,11 +34,11 @@ function fixConfig(guild) {
 
         return data
     }
-    //config = fix(config, data.defaultConfig)
-    logs = fix(logs, data.defaultLogs)
+    serverconfig = fix(serverconfig, config.defaultConfig)
+    logs = fix(logs, config.defaultLogs)
 
-    data.configs[guild.id] = config
+    data.configs[guild.id] = serverconfig
     data.logs[guild.id] = logs
 
-    fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
+    uploadData()
 }

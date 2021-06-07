@@ -1,6 +1,5 @@
-const fs = require("fs")
 const { data } = require("../../bot.js")
-const { sendEmbed } = require("../../util.js")
+const { sendEmbed, uploadData } = require("../../util.js")
 const { runCommand } = require("../../features/commands.js")
 
 module.exports = {
@@ -36,7 +35,7 @@ module.exports = {
 
             data.configs[message.guild.id] = config
 
-            fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
+            uploadData()
 
             sendEmbed(message.channel, message.author, config, "Config", "Successfully set " + args[1] + " to " + args[2])
 

@@ -1,6 +1,5 @@
-const fs = require("fs")
 const { data } = require("../../bot.js")
-const { createEmbed, sendEmbed } = require("../../util.js")
+const { createEmbed, sendEmbed, uploadData } = require("../../util.js")
 
 module.exports = {
     name: "kick",
@@ -17,7 +16,7 @@ module.exports = {
 
                 data.logs[message.guild.id].actions.push({ "type": "kick", "by": message.author.id, "against": user.id, "for": args[1] || "" })
 
-                fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
+                uploadData()
             })
         })
     }
