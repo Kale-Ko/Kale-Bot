@@ -27,7 +27,17 @@ function uploadData() {
 }
 
 function downloadData() {
+    var firebase = require("firebase-admin")
 
+    const firebaseApp = firebase.initializeApp({
+        credential: firebase.credential.cert(JSON.parse(process.env.FIREBACECERT)),
+        databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
+    })
+    const storage = firebase.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
+    const dataRef = storage.file("data.json")
+    dataRef.download().then(newData => { console.log(newData) })
+
+    return {}
 }
 
 module.exports = { sendEmbed, createEmbed, uploadData, downloadData }

@@ -4,10 +4,12 @@
     "main": "bot.js",
     "scripts": {
         "start": "node bot.js",
-        "autostart": "nodemon bot.js"
+        "autostart": "nodemon bot.js",
+        "installthenstart": "npm i -g nodemon; npm i; npm run-script autostart"
     },
     "dependencies": {
         "discord.js": "^12.5.3",
+        "firebase-admin": "^9.9.0",
         "fs": "^0.0.1-security",
         "http": "0.0.1-security"
     },

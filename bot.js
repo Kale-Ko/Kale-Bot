@@ -1,6 +1,5 @@
 const fs = require("fs")
 const Discord = require("discord.js")
-const { downloadData } = require("./util")
 const client = new Discord.Client()
 
 var config = {}
@@ -8,10 +7,8 @@ var data = {}
 var features = []
 var commands = []
 
-fs.readFile("./config.json", "utf8", (err, newData) => {
-    config = JSON.parse(newData)
-
-    data = downloadData()
+fs.readFile("./config.json", "utf8", (err, newConfig) => {
+    config = JSON.parse(newConfig)
 
     client.on("ready", () => {
         console.log("Bot Logged in as " + client.user.tag)
@@ -42,6 +39,6 @@ fs.readFile("./config.json", "utf8", (err, newData) => {
 
         console.log("Features > Loaded " + features.length + (features.length == 1 ? " feature." : " features."))
     }
-
-    module.exports = { client, config, data, features, commands }
 })
+
+module.exports = { client, config, data, features, commands }
