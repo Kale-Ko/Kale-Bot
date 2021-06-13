@@ -1,6 +1,13 @@
 const Discord = require("discord.js")
 const fs = require("fs")
 
+const firebase = require("firebase-admin")
+const firebaseApp = firebase.initializeApp({
+    credential: firebase.credential.cert(process.env.FIREBACECERT.startsWith("{") ? JSON.parse(process.env.FIREBACECERT) : JSON.parse(fs.readFileSync(process.env.FIREBACECERT))),
+    databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
+})
+const storage = firebase.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
+
 function sendEmbed(channel, author, config, title, description, thumbnail) {
     if (config.atsender) {
         channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
@@ -23,19 +30,10 @@ function createEmbed(title, description, thumbnail) {
 }
 
 function uploadData() {
-    console.log("Upload")
+    storage.file("data.json").save(JSON.stringify(require("./bot.js").data, null, 4))
 }
 
-async function downloadData(callback) {
-    var firebase = require("firebase-admin")
-
-    const firebaseApp = firebase.initializeApp({
-        credential: firebase.credential.cert(process.env.FIREBACECERT.startsWith("{") ? JSON.parse(process.env.FIREBACECERT) : JSON.parse(fs.readFileSync(process.env.FIREBACECERT))),
-        databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
-    })
-
-    const storage = firebase.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
-
+function downloadData(callback) {
     storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err })
 }
 
