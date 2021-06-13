@@ -33,6 +33,47 @@ module.exports = {
         var command = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
         var args = message.content.toLowerCase().split(" "); args.shift()
 
+        var index = 0
+
+        args.forEach(arg => {
+            if (arg.startsWith('"')) {
+                var end = -1
+
+                args.forEach(arg2 => {
+                    var index2 = args.indexOf(arg2)
+
+                    if (arg2.includes('"')) end = index2
+                })
+
+                if (end != -1) {
+                    var string = ""
+                    var index3 = 0
+
+                    args.forEach(arg3 => {
+                        if (index3 >= index && index3 <= end) {
+                            string += arg3 + " "
+
+                            delete args[index3]
+                        }
+
+                        index3++
+                    })
+
+                    var index4 = 0
+
+                    string.split('" "').forEach(string => {
+                        args[index + index4] = string.replace(/"/ig, "")
+
+                        index4++
+                    })
+                } else {
+                    sendEmbed(message.channel, message.author, config, "Error", "Error parsing command")
+                }
+            }
+
+            index++
+        })
+
         var ran = false
         commands.forEach(customCommand => {
             if (!customCommand.worksInDms && message.channel.type == "dm") return

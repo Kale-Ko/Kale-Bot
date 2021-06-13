@@ -1,5 +1,7 @@
 var { client, data } = require("../bot.js")
 
+var numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
+
 module.exports = {
     name: "poll",
     description: "Add reactions to polls",
@@ -10,7 +12,7 @@ module.exports = {
         if (message.embeds[0] != null) if (message.embeds[0].title == "Poll") {
             var args = message.content.toLowerCase().split(" "); args.shift()
 
-            require("../commands/fun/poll.js").addReactions(message, args, client, config)
+            for (var index = 0; index < (parseInt(message.embeds[0].description.split("\n").pop().split(".")[0]) + 1); index++) if (!message.deleted) message.react(numbers[index])
         }
     }
 }

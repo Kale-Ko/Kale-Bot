@@ -8,22 +8,18 @@ module.exports = {
         if (event.type == "dm") return
 
         if (name == "register") {
-            client.guilds.cache.forEach(guild => {
-                update(guild)
-            })
+            client.guilds.cache.forEach(guild => { update(guild) })
         } else if (name == "guildCreate") {
             update(event)
         } else if (name == "channelCreate" || name == "channelDelete" || name == "guildMemberAdd" || name == "guildMemberRemove" || name == "roleCreate" || name == "roleDelete") {
-            if (name == "channelCreate" || name == "channelDelete") { if (event.name != "Stats" && event.parent != event.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0).id) { update(event.guild) } } else update(event.guild)
+            if (name == "channelCreate" || name == "channelDelete") { if (event.name != "Stats" && event.parent != event.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0).id) update(event.guild) } else update(event.guild)
         } else if (name == "guildMemberUpdate") {
             var max = new Date()
             max.setMinutes(max.getMinutes() + 1)
             var min = new Date()
             min.setMinutes(min.getMinutes() - 1)
 
-            if (event.premiumSinceTimestamp <= max && event.premiumSinceTimestamp >= min) {
-                update(event.guild)
-            }
+            if (event.premiumSinceTimestamp <= max && event.premiumSinceTimestamp >= min) update(event.guild)
         }
     }
 }

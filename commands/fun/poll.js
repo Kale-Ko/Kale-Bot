@@ -1,8 +1,6 @@
 const { sendEmbed } = require("../../util.js")
 const { runCommand } = require("../../features/commands.js")
 
-var numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣", "7️⃣", "8️⃣", "9️⃣", "🔟"]
-
 module.exports = {
     name: "poll",
     description: "Create a poll",
@@ -26,8 +24,5 @@ module.exports = {
         })
 
         sendEmbed(message.channel, message.author, config, "Poll", "**" + args[0] + "**\n" + options)
-    },
-    addReactions: async (message, args, client, config) => {
-        for (var index = 0; index < (parseInt(message.embeds[0].description.split("\n").pop().split(".")[0]) + 1); index++) if (!message.deleted) message.react(numbers[index])
     }
 }

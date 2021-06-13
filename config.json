@@ -15,5 +15,7 @@
     "defaultLogs": {
         "warns": {},
         "actions": []
-    }
+    },
+    "todoCommands": "delwarn, clearwarns, listwarns, moderations, listbans, listmutes",
+    "todoFeatures": "reaction roles"
 }
