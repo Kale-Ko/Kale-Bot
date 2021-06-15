@@ -17,6 +17,8 @@ module.exports = {
 
             //ban.user.send(createEmbed("Banned", "You have been unbanned in " + message.guild.name + " for " + (args[1] || ""))).then(() => {})
 
+            delete data.logs[message.guild.id].bans[ban.user.id]
+
             data.logs[message.guild.id].actions.push({ "type": "unban", "by": message.author.id, "against": ban.user.id, "for": args[1] || "" })
 
             uploadData()

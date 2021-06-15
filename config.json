@@ -13,9 +13,11 @@
         }
     },
     "defaultLogs": {
+        "bans": {},
+        "mutes": {},
         "warns": {},
         "actions": []
     },
-    "todoCommands": "delwarn, clearwarns",
-    "todoFeatures": "reaction roles, web panel, upgrade ban and mute system to use custom database"
+    "todoCommands": "delwarn",
+    "todoFeatures": "reaction roles, web panel"
 }

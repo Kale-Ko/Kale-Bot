@@ -14,7 +14,7 @@ module.exports = {
 
                 if (data.logs[message.guild.id].warns[user.id] == null) data.logs[message.guild.id].warns[user.id] = []
 
-                data.logs[message.guild.id].warns[user.id].push({ "by": message.author.id, "against": user.id, "for": args[1] || "" })
+                data.logs[message.guild.id].warns[user.id].push({ "by": message.author.id, "for": args[1] || "" })
 
                 data.logs[message.guild.id].actions.push({ "type": "warn", "by": message.author.id, "against": user.id, "for": args[1] || "" })
 

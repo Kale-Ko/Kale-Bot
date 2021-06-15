@@ -1,3 +1,4 @@
+const { data } = require("../../bot.js")
 const { sendEmbed } = require("../../util.js")
 
 module.exports = {
@@ -9,12 +10,10 @@ module.exports = {
     callback: (message, args, client, config) => {
         var bans = ""
 
-        message.guild.fetchBans().then(banlist => {
-            banlist.forEach(ban => {
-                bans += ban.user.username + " - " + ban.reason + "\n"
-            })
+        for (var key of Object.keys(data.logs[message.guild.id].bans)) {
+            bans += "<@" + key + "> baned by <@" + data.logs[message.guild.id].bans[key].by + "> for " + data.logs[message.guild.id].bans[key].for + "\n"
+        }
 
-            sendEmbed(message.channel, message.author, config, "Bans", bans)
-        })
+        sendEmbed(message.channel, message.author, config, "Bans", bans)
     }
 }

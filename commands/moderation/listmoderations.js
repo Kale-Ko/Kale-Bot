@@ -13,7 +13,7 @@ module.exports = {
         data.logs[message.guild.id].actions.forEach(action => {
             if (args[0] != undefined) {
                 if (action.against == args[0].replace("<@!", "").replace("<@", "").replace(">", "")) moderations += "<@" + action.by + "> " + action.type + " for " + action.reason + "\n"
-            } else moderations += "<@" + action.by + "> " + action.type + " <@" + action.against + "> for " + action.reason + "\n"
+            } else moderations += "<@" + action.by + "> " + action.type + " <@" + action.against + "> for " + action.for + "\n"
         })
 
         sendEmbed(message.channel, message.author, config, "Moderations", moderations)

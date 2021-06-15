@@ -14,6 +14,8 @@ module.exports = {
 
                 sendEmbed(message.channel, message.author, config, "Banned", "Successfully banned <@" + user.id + "> for " + (args[1] || ""))
 
+                data.logs[message.guild.id].bans[user.id] = { "banned": true, "by": message.author.id, "for": args[1] || "" }
+
                 data.logs[message.guild.id].actions.push({ "type": "ban", "by": message.author.id, "against": user.id, "for": args[1] || "" })
 
                 uploadData()
