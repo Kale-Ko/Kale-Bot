@@ -10,11 +10,6 @@ module.exports = {
     callback: (message, args, client, config) => {
         message.guild.members.fetch(args[0].replace("<@!", "").replace("<@", "").replace(">", "")).then(user => {
             user.send(createEmbed("Unmuted", "You have been unmuted in " + user.guild.name + " for " + (args[1] || ""))).then(() => {
-                var mutedRole = user.guild.roles.cache.find(role => role.name == "Muted")
-                if (mutedRole == null || mutedRole == undefined) { sendEmbed(message.channel, message.author, config, "Error", "There must be a role called 'Muted' in the server"); return }
-
-                user.roles.remove(mutedRole.id)
-
                 sendEmbed(message.channel, message.author, config, "Unmuted", "Successfully unmuted <@" + user.id + "> for " + (args[1] || ""))
 
                 delete data.logs[message.guild.id].mutes[user.id]

@@ -18,6 +18,5 @@
         "warns": {},
         "actions": []
     },
-    "todoCommands": "delwarn",
     "todoFeatures": "reaction roles, web panel"
 }
