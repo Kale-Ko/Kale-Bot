@@ -18,6 +18,9 @@ module.exports = {
 }
 
 function fixConfig(guild) {
+    if (data.configs[guild.id] == null || data.configs[guild.id] == undefined) data.logs[guild.id] = config.defaultConfig
+    if (data.logs[guild.id] == null || data.logs[guild.id] == undefined) data.logs[guild.id] = config.defaultLogs
+
     var serverconfig = data.configs[guild.id]
     var logs = data.logs[guild.id]
 
