@@ -1,7 +1,7 @@
 const fs = require("fs")
 const Discord = require("discord.js")
-const { downloadData } = require("./util")
 const client = new Discord.Client()
+const { downloadData } = require("./util")
 
 var config = {}
 var data = {}
