@@ -1,4 +1,5 @@
 const fs = require("fs")
+const env = require("./env.json")
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const { downloadData } = require("./util")
@@ -20,7 +21,7 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
             registerFeatures()
         })
 
-        client.login(process.env.KALEBOTTOKEN)
+    client.login(process.env.KALEBOTTOKEN || env.BOTTOKEN)
 
         function registerFeatures() {
             var featureList = fs.readdirSync("./features")
