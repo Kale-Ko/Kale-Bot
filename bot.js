@@ -26,6 +26,8 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
             var featureList = fs.readdirSync("./features")
 
             featureList.forEach(file => {
+                if (!file.endsWith(".js")) return
+
                 const feature = require("./features/" + file)
 
                 features.push({ name: feature.name, description: feature.description, events: feature.events, run: feature.run })
