@@ -21,7 +21,7 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
             registerFeatures()
         })
 
-    client.login(process.env.KALEBOTTOKEN || env.BOTTOKEN)
+        client.login(process.env.KALEBOTTOKEN || env.BOTTOKEN)
 
         function registerFeatures() {
             var featureList = fs.readdirSync("./features")
