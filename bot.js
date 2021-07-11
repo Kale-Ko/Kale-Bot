@@ -1,5 +1,6 @@
 const fs = require("fs")
-const env = require("./env.json")
+var env = {}
+fs.stat("./env.json", (err, stats) => { if (!err) env = require("./env.json") })
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const { downloadData } = require("./util")

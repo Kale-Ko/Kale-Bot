@@ -1,6 +1,7 @@
 const Discord = require("discord.js")
 const fs = require("fs")
-const env = require("./env.json")
+var env = {}
+fs.stat("./env.json", (err, stats) => { if (!err) env = require("./env.json") })
 
 const firebase = require("firebase-admin")
 const firebaseApp = firebase.initializeApp({
