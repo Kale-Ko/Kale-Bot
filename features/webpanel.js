@@ -9,8 +9,6 @@ module.exports = {
     description: "Creates a web panel for interacting with the bot",
     events: ["register"],
     run: (name, event) => {
-        console.log(name, event)
-
         server.get("*", (req, res) => {
             var file = "./features/webpanel" + req.path.replace(/.\//g).replace(/..\//g) + (req.path.replace(/.\//g).replace(/..\//g).includes(".") ? "" : ".html")
 
