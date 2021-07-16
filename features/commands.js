@@ -8,6 +8,8 @@ module.exports = {
     events: ["register", "message"],
     run: (name, message) => {
         if (name == "register") {
+            var existingcommands = { global: [], guild: [] }
+
             var categorylist = fs.readdirSync("./commands")
 
             categorylist.forEach(category => {
@@ -19,7 +21,46 @@ module.exports = {
                     const command = require("../commands/" + category + "/" + file)
 
                     commands.push({ name: command.name, description: command.description, category, paramiters: command.paramiters, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })
+
+                    if (command.worksInDms) {
+                        existingcommands.global.push(command.name)
+
+                        client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options: [] } })
+                    }
+                    else {
+                        existingcommands.guild.push(command.name)
+
+                        client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.post({ data: { name: command.name, description: command.description, options: [] } }) })
+                    }
                 })
+            })
+
+            client.api.applications(client.user.id).commands.get().then(res => { res.forEach(command => { if (!existingcommands.global.includes(command.name)) client.api.applications(client.user.id).commands(command.id).delete() }) })
+
+            client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.get().then(res => { res.forEach(command => { if (!existingcommands.guild.includes(command.name)) client.api.applications(client.user.id).guilds(guild.id).commands(command.id).delete() }) }) })
+
+            client.ws.on("INTERACTION_CREATE", interaction => {
+                var command = interaction.data.name.toLowerCase()
+                var args = interaction.data.options
+
+                var message = {} //{ author: interaction.member, guild: client.guilds.cache.get(interaction.guild_id), channel: message.guild.channels.cache.get(interaction.channel_id) }
+                message.author = interaction.member
+                message.guild = client.guilds.cache.get(interaction.guild_id)
+                message.channel = message.guild.channels.cache.get(interaction.channel_id)
+
+                if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
+
+                message.content = config.prefix + command
+
+                console.log("1.")
+
+                //if (!message.author.bot && message.content.startsWith(config.prefix)) module.exports.runCommand(message, config)
+
+                console.log("2.")
+
+                client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content: "Hello " + command + "!" } } })
+
+                console.log("3.")
             })
 
             console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
