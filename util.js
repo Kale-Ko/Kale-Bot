@@ -11,11 +11,8 @@ const firebaseApp = firebase.initializeApp({
 const storage = firebase.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
 
 function sendEmbed(channel, author, config, title, description, thumbnail) {
-    if (config.atsender) {
-        channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
-    } else {
-        channel.send(createEmbed(title, description, thumbnail))
-    }
+    if (config.atsender) channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
+    else channel.send(createEmbed(title, description, thumbnail))
 }
 
 function createEmbed(title, description, thumbnail) {
@@ -31,12 +28,8 @@ function createEmbed(title, description, thumbnail) {
     return embed
 }
 
-function uploadData() {
-    storage.file("data.json").save(JSON.stringify(require("./bot.js").data, null, 4))
-}
+function uploadData() { storage.file("data.json").save(JSON.stringify(require("./bot.js").data, null, 4)) }
 
-function downloadData(callback) {
-    storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err })
-}
+function downloadData(callback) { storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err }) }
 
 module.exports = { sendEmbed, createEmbed, uploadData, downloadData }
