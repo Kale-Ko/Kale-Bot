@@ -6,7 +6,7 @@ module.exports = {
     description: "Get info about a user",
     paramiters: [{ type: "paramiter", name: "user", optional: false }],
     requiredPermissions: [],
-    worksInDms: false,
+    worksInDms: true,
     callback: (message, args, client, config) => {
         if (args.length < 1) { var newMessage = message; newMessage.content = config.prefix + "help " + module.exports.name; runCommand(newMessage, config); return }
 

@@ -8,7 +8,7 @@ module.exports = {
     events: ["register", "message"],
     run: (name, message) => {
         if (name == "register") {
-            var existingcommands = { global: [], guild: [] }
+            var existingcommands = { global: []/*, guild: []*/ }
 
             var categorylist = fs.readdirSync("./commands")
 
@@ -27,17 +27,17 @@ module.exports = {
 
                         client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options: [] } })
                     }
-                    else {
+                    /*else {
                         existingcommands.guild.push(command.name)
 
                         client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.post({ data: { name: command.name, description: command.description, options: [] } }) })
-                    }
+                    }*/
                 })
             })
 
             client.api.applications(client.user.id).commands.get().then(res => { res.forEach(command => { if (!existingcommands.global.includes(command.name)) client.api.applications(client.user.id).commands(command.id).delete() }) })
 
-            client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.get().then(res => { res.forEach(command => { if (!existingcommands.guild.includes(command.name)) client.api.applications(client.user.id).guilds(guild.id).commands(command.id).delete() }) }) })
+            client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.get().then(res => { res.forEach(command => { /*if (!existingcommands.guild.includes(command.name))*/ client.api.applications(client.user.id).guilds(guild.id).commands(command.id).delete() }) }) })
 
             client.ws.on("INTERACTION_CREATE", interaction => {
                 var command = interaction.data.name.toLowerCase()
