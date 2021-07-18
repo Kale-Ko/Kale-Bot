@@ -52,15 +52,11 @@ module.exports = {
 
                 message.content = config.prefix + command
 
-                console.log("1.")
+                client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content: "Ran!" } } })
 
-                //if (!message.author.bot && message.content.startsWith(config.prefix)) module.exports.runCommand(message, config)
+                //if (!message.author.bot&&message.content.startsWith(config.prefix)) module.exports.runCommand(message, config)
 
-                console.log("2.")
-
-                client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content: "Hello " + command + "!" } } })
-
-                console.log("3.")
+                //console.log("Command ran.")
             })
 
             console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
