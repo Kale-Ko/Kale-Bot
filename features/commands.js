@@ -41,7 +41,10 @@ module.exports = {
 
             client.ws.on("INTERACTION_CREATE", interaction => {
                 var command = interaction.data.name.toLowerCase()
-                var args = interaction.data.options
+                var options = interaction.data.options || []
+                var args = []
+
+                options.forEach(option => { args.push(option.value) })
 
                 var message = {} //{ author: interaction.member, guild: client.guilds.cache.get(interaction.guild_id), channel: message.guild.channels.cache.get(interaction.channel_id) }
                 message.author = interaction.member
@@ -50,13 +53,13 @@ module.exports = {
 
                 if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
-                message.content = config.prefix + command
+                message.content = config.prefix + command + " " + args.join(" ")
 
-                client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 4, data: { content: "Ran!" } } })
+                client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 5, data: { content: "Running!" } } })
 
-                //if (!message.author.bot&&message.content.startsWith(config.prefix)) module.exports.runCommand(message, config)
-
-                //console.log("Command ran.")
+                module.exports.runCommand(message, config)
+                
+                client.fetchApplication().then(application => { client.api.webhooks(application.id, interaction.token).messages["@original"].patch({ data: { content: "Ran!" } }) })
             })
 
             console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
