@@ -8,61 +8,59 @@ module.exports = {
     events: ["register", "message"],
     run: (name, message) => {
         if (name == "register") {
-            var existingcommands = { global: []/*, guild: []*/ }
+            var existingcommands = []
+            var reggisteredcommands = []
+            
+            client.api.applications(client.user.id).commands.get().then(res => { 
+                res.forEach(command => { existingcommands.push(command.name) })
 
-            var categorylist = fs.readdirSync("./commands")
+                var categorylist = fs.readdirSync("./commands")
 
-            categorylist.forEach(category => {
-                var commandlist = fs.readdirSync("./commands/" + category)
+                categorylist.forEach(category => {
+                    var commandlist = fs.readdirSync("./commands/" + category)
 
-                commandlist.forEach(file => {
-                    if (file == "category.json") return
+                    commandlist.forEach(file => {
+                        if (file == "category.json") return
 
-                    const command = require("../commands/" + category + "/" + file)
+                        const command = require("../commands/" + category + "/" + file)
 
-                    commands.push({ name: command.name, description: command.description, category, paramiters: command.paramiters, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })
+                        commands.push({ name: command.name, description: command.description, category, paramiters: command.paramiters, requiredPermissions: command.requiredPermissions, worksInDms: command.worksInDms, run: command.callback })
 
-                    if (command.worksInDms) {
-                        existingcommands.global.push(command.name)
+                        if (command.worksInDms) {
+                            reggisteredcommands.push(command.name)
 
-                        client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options: [] } })
-                    }
-                    /*else {
-                        existingcommands.guild.push(command.name)
-
-                        client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.post({ data: { name: command.name, description: command.description, options: [] } }) })
-                    }*/
+                            if (!existingcommands.includes(command.name)) client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options: [] } })
+                        }
+                    })
                 })
-            })
 
-            client.api.applications(client.user.id).commands.get().then(res => { res.forEach(command => { if (!existingcommands.global.includes(command.name)) client.api.applications(client.user.id).commands(command.id).delete() }) })
+                client.api.applications(client.user.id).commands.get().then(res => { res.forEach(command => { if (!reggisteredcommands.includes(command.name)) client.api.applications(client.user.id).commands(command.id).delete() }) })
 
-            client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.get().then(res => { res.forEach(command => { /*if (!existingcommands.guild.includes(command.name))*/ client.api.applications(client.user.id).guilds(guild.id).commands(command.id).delete() }) }) })
+                client.ws.on("INTERACTION_CREATE", interaction => {
+                    var command = interaction.data.name.toLowerCase()
+                    var options = interaction.data.options || []
+                    var args = []
 
-            client.ws.on("INTERACTION_CREATE", interaction => {
-                var command = interaction.data.name.toLowerCase()
-                var options = interaction.data.options || []
-                var args = []
+                    options.forEach(option => { args.push(option.value) })
 
-                options.forEach(option => { args.push(option.value) })
+                    var message = {} //{ author: interaction.member, guild: client.guilds.cache.get(interaction.guild_id), channel: message.guild.channels.cache.get(interaction.channel_id) }
+                    message.author = interaction.member.user
+                    message.guild = client.guilds.cache.get(interaction.guild_id)
+                    message.channel = message.guild.channels.cache.get(interaction.channel_id)
 
-                var message = {} //{ author: interaction.member, guild: client.guilds.cache.get(interaction.guild_id), channel: message.guild.channels.cache.get(interaction.channel_id) }
-                message.author = interaction.member
-                message.guild = client.guilds.cache.get(interaction.guild_id)
-                message.channel = message.guild.channels.cache.get(interaction.channel_id)
+                    if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
-                if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
+                    message.content = config.prefix + command + " " + args.join(" ")
 
-                message.content = config.prefix + command + " " + args.join(" ")
+                    client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 5, data: { content: "Running!" } } })
 
-                client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 5, data: { content: "Running!" } } })
-
-                module.exports.runCommand(message, config)
+                    module.exports.runCommand(message, config)
                 
-                client.fetchApplication().then(application => { client.api.webhooks(application.id, interaction.token).messages["@original"].patch({ data: { content: "Ran!" } }) })
-            })
+                    client.fetchApplication().then(application => { client.api.webhooks(application.id, interaction.token).messages["@original"].patch({ data: { content: "Ran!" } }) })
+                })
 
-            console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
+                console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
+            })
         } else {
             if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
