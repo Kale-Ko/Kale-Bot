@@ -13,6 +13,8 @@ var commands = []
 if (process.env.WEBPAGEONLY == "true" || process.env.WEBPAGEONLY == true) {
     require("./features/webpage.js").run()
 
+    console.log("Launched web server")
+
     return
 }
 
