@@ -10,6 +10,12 @@ var data = {}
 var features = []
 var commands = []
 
+if (process.env.WEBPAGEONLY == "true" || process.env.WEBPAGEONLY == true) {
+    require("./features/webpage.js").run()
+
+    return
+}
+
 fs.readFile("./config.json", "utf8", (err, newConfig) => {
     config = JSON.parse(newConfig)
 
