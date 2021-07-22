@@ -5,7 +5,7 @@ fs.stat("./env.json", (err, stats) => { if (!err) env = require("./env.json") })
 
 const firebase = require("firebase-admin")
 const firebaseApp = firebase.initializeApp({
-    credential: firebase.credential.cert((process.env.FIREBACECERT || JSON.stringify(env.FIREBACECERT)).startsWith("{") ? JSON.parse(process.env.FIREBACECERT || JSON.stringify(env.FIREBACECERT)) : JSON.parse(fs.readFileSync(process.env.FIREBACECERT))),
+    credential: firebase.credential.cert((process.env.FIREBASECERT || JSON.stringify(env.FIREBASECERT)).startsWith("{") ? JSON.parse(process.env.FIREBASECERT || JSON.stringify(env.FIREBASECERT)) : JSON.parse(fs.readFileSync(process.env.FIREBASECERT))),
     databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
 })
 const storage = firebase.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
