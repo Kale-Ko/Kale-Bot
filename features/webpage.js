@@ -8,7 +8,7 @@ module.exports = {
     events: ["register"],
     run: (name, event) => {
         server.get("*", (req, res) => {
-            var file = "./webpage/" + req.path.replace("/", "").replace(new RegExp("../", "g")).replace(".html", "") + ".html"
+            var file = "/features/webpage/" + req.path.replace("/", "").replace(new RegExp("../", "g")).replace(".html", "") + ".html"
 
             console.log(file)
 
