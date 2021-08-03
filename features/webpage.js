@@ -11,11 +11,7 @@ module.exports = {
             var file = "./features/webpage/" + req.path.replace("/", "").replace(new RegExp("../", "g"))
             if (!req.path.includes(".")) file += ".html"
 
-            console.log(file)
-
             fs.stat(file, (err, stats) => {
-                console.log(err)
-
                 if (err) {
                     res.statusCode = 404; res.statusMessage = "Not Found"
 
