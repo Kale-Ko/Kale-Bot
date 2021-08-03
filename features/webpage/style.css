@@ -1,14 +1,13 @@
 /*Settings*/
 :root {
-    --mainColor: #585858;
+    --mainColor: #686868;
 
-    --mainTextColor: #000000;
-    --textAccentColor: #ffffff;
+    --mainTextColor: #c9c9c9;
     --headingTextColor: #ffa600;
     --headingAccentColor: #e09200;
 
-    --linkColor: #0000ff;
-    --linkHoverColor: #3333ff;
+    --linkColor: #0000d8;
+    --linkHoverColor: #2020d3;
 }
 
 
@@ -62,7 +61,7 @@ p,
 label,
 a {
     font-size: 22px;
-    color: var(--textAccentColor);
+    color: var(--mainTextColor);
     text-align: center;
 }
 
