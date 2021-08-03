@@ -1,17 +1,32 @@
 const express = require("express")
 const server = express()
+const fs = require("fs")
 
 module.exports = {
     name: "webpage",
     description: "Creates a simple status page for the bot",
     events: ["register"],
     run: (name, event) => {
-        server.get("/invite", (req, res) => { res.statusCode = 200; res.statusMessage = "Ok"; res.end('<body><p>Redirecting to invite</p><script>window.location.replace("https://discord.com/api/oauth2/authorize?client_id=786586380321947662&permissions=8&redirect_uri=https%3A%2F%2Fkalebot.kaleko.ga%2Fauth&scope=bot%20applications.commands")</script></body>') })
+        server.get("*", (req, res) => {
+            var file = req.path.replace("/", "").replace(new RegExp("../", "g")).replace(".html", "") + ".html"
 
-        server.get("*", (req, res) => { res.statusCode = 200; res.statusMessage = "Ok"; res.end('<body><p>The bot is online</p><br><p><a href="https://kalebot.kaleko.ga/invite">Invite</a> it to your own server to see what it can do</p></body>') })
+            fs.stat(file, (err, stats) => {
+                if (err) {
+                    res.statusCode = 404; res.statusMessage = "Not Found"
+
+                    res.end("404 Not Found")
+
+                    return
+                }
+
+                res.statusCode = 200; res.statusMessage = "Ok"
+
+                res.end(fs.readFileSync(file))
+            })
+        })
 
         var port = process.env.PORT || 3000
 
-        server.listen(port, () => { })
+        server.listen(port, () => { console.log("Launched web server on " + port) })
     }
 }
