@@ -1,5 +1,5 @@
 const { data } = require("../../bot.js")
-const { createEmbed, sendEmbed, uploadData } = require("../../util.js")
+const { sendEmbed, uploadData } = require("../../util.js")
 
 module.exports = {
     name: "delwarn",

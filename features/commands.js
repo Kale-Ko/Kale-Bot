@@ -10,8 +10,8 @@ module.exports = {
         if (name == "register") {
             var existingcommands = []
             var reggisteredcommands = []
-            
-            client.api.applications(client.user.id).commands.get().then(res => { 
+
+            client.api.applications(client.user.id).commands.get().then(res => {
                 res.forEach(command => { existingcommands.push(command.name) })
 
                 var categorylist = fs.readdirSync("./commands")
@@ -55,7 +55,7 @@ module.exports = {
                     client.api.interactions(interaction.id, interaction.token).callback.post({ data: { type: 5, data: { content: "Running!" } } })
 
                     module.exports.runCommand(message, config)
-                
+
                     client.fetchApplication().then(application => { client.api.webhooks(application.id, interaction.token).messages["@original"].patch({ data: { content: "Ran!" } }) })
                 })
 
