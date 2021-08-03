@@ -10,6 +10,8 @@ module.exports = {
         server.get("*", (req, res) => {
             var file = req.path.replace("/", "").replace(new RegExp("../", "g")).replace(".html", "") + ".html"
 
+            console.log(file)
+
             fs.stat(file, (err, stats) => {
                 if (err) {
                     res.statusCode = 404; res.statusMessage = "Not Found"
