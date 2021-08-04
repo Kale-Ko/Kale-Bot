@@ -1,4 +1,4 @@
-const { data } = require("../../bot.js")
+const { data } = require("../../features/data.js")
 const { sendEmbed } = require("../../util.js")
 
 module.exports = {

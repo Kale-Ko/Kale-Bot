@@ -1,4 +1,5 @@
-var { client, data } = require("../bot.js")
+var { client } = require("../bot.js")
+var { data } = require("./data.js")
 
 module.exports = {
     name: "statistics",

@@ -1,5 +1,5 @@
-const { data } = require("../../bot.js")
-const { sendEmbed, createEmbed, uploadData } = require("../../util.js")
+const { data, uploadData } = require("../../features/data.js")
+const { sendEmbed, createEmbed } = require("../../util.js")
 
 module.exports = {
     name: "ban",

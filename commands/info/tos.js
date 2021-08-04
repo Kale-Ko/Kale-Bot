@@ -7,6 +7,6 @@ module.exports = {
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {
-        sendEmbed(message.channel, message.author, config, "Terms Of Service", "https://kalebot.kaleko.ga/tos")
+        sendEmbed(message.channel, message.author, config, "Terms Of Service", "https://kalebot.ga/tos")
     }
 }

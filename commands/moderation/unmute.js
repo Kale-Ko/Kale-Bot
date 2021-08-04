@@ -1,5 +1,5 @@
-const { data } = require("../../bot.js")
-const { createEmbed, sendEmbed, uploadData } = require("../../util.js")
+const { data, uploadData } = require("../../features/data.js")
+const { createEmbed, sendEmbed } = require("../../util.js")
 
 module.exports = {
     name: "unmute",

@@ -1,4 +1,5 @@
-var { client, data } = require("../bot.js")
+var { client } = require("../bot.js")
+var { data } = require("./data.js")
 
 module.exports = {
     name: "deletecommands",
@@ -6,6 +7,8 @@ module.exports = {
     events: ["message"],
     run: (name, message) => {
         if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deletetimeout: 2147483.647, atSender: false }
+
+        if (config.deletetimeout == -1) return
 
         if (message.channel.name == "bot-commands") {
             if (!message.author.bot) {

@@ -7,6 +7,6 @@ module.exports = {
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {
-        sendEmbed(message.channel, message.author, config, "About", "Kale bot is a miscellaneous Discord bot made by <@622242352433725451>")
+        sendEmbed(message.channel, message.author, config, "About", "https://kalebot.ga/about")
     }
 }

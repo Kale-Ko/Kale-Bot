@@ -3,10 +3,8 @@ var env = {}
 fs.stat("./env.json", (err, stats) => { if (!err) env = require("./env.json") })
 const Discord = require("discord.js")
 const client = new Discord.Client()
-const { downloadData } = require("./util")
 
 var config = {}
-var data = {}
 var features = []
 var commands = []
 
@@ -19,9 +17,7 @@ if (process.env.WEBPAGEONLY == "true" || process.env.WEBPAGEONLY == true) {
 fs.readFile("./config.json", "utf8", (err, newConfig) => {
     config = JSON.parse(newConfig)
 
-    downloadData(newData => {
-        data = newData
-
+    require("./features/data.js").run("preregister", () => {
         client.on("ready", () => {
             console.log("Bot Logged in as " + client.user.tag)
 
@@ -54,6 +50,6 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
             console.log("Features > Loaded " + features.length + (features.length == 1 ? " feature." : " features."))
         }
 
-        module.exports = { client, config, data, features, commands }
+        module.exports = { client, config, features, commands }
     })
 })

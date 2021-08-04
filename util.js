@@ -1,14 +1,4 @@
 const Discord = require("discord.js")
-const fs = require("fs")
-var env = {}
-fs.stat("./env.json", (err, stats) => { if (!err) env = require("./env.json") })
-
-const firebase = require("firebase-admin")
-const firebaseApp = firebase.initializeApp({
-    credential: firebase.credential.cert((process.env.FIREBASECERT || JSON.stringify(env.FIREBASECERT)).startsWith("{") ? JSON.parse(process.env.FIREBASECERT || JSON.stringify(env.FIREBASECERT)) : JSON.parse(fs.readFileSync(process.env.FIREBASECERT))),
-    databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
-})
-const storage = firebase.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
 
 function sendEmbed(channel, author, config, title, description, thumbnail) {
     if (config.atsender) channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
@@ -28,8 +18,4 @@ function createEmbed(title, description, thumbnail) {
     return embed
 }
 
-function uploadData() { storage.file("data.json").save(JSON.stringify(require("./bot.js").data, null, 4)) }
-
-function downloadData(callback) { storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err }) }
-
-module.exports = { sendEmbed, createEmbed, uploadData, downloadData }
+module.exports = { sendEmbed, createEmbed }
