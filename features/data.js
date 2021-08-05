@@ -1,7 +1,6 @@
 var { client, config } = require("../bot.js")
 const fs = require("fs")
-var env = {}
-fs.stat("./env.json", (err, stats) => { if (!err) env = require("./env.json") })
+var env = require("../env.json") || {}
 
 const firebase = require("firebase-admin")
 const firebaseApp = firebase.initializeApp({
