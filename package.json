@@ -13,5 +13,8 @@
         "firebase-admin": "^9.9.0",
         "fs": "^0.0.1-security",
         "http": "0.0.1-security"
+    },
+    "devDependencies": {
+        "nodemon": "^2.0.12"
     }
 }
