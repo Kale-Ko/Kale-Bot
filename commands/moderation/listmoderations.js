@@ -4,7 +4,7 @@ const { sendEmbed } = require("../../util.js")
 module.exports = {
     name: "listmoderations",
     description: "List all server moderations",
-    paramiters: [{ type: "paramiter", name: "user", optional: true }],
+    paramiters: [{ type: "paramiter", name: "user", description: "The user to list for", kind: "user", optional: false }],
     requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,
     callback: (message, args, client, config) => {

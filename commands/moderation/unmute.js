@@ -4,7 +4,7 @@ const { createEmbed, sendEmbed } = require("../../util.js")
 module.exports = {
     name: "unmute",
     description: "Unmute a person so they can speak",
-    paramiters: [{ type: "paramiter", name: "user", optional: false }, { type: "paramiter", name: "reason", optional: true }],
+    paramiters: [{ type: "paramiter", name: "user", description: "The user to unmute", kind: "user", optional: false }, { type: "paramiter", name: "reason", description: "The reason for the unmute", kind: "string", optional: true }],
     requiredPermissions: ["MUTE_MEMBERS"],
     worksInDms: false,
     callback: (message, args, client, config) => {

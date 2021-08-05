@@ -4,7 +4,7 @@ const { runCommand } = require("../../features/commands.js")
 module.exports = {
     name: "whois",
     description: "Get info about a user",
-    paramiters: [{ type: "paramiter", name: "user", optional: false }],
+    paramiters: [{ type: "paramiter", name: "user", description: "The user to get info about", kind: "user", optional: false }],
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {

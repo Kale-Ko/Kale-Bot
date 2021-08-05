@@ -4,7 +4,7 @@ const { runCommand } = require("../../features/commands.js")
 module.exports = {
     name: "poll",
     description: "Create a poll",
-    paramiters: [{ type: "paramiter", name: "title", optional: false }, { type: "paramiter", name: "option 1", optional: false }, { type: "paramiter", name: "option 2", optional: false }, { type: "paramiter", name: "option 3-10", optional: true }],
+    paramiters: [{ type: "paramiter", name: "title", description: "The poll title", kind: "string", optional: false }, { type: "paramiter", name: "option 1", description: "The first poll option", kind: "string", optional: false }, { type: "paramiter", name: "option 2", description: "The second poll option", optional: false }, { type: "paramiter", name: "option 3-10", description: "Any more poll options", kind: "string", optional: true }],
     requiredPermissions: [],
     worksInDms: false,
     callback: (message, args, client, config) => {

@@ -3,7 +3,7 @@ const { sendEmbed } = require("../../util.js")
 module.exports = {
     name: "roll",
     description: "Roll a die",
-    paramiters: [{ type: "paramiter", name: "sides", optional: true }],
+    paramiters: [{ type: "paramiter", name: "sides", description: "The number dice to roll", kind: "number", optional: true }],
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {

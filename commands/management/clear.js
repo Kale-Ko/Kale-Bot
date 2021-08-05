@@ -3,7 +3,7 @@ const { sendEmbed } = require("../../util.js")
 module.exports = {
     name: "clear",
     description: "Clear a channels messages",
-    paramiters: [{ type: "paramiter", name: "amount", optional: true }],
+    paramiters: [{ type: "paramiter", name: "amount", description: "The amount of messages to clear", kind: "number", optional: true }],
     requiredPermissions: ["MANAGE_MESSAGES"],
     worksInDms: false,
     callback: async (message, args, client, config) => {

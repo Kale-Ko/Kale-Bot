@@ -5,7 +5,7 @@ const { runCommand } = require("../../features/commands.js")
 module.exports = {
     name: "config",
     description: "Get and set config values",
-    paramiters: [{ type: "subcommands", commands: [{ name: "get", description: "Get all the config values" }, { name: "set", description: "Set config values" }] }, { type: "paramiter", name: "key", optional: false }, { type: "paramiter", name: "value", optional: false }],
+    paramiters: [{ type: "subcommands", commands: [{ name: "get", description: "Get all the config values" }, { name: "set", description: "Set config values" }] }, { type: "paramiter", name: "key", description: "The config key to set", kind: "string", optional: false }, { type: "paramiter", name: "value", description: "The value to set the key to", kind: "string", optional: false }],
     requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,
     callback: (message, args, client, config) => {

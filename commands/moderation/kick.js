@@ -4,7 +4,7 @@ const { createEmbed, sendEmbed } = require("../../util.js")
 module.exports = {
     name: "kick",
     description: "Kick a person from the server",
-    paramiters: [{ type: "paramiter", name: "user", optional: false }, { type: "paramiter", name: "reason", optional: true }],
+    paramiters: [{ type: "paramiter", name: "user", description: "The user to kick", kind: "user", optional: false }, { type: "paramiter", name: "reason", description: "The reason for the kick", kind: "string", optional: true }],
     requiredPermissions: ["KICK_MEMBERS"],
     worksInDms: false,
     callback: (message, args, client, config) => {

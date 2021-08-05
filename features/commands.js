@@ -2,6 +2,7 @@ const fs = require("fs")
 var { client, commands } = require("../bot.js")
 var { data } = require("./data.js")
 const { sendEmbed } = require("../util.js")
+const { paramiters } = require("../commands/moderation/mute.js")
 
 module.exports = {
     name: "commands",
@@ -9,11 +10,11 @@ module.exports = {
     events: ["register", "message"],
     run: (name, message) => {
         if (name == "register") {
-            var existingcommands = []
+            var existingcommands = new Map()
             var reggisteredcommands = []
 
             client.api.applications(client.user.id).commands.get().then(res => {
-                res.forEach(command => { existingcommands.push(command.name) })
+                res.forEach(command => { existingcommands.set(command.name, command.id) })
 
                 var categorylist = fs.readdirSync("./commands")
 
@@ -30,7 +31,25 @@ module.exports = {
                         if (command.worksInDms) {
                             reggisteredcommands.push(command.name)
 
-                            if (!existingcommands.includes(command.name)) client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options: [] } })
+                            var options = []
+
+                            command.paramiters.forEach(paramiter => {
+                                if (paramiter.type != "paramiter") return
+
+                                var type = 3
+
+                                if (paramiter.type == "number") type = 4
+                                if (paramiter.type == "boolean") type = 5
+                                if (paramiter.type == "user") type = 6
+                                if (paramiter.type == "channel") type = 7
+                                if (paramiter.type == "role") type = 8
+                                if (paramiter.type == "double") type = 10
+
+                                options.push({ name: paramiter.name, description: paramiter.description, type, required: paramiter.optional })
+                            })
+
+                            if (!existingcommands.has(command.name)) client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options } })
+                            else client.api.applications(client.user.id).commands(existingcommands.get(command.name)).patch({ data: { name: command.name, description: command.description, options } })
                         }
                     })
                 })
