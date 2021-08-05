@@ -55,6 +55,7 @@ module.exports = {
                 })
 
                 client.api.applications(client.user.id).commands.get().then(res => { res.forEach(command => { if (!reggisteredcommands.includes(command.name)) client.api.applications(client.user.id).commands(command.id).delete() }) })
+                // client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.get().then(res => { res.forEach(command => { client.api.applications(client.user.id).guilds(guild.id).commands(command.id).delete() }) }) })
 
                 client.ws.on("INTERACTION_CREATE", interaction => {
                     var command = interaction.data.name.toLowerCase()
