@@ -17,6 +17,8 @@ if (process.env.WEBPAGEONLY == "true" || process.env.WEBPAGEONLY == true) {
 fs.readFile("./config.json", "utf8", (err, newConfig) => {
     config = JSON.parse(newConfig)
 
+    module.exports = { client, config }
+
     require("./features/data.js").run("preregister", () => {
         client.on("ready", () => {
             console.log("Bot Logged in as " + client.user.tag)

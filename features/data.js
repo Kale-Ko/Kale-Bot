@@ -26,7 +26,14 @@ module.exports = {
                 guild()
             })
         } else if (name == "register") {
-            //client.guilds.cache.forEach(guild => { fixConfig(guild) })
+            client.guilds.cache.forEach(guild => {
+                if (data.configs[guild.id] == undefined || data.configs[guild.id] == null) data.configs[guild.id] = config.defaultConfig
+                if (data.logs[guild.id] == undefined || data.logs[guild.id] == null) data.logs[guild.id] = config.defaultLogs
+
+                fixConfig(guild)
+            })
+
+            module.exports.uploadData()
         } else {
             data.configs[guild.id] = config.defaultConfig
             data.logs[guild.id] = config.defaultLogs
