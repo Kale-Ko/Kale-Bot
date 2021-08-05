@@ -1,6 +1,7 @@
 var { client, config } = require("../bot.js")
 const fs = require("fs")
-var env = require("../env.json") || {}
+var env = {}
+if (fs.existsSync("./env.json")) env = require("./env.json")
 
 const firebase = require("firebase-admin")
 const firebaseApp = firebase.initializeApp({
