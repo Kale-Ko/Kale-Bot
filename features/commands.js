@@ -45,7 +45,7 @@ module.exports = {
                                 if (paramiter.type == "role") type = 8
                                 if (paramiter.type == "double") type = 10
 
-                                options.push({ name: paramiter.name, description: paramiter.description, type, required: paramiter.optional })
+                                options.push({ name: paramiter.name, description: paramiter.description, type, required: !paramiter.optional })
                             })
 
                             if (!existingcommands.has(command.name)) client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options } })
