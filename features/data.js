@@ -1,4 +1,4 @@
-var { client, config } = require(".../bot.js")
+var { client, config } = require("../bot.js")
 const fs = require("fs")
 var env = {}
 if (fs.existsSync("./env.json")) env = require("../env.json")
