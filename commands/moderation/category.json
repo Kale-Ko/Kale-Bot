@@ -1,5 +1,5 @@
 {
     "name": "Moderation",
-    "descriptions": "General server moderation commands",
+    "description": "General server moderation commands",
     "position": 4
 }

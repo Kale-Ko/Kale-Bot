@@ -15,7 +15,7 @@ var data = {}
 module.exports = {
     name: "data",
     description: "Configurate a server with custom options and save data",
-    events: ["register", "guildCreate"],
+    events: ["register", "guildCreate", "guildDelete"],
     run: (name, guild) => {
         if (name == "preregister") {
             module.exports.downloadData(newdata => {
@@ -27,50 +27,51 @@ module.exports = {
             })
         } else if (name == "register") {
             client.guilds.cache.forEach(guild => {
-                if (data.configs[guild.id] == undefined || data.configs[guild.id] == null) data.configs[guild.id] = config.defaultConfig
-                if (data.logs[guild.id] == undefined || data.logs[guild.id] == null) data.logs[guild.id] = config.defaultLogs
-
-                fixConfig(guild)
+                module.exports.fixConfig(guild)
             })
 
             module.exports.uploadData()
-        } else {
+        } else if (name == "guildCreate") {
             data.configs[guild.id] = config.defaultConfig
             data.logs[guild.id] = config.defaultLogs
+
+            module.exports.uploadData()
+        } else {
+            delete data.configs[guild.id]
+            delete data.logs[guild.id]
 
             module.exports.uploadData()
         }
     },
     data,
     uploadData: () => { storage.file("data.json").save(JSON.stringify(data, null, 4)) },
-    downloadData: (callback) => { storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err }) }
-}
+    downloadData: (callback) => { storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err }) },
+    fixConfig: (guild) => {
+        if (data.configs[guild.id] == undefined || data.configs[guild.id] == null) data.configs[guild.id] = config.defaultConfig
+        if (data.logs[guild.id] == undefined || data.logs[guild.id] == null) data.logs[guild.id] = config.defaultLogs
 
-function fixConfig(guild) {
-    if (data.configs[guild.id] == null || data.configs[guild.id] == undefined) data.logs[guild.id] = config.defaultConfig
-    if (data.logs[guild.id] == null || data.logs[guild.id] == undefined) data.logs[guild.id] = config.defaultLogs
+        var serverconfig = data.configs[guild.id]
+        var logs = data.logs[guild.id]
 
-    var serverconfig = data.configs[guild.id]
-    var logs = data.logs[guild.id]
+        function fix(data, expected) {
+            for (var key of Object.keys(expected)) {
+                if (!JSON.stringify(expected[key]).startsWith("{")) {
+                    if (data[key] == null || data[key] == undefined) data[key] = expected[key]
+                } else {
+                    if (data[key] == null || data[key] == undefined) data[key] = expected[key]
 
-    function fix(data, expected) {
-        for (var key of Object.keys(expected)) {
-            if (!JSON.stringify(expected[key]).startsWith("{")) {
-                if (data[key] == null || data[key] == undefined) data[key] = expected[key]
-            } else {
-                if (data[key] == null || data[key] == undefined) data[key] = expected[key]
-
-                data[key] = fix(data[key], expected[key])
+                    data[key] = fix(data[key], expected[key])
+                }
             }
+
+            return data
         }
+        serverconfig = fix(serverconfig, config.defaultConfig)
+        logs = fix(logs, config.defaultLogs)
 
-        return data
+        data.configs[guild.id] = serverconfig
+        data.logs[guild.id] = logs
+
+        module.exports.uploadData()
     }
-    serverconfig = fix(serverconfig, config.defaultConfig)
-    logs = fix(logs, config.defaultLogs)
-
-    data.configs[guild.id] = serverconfig
-    data.logs[guild.id] = logs
-
-    module.exports.uploadData()
 }

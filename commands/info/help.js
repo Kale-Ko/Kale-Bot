@@ -46,7 +46,7 @@ module.exports = {
                 if (key != " ") {
                     if (JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).position != sortIndex) continue
 
-                    helpString += "\n\n**" + key.charAt(0).toUpperCase() + key.substr(1) + "**"
+                    helpString += "\n\n**" + key.charAt(0).toUpperCase() + key.substr(1) + " - " + JSON.parse(fs.readFileSync("./commands/" + key + "/category.json")).description + "**"
                 }
 
                 help[key].forEach(string => {

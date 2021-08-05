@@ -1,5 +1,5 @@
 {
     "name": "Management",
-    "descriptions": "General server management commands",
+    "description": "General server management commands",
     "position": 3
 }

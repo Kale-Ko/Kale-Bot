@@ -13,19 +13,11 @@ module.exports = {
         if (message.channel.name == "bot-commands") {
             if (!message.author.bot) {
                 if (!message.deleted) message.delete()
-            } else {
-                setTimeout(() => {
-                    if (!message.deleted) message.delete()
-                }, config.deletetimeout * 1000)
-            }
+            } else setTimeout(() => { if (!message.deleted) message.delete() }, config.deletetimeout * 1000)
         } else {
-            if (message.embeds[0] != null) { if (message.embeds[0].title == "Welcome" || message.embeds[0].title == "Poll") return }
+            if (message.embeds[0] != null) { if (message.embeds[0].title == "Poll") return }
 
-            if (message.author.id == client.user.id) {
-                setTimeout(() => {
-                    if (!message.deleted) message.delete()
-                }, config.deletetimeout * 1000)
-            }
+            if (message.author.id == client.user.id) setTimeout(() => { if (!message.deleted) message.delete() }, config.deletetimeout * 1000)
         }
     }
 }

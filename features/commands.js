@@ -2,7 +2,6 @@ const fs = require("fs")
 var { client, commands } = require("../bot.js")
 var { data } = require("./data.js")
 const { sendEmbed } = require("../util.js")
-const { paramiters } = require("../commands/moderation/mute.js")
 
 module.exports = {
     name: "commands",

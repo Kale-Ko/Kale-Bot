@@ -1,5 +1,5 @@
 {
     "name": "Info",
-    "descriptions": "General informational commands",
+    "description": "General informational commands",
     "position": 1
 }
