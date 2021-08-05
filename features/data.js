@@ -20,10 +20,12 @@ module.exports = {
             module.exports.downloadData(newdata => {
                 data = newdata
 
+                module.exports.data = data
+
                 guild()
             })
         } else if (name == "register") {
-            client.guilds.cache.forEach(guild => { fixConfig(guild) })
+            //client.guilds.cache.forEach(guild => { fixConfig(guild) })
         } else {
             data.configs[guild.id] = config.defaultConfig
             data.logs[guild.id] = config.defaultLogs
