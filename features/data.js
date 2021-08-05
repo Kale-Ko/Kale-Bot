@@ -1,4 +1,4 @@
-var { client, config } = require("../bot.js")
+var { client, config } = require(".../bot.js")
 const fs = require("fs")
 var env = {}
 if (fs.existsSync("./env.json")) env = require("../env.json")
@@ -35,7 +35,7 @@ module.exports = {
         }
     },
     data,
-    uploadData: () => { storage.file("data.json").save(JSON.stringify(require("./bot.js").data, null, 4)) },
+    uploadData: () => { storage.file("data.json").save(JSON.stringify(data, null, 4)) },
     downloadData: (callback) => { storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err }) }
 }
 
