@@ -147,6 +147,18 @@ module.exports = {
                     }
                 })
 
+                if (args.length < customCommand.paramiter) {
+                    sendEmbed(message.channel, message.author, config, "Error", "You need to provide more paramiters for this command.")
+
+                    message.contents = config.prefix + "help " + customCommand.name
+
+                    module.exports.runCommand(message, config)
+
+                    ran = true
+
+                    return
+                }
+
                 if (hasPerms) customCommand.run(message, args, client, config); else sendEmbed(message.channel, message.author, config, "Denied", "You need to have the permission " + failedPerm + " to use that command")
 
                 ran = true
