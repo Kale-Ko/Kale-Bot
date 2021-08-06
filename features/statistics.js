@@ -8,8 +8,6 @@ module.exports = {
     run: (name, event) => {
         if (event.type == "dm") return
 
-        if (!event.guild.me.hasPermission("MANAGE_CHANNELS")) return
-
         if (name == "register") {
             client.guilds.cache.forEach(guild => { module.exports.update(guild) })
         } else if (name == "guildCreate") {
@@ -26,6 +24,8 @@ module.exports = {
         }
     },
     update: (guild) => {
+        if (!guild.me.hasPermission("MANAGE_CHANNELS")) return
+
         var config = data.configs[guild.id]
 
         var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
