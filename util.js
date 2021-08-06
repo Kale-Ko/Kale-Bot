@@ -1,4 +1,5 @@
 const Discord = require("discord.js")
+const { uploadData, downloadData } = require("./features/data.js")
 
 function sendEmbed(channel, author, config, title, description, thumbnail) {
     if (config.atsender) channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
@@ -18,4 +19,4 @@ function createEmbed(title, description, thumbnail) {
     return embed
 }
 
-module.exports = { sendEmbed, createEmbed }
+module.exports = { sendEmbed, createEmbed, uploadData, downloadData }

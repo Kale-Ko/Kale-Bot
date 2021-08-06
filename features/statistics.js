@@ -8,6 +8,8 @@ module.exports = {
     run: (name, event) => {
         if (event.type == "dm") return
 
+        if (!event.guild.me.hasPermission("MANAGE_CHANNELS")) return
+
         if (name == "register") {
             client.guilds.cache.forEach(guild => { module.exports.update(guild) })
         } else if (name == "guildCreate") {
