@@ -4,7 +4,7 @@ const { sendEmbed } = require("../../util.js")
 module.exports = {
     name: "listwarns",
     description: "List all warnings",
-    paramiters: [{ type: "paramiter", name: "user", description: "The user to list for", kind: "user", optional: false }],
+    paramiters: [{ type: "paramiter", name: "user", description: "The user to list for", kind: "user", optional: true }],
     requiredPermissions: ["MANAGE_MESSAGES"],
     worksInDms: false,
     callback: (message, args, client, config) => {
