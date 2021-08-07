@@ -156,8 +156,6 @@ module.exports = {
                 })
 
                 if (args.length < neededargs.length) {
-                    sendEmbed(message.channel, message.author, config, "Error", "You need to provide more paramiters for this command.")
-
                     message.contents = config.prefix + "help " + customCommand.name
 
                     module.exports.runCommand(message, config)
