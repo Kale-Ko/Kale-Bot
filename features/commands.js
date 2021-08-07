@@ -156,7 +156,7 @@ module.exports = {
                 })
 
                 if (args.length < neededargs.length) {
-                    message.contents = config.prefix + "help " + customCommand.name
+                    message.content = config.prefix + "help " + customCommand.name
 
                     module.exports.runCommand(message, config)
 
