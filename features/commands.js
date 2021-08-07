@@ -152,13 +152,15 @@ module.exports = {
                 customCommand.paramiters.forEach(paramiter => {
                     if (paramiter.type != "paramiter") return
 
-                    if (paramiter.optional == false) neededargs.push(paramiter)
+                    if (paramiter.optional == false) neededargs.push(paramiter.name)
                 })
+
+                console.log(args, neededargs)
 
                 if (args.length < neededargs.length) {
                     message.contents = config.prefix + "help " + customCommand.name
 
-                    module.exports.runCommand(message, config)
+                    //module.exports.runCommand(message, config)
 
                     ran = true
 
