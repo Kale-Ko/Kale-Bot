@@ -4,6 +4,7 @@ if (fs.existsSync("./env.json")) env = require("./env.json")
 const Discord = require("discord.js")
 const client = new Discord.Client()
 
+var development = process.env.KALEBOTDEV
 var config = {}
 var features = []
 var commands = []
@@ -17,9 +18,14 @@ if (process.env.WEBPAGEONLY == "true" || process.env.WEBPAGEONLY == true) {
 fs.readFile("./config.json", "utf8", (err, newConfig) => {
     config = JSON.parse(newConfig)
 
-    module.exports = { client, config }
+    if (development) {
+        config.status = "for dev?help"
+        config.defaultConfig.prefix = "dev?"
+    }
 
-    require("./features/data.js").run("preregister", () => {
+    module.exports = { client, development, config }
+
+    require("./features/data.js").run("preregister", data => {
         client.on("ready", () => {
             console.log("Bot Logged in as " + client.user.tag)
 
@@ -52,6 +58,6 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
             console.log("Features > Loaded " + features.length + (features.length == 1 ? " feature." : " features."))
         }
 
-        module.exports = { client, config, features, commands }
+        module.exports = { client, development, config, features, commands }
     })
 })

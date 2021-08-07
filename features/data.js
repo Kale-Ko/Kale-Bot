@@ -1,4 +1,4 @@
-var { client, config } = require("../bot.js")
+var { client, development, config } = require("../bot.js")
 const fs = require("fs")
 var env = {}
 if (fs.existsSync("./env.json")) env = require("../env.json")
@@ -18,13 +18,21 @@ module.exports = {
     events: ["register", "guildCreate", "guildDelete"],
     run: (name, guild) => {
         if (name == "preregister") {
-            module.exports.downloadData(newdata => {
-                data = newdata
+            if (!development) {
+                module.exports.downloadData(newdata => {
+                    data = newdata
+
+                    module.exports.data = data
+
+                    guild(data)
+                })
+            } else {
+                data = { configs: {}, logs: {} }
 
                 module.exports.data = data
 
-                guild()
-            })
+                guild(data)
+            }
         } else if (name == "register") {
             client.guilds.cache.forEach(guild => {
                 module.exports.fixConfig(guild)
