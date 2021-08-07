@@ -147,7 +147,15 @@ module.exports = {
                     }
                 })
 
-                if (args.length < customCommand.paramiters.length) {
+                var neededargs = []
+
+                customCommand.paramiters.forEach(paramiter => {
+                    if (paramiter.type != "paramiter") return
+
+                    if (paramiter.optional == false) neededargs.push(paramiter)
+                })
+
+                if (args.length < neededargs.length) {
                     sendEmbed(message.channel, message.author, config, "Error", "You need to provide more paramiters for this command.")
 
                     message.contents = config.prefix + "help " + customCommand.name
