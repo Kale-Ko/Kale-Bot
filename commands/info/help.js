@@ -29,7 +29,19 @@ module.exports = {
                 if (commandParam == command.name) {
                     help[" "] = []
 
-                    var paramiters = null
+                    var paramiters = ""
+
+                    command.paramiters.forEach(paramiter => {
+                        if (paramiter.type == "paramiter") {
+                            paramiters += " {" + paramiter.name + (paramiter.optional ? " (optional)" : "") + "}"
+                        } else if (paramiter.type == "subcommands") {
+                            var commands = ""
+
+                            paramiter.commands.forEach(subCommand => { commands += (commands == "" ? subCommand.name : ", " + subCommand.name) })
+
+                            paramiters += " (" + commands + ")"
+                        }
+                    })
 
                     help[" "].push("\n**Name:** " + command.name.charAt(0).toUpperCase() + command.name.substr(1) + "\n**Description:** " + command.description + "\n**Usage:** " + config.prefix + command.name + (paramiters != null ? " " + paramiters : "") + "\n**Works In Dms:** " + command.worksInDms + "\n**Required Permissions:** " + (command.requiredPermissions == "" ? "None" : command.requiredPermissions))
                 }
