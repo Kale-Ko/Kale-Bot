@@ -19,8 +19,8 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
     config = JSON.parse(newConfig)
 
     if (development) {
-        config.status = "for &help"
-        config.defaultConfig.prefix = "&"
+        config.status = "for !help"
+        config.defaultConfig.prefix = "!"
     }
 
     module.exports = { client, development, config }

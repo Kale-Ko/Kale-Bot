@@ -52,7 +52,7 @@ module.exports = {
         }
     },
     data,
-    uploadData: () => { storage.file("data.json").save(JSON.stringify(data, null, 4)) },
+    uploadData: () => { if (!development) storage.file("data.json").save(JSON.stringify(data, null, 4)) },
     downloadData: (callback) => { storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err }) },
     fixConfig: (guild) => {
         if (data.configs[guild.id] == undefined || data.configs[guild.id] == null) data.configs[guild.id] = config.defaultConfig
