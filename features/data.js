@@ -41,6 +41,7 @@ module.exports = {
             module.exports.uploadData()
         } else if (name == "guildCreate") {
             data.configs[guild.id] = config.defaultConfig
+            data.configs[guild.id].name = guild.name
             data.logs[guild.id] = config.defaultLogs
 
             module.exports.uploadData()

@@ -2,6 +2,7 @@
     "statusType": "WATCHING",
     "status": "for ?help",
     "defaultConfig": {
+        "name": "(Private)",
         "prefix": "?",
         "deletetimeout": 8,
         "atsender": true,
