@@ -35,6 +35,8 @@ module.exports = {
             }
         } else if (name == "register") {
             client.guilds.cache.forEach(guild => {
+                data.configs[guild.id].name = guild.name
+
                 module.exports.fixConfig(guild)
             })
 
