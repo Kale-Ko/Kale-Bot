@@ -3,15 +3,12 @@ const fs = require("fs")
 var env = {}
 if (fs.existsSync("./env.json")) env = require("../env.json")
 
-const firebase = require("firebase/app").default
-const firebaseApp = firebase.initializeApp((process.env.KALEBOTFIREBASECONFIG || JSON.stringify(env.KALEBOTFIREBASECONFIG)).startsWith("{") ? JSON.parse(process.env.KALEBOTFIREBASECONFIG || JSON.stringify(env.KALEBOTFIREBASECONFIG)) : JSON.parse(fs.readFileSync(process.env.KALEBOTFIREBASECONFIG)))
 const firebaseAdmin = require("firebase-admin")
-const firebaseAdminApp = firebaseAdmin.initializeApp({
+const firebaseApp = firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert((process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)).startsWith("{") ? JSON.parse(process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)) : JSON.parse(fs.readFileSync(process.env.KALEBOTFIREBASECERT))),
     databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
 })
-const storage = firebaseAdmin.storage(firebaseAdminApp).bucket("gs://kale-bot-discord.appspot.com")
-const performance = firebase.performance()
+const storage = firebaseAdmin.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
 
 var data = {}
 
