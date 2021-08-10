@@ -4,7 +4,7 @@ if (fs.existsSync("./env.json")) env = require("./env.json")
 const Discord = require("discord.js")
 const client = new Discord.Client()
 
-var development = process.env.KALEBOTDEV
+var development = process.env.KALEBOTDEV || env.DEV
 var config = {}
 var features = []
 var commands = []
