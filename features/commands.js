@@ -2,6 +2,7 @@ const fs = require("fs")
 var { client, commands } = require("../bot.js")
 var { data } = require("./data.js")
 const { sendEmbed } = require("../util.js")
+const { Parser } = require("discord.js-command-parser")
 
 module.exports = {
     name: "commands",
@@ -88,55 +89,15 @@ module.exports = {
         }
     },
     runCommand: (message, config) => {
-        var command = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
-        var args = message.content.toLowerCase().split(" "); args.shift()
+        var command = new Parser(config.prefix, { lowerCaseCommand: true, lowerCaseArgs: true, searchForQuotes: true }).parse(message)
 
         var index = 0
-
-        args.forEach(arg => {
-            if (arg.startsWith('"')) {
-                var end = -1
-
-                args.forEach(arg2 => {
-                    var index2 = args.indexOf(arg2)
-
-                    if (arg2.includes('"')) end = index2
-                })
-
-                if (end != -1) {
-                    var string = ""
-                    var index3 = 0
-
-                    args.forEach(arg3 => {
-                        if (index3 >= index && index3 <= end) {
-                            string += arg3 + " "
-
-                            delete args[index3]
-                        }
-
-                        index3++
-                    })
-
-                    var index4 = 0
-
-                    string.split('" "').forEach(string => {
-                        args[index + index4] = string.replace(/"/ig, "")
-
-                        index4++
-                    })
-                } else {
-                    sendEmbed(message.channel, message.author, config, "Error", "Error parsing command")
-                }
-            }
-
-            index++
-        })
 
         var ran = false
         commands.forEach(customCommand => {
             if (!customCommand.worksInDms && message.channel.type == "dm") return
 
-            if (customCommand.name == command) {
+            if (customCommand.name == command.name) {
                 var hasPerms = true
                 var failedPerm = ""
 
@@ -155,7 +116,7 @@ module.exports = {
                     if (paramiter.optional == false) neededargs.push(paramiter.name)
                 })
 
-                if (args.length < neededargs.length) {
+                if (command.args.length < neededargs.length) {
                     message.content = config.prefix + "help " + customCommand.name
 
                     module.exports.runCommand(message, config)
@@ -165,7 +126,7 @@ module.exports = {
                     return
                 }
 
-                if (hasPerms) customCommand.run(message, args, client, config); else sendEmbed(message.channel, message.author, config, "Denied", "You need to have the permission " + failedPerm + " to use that command")
+                if (hasPerms) customCommand.run(message, command.args, client, config); else sendEmbed(message.channel, message.author, config, "Denied", "You need to have the permission " + failedPerm + " to use that command")
 
                 ran = true
             }

@@ -2,13 +2,18 @@ var { client, development, config } = require("../bot.js")
 const fs = require("fs")
 var env = {}
 if (fs.existsSync("./env.json")) env = require("../env.json")
-
 const firebaseAdmin = require("firebase-admin")
-const firebaseApp = firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert((process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)).startsWith("{") ? JSON.parse(process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)) : JSON.parse(fs.readFileSync(process.env.KALEBOTFIREBASECERT))),
-    databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
-})
-const storage = firebaseAdmin.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
+var firebaseApp
+var storage
+
+if (!development) {
+    firebaseApp = firebaseAdmin.initializeApp({
+        credential: firebaseAdmin.credential.cert((process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)).startsWith("{") ? JSON.parse(process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)) : JSON.parse(fs.readFileSync(process.env.KALEBOTFIREBASECERT))),
+        databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
+    })
+
+    storage = firebaseAdmin.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
+}
 
 var data = {}
 
