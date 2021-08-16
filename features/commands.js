@@ -88,8 +88,7 @@ module.exports = {
         }
     },
     runCommand: (message, config) => {
-        var name = message.content.split(" ")[0].replace(this.prefix, "")
-        if (this.lowerCaseCommand) command = command.toLowerCase()
+        var name = message.content.toLowerCase().split(" ")[0].replace(this.prefix, "")
         var args = message.content.toLowerCase().split(" "); args.shift()
 
         var index = 0
