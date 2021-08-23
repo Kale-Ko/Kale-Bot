@@ -1,6 +1,5 @@
 const { sendEmbed } = require("../../util.js")
 const { data, uploadData } = require("../../features/data.js")
-const { runCommand } = require("../../features/commands.js")
 
 module.exports = {
     name: "setconfig",
@@ -9,6 +8,12 @@ module.exports = {
     requiredPermissions: ["MANAGE_SERVER"],
     worksInDms: false,
     callback: (message, args, client, config) => {
+        if (!require("../../bot.js").config.allowedConfig.includes(args[0].split(".")[0])) {
+            sendEmbed(message.channel, message.author, config, "Config", "That is not a valid config value")
+
+            return
+        }
+
         var value = args[1]
         if (value == "true") value = true
         if (value == "false") value = false
@@ -18,6 +23,7 @@ module.exports = {
         data.configs[message.guild.id] = config
 
         uploadData()
+
 
         sendEmbed(message.channel, message.author, config, "Config", "Successfully set " + args[0] + " to " + args[1])
 

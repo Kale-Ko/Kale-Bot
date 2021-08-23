@@ -6,6 +6,7 @@ const client = new Discord.Client()
 
 var development = process.env.KALEBOTDEV || env.DEV
 var config = {}
+var stats = { commands: 0 }
 var features = []
 var commands = []
 
@@ -23,7 +24,7 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
         config.defaultConfig.prefix = "!"
     }
 
-    module.exports = { client, development, config }
+    module.exports = { client, development, config, stats }
 
     require("./features/data.js").run("preregister", data => {
         client.on("ready", () => {
@@ -58,6 +59,6 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
             console.log("Features > Loaded " + features.length + (features.length == 1 ? " feature." : " features."))
         }
 
-        module.exports = { client, development, config, features, commands }
+        module.exports = { client, development, config, stats, features, commands }
     })
 })

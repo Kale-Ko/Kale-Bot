@@ -1,5 +1,5 @@
 const fs = require("fs")
-var { client, commands } = require("../bot.js")
+var { client, commands, stats } = require("../bot.js")
 var { data } = require("./data.js")
 const { sendEmbed } = require("../util.js")
 
@@ -176,6 +176,10 @@ module.exports = {
         if (!ran) {
             if (message.channel.type != "dm") sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
             else sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command or you cant use that command in dms, use " + config.prefix + "help for a list of commands")
+        } else {
+            stats.commands++
+
+            setTimeout(() => { stats.commands-- }, 60000)
         }
     }
 }

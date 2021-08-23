@@ -1,7 +1,7 @@
 const { sendEmbed } = require("../../util.js")
 
 module.exports = {
-    name: "config",
+    name: "getconfig",
     description: "Get config values",
     paramiters: [],
     requiredPermissions: [],
@@ -11,6 +11,8 @@ module.exports = {
 
         function decode(parent, indent) {
             for (var key of Object.keys(parent)) {
+                if (!require("../../bot.js").config.allowedConfig.includes(key.split(".")[0]) && parent == config) continue
+
                 if (parent[key] == "[object Object]") { helpText += indent + key + ":\n"; decode(parent[key], indent + "  "); continue }
 
                 helpText += indent + key + " - " + parent[key] + "\n"

@@ -1,6 +1,12 @@
 {
     "statusType": "WATCHING",
     "status": "for ?help",
+    "allowedConfig": [
+        "prefix",
+        "deletetimeout",
+        "atsender",
+        "stats"
+    ],
     "defaultConfig": {
         "name": "(Private)",
         "prefix": "?",
@@ -11,7 +17,8 @@
             "channels": true,
             "roles": true,
             "boosts": true
-        }
+        },
+        "reactions": []
     },
     "defaultLogs": {
         "bans": {},
