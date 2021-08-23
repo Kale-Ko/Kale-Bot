@@ -30,6 +30,10 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
         client.on("ready", () => {
             console.log("Bot Logged in as " + client.user.tag)
 
+            client.guilds.cache.forEach(guild => {
+                if (guild.name.includes("bot")) console.log(guild.name)
+            })
+
             registerFeatures()
         })
 
