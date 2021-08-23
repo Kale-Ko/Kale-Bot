@@ -12,17 +12,6 @@ module.exports = {
 
         client.guilds.cache.forEach(guild => { peopleCount += guild.memberCount })
 
-
-        client.guilds.cache.forEach(guild => {
-            console.log(guild.name)
-
-            if (guild.name.includes("Bot")) {
-                console.log("left")
-
-                guild.leave()
-            }
-        })
-
         sendEmbed(message.channel, message.author, config, "Bot Info", "The bot is currently in " + client.guilds.cache.size + " different servers reaching " + peopleCount + " people\n" + stats.commands + " commands have been run in the past minute")
     }
 }
