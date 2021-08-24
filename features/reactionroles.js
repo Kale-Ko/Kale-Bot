@@ -5,13 +5,15 @@ module.exports = {
     name: "reactionroles",
     description: "Give users roles when they react to a message",
     events: ["register", "messageReactionAdd", "messageReactionRemove"],
-    run: (name, reaction) => {
+    run: (name, reaction, user) => {
         if (name == "messageReactionAdd") {
             if (reaction.me) return
 
             data.configs[reaction.message.guild.id].reactions.forEach(reactiondata => {
                 if (reaction.emoji.name == reactiondata.emoji && reaction.message.channel.id == reactiondata.channel && reaction.message.id == reactiondata.message) {
-                    console.log("Give role")
+                    user = reaction.message.guild.members.cache.get(user.id)
+
+                    user.roles.add(reaction.message.guild.roles.cache.get(reactiondata.role), "Reaction Roles")
                 }
             })
         } else if (name == "messageReactionRemove") {
@@ -19,7 +21,9 @@ module.exports = {
 
             data.configs[reaction.message.guild.id].reactions.forEach(reactiondata => {
                 if (reaction.emoji.name == reactiondata.emoji && reaction.message.channel.id == reactiondata.channel && reaction.message.id == reactiondata.message) {
-                    console.log("Remove role")
+                    user = reaction.message.guild.members.cache.get(user.id)
+
+                    user.roles.remove(reaction.message.guild.roles.cache.get(reactiondata.role), "Reaction Roles")
                 }
             })
         } else {

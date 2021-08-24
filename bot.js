@@ -47,10 +47,10 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
 
                 feature.events.forEach(event => {
                     if (event == "register") {
-                        feature.run(event, "")
+                        feature.run(event, "", "")
                     } else {
-                        client.on(event, data => {
-                            feature.run(event, data)
+                        client.on(event, (data, extradata) => {
+                            feature.run(event, data, extradata)
                         })
                     }
                 })
