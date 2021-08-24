@@ -12,7 +12,17 @@ module.exports = {
 
         var fetched = await message.channel.messages.fetch({ limit: amount })
 
-        message.channel.bulkDelete(fetched)
+        message.channel.bulkDelete(fetched).catch(() => {
+            if (args[1] != "force") {
+                sendEmbed(message.channel, message.author, config, "Error", "Could not clear the messages, try " + config.prefix + "clear 50 force")
+
+                return
+            }
+
+            fetched.forEach(message => {
+                message.delete()
+            })
+        })
 
         sendEmbed(message.channel, message.author, config, "Cleared", "Cleared the last " + amount + " messages")
     }
