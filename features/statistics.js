@@ -41,28 +41,28 @@ module.exports = {
                 if (membersstat == null) {
                     guild.channels.create("Members: " + guild.memberCount, { type: "voice", parent: statsCategory.id })
                 } else {
-                    membersstat.name = "Members: " + guild.memberCount
+                    membersstat.setName("Members: " + guild.memberCount)
                 }
             }
             if (config.stats.channels) {
                 if (channelsstat == null) {
                     guild.channels.create("Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size, { type: "voice", parent: statsCategory.id })
                 } else {
-                    channelsstat.name = "Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size
+                    channelsstat.setName("Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size)
                 }
             }
             if (config.stats.roles) {
                 if (rolesstat == null) {
                     guild.channels.create("Roles: " + guild.roles.cache.filter(role => true).size, { type: "voice", parent: statsCategory.id })
                 } else {
-                    rolesstat.name = "Roles: " + guild.roles.cache.filter(role => true).size
+                    rolesstat.setName("Roles: " + guild.roles.cache.filter(role => true).size)
                 }
             }
             if (config.stats.boosts) {
                 if (boostsstat == null) {
                     guild.channels.create("Boosts: " + guild.premiumSubscriptionCount, { type: "voice", parent: statsCategory.id })
                 } else {
-                    boostsstat.name = "Boosts: " + guild.premiumSubscriptionCount
+                    boostsstat.setName("Boosts: " + guild.premiumSubscriptionCount)
                 }
             }
         } else if (statsCategory != null) {
