@@ -23,21 +23,13 @@ module.exports = {
     events: ["register", "guildCreate", "guildDelete"],
     run: (name, guild) => {
         if (name == "preregister") {
-            if (!development) {
-                module.exports.downloadData(newdata => {
-                    data = newdata
-
-                    module.exports.data = data
-
-                    guild(data)
-                })
-            } else {
-                data = { configs: {}, logs: {} }
+            module.exports.downloadData(newdata => {
+                data = newdata
 
                 module.exports.data = data
 
                 guild(data)
-            }
+            })
         } else if (name == "register") {
             client.guilds.cache.forEach(guild => {
                 module.exports.fixConfig(guild)
@@ -60,14 +52,14 @@ module.exports = {
         if (!development) {
             storage.file("data.json").save(JSON.stringify(data, null, 4))
         } else {
-            fs.writeFileSync("data.json", JSON.stringify(data, null, 4))
+            fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
         }
     },
     downloadData: (callback) => {
         if (!development) {
             storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err })
         } else {
-            callback(JSON.parse(fs.readFileSync("data.json")))
+            callback(JSON.parse(fs.readFileSync("./data.json")))
         }
     },
     fixConfig: (guild) => {

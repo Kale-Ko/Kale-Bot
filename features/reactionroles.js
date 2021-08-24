@@ -10,7 +10,7 @@ module.exports = {
             if (reaction.me) return
 
             data.configs[reaction.message.guild.id].reactions.forEach(reactiondata => {
-                if (reaction.message.channel.id == reactiondata.channel && reaction.message.id == reactiondata.message) {
+                if (reaction.emoji.name == reactiondata.emoji && reaction.message.channel.id == reactiondata.channel && reaction.message.id == reactiondata.message) {
                     console.log("Give role")
                 }
             })
@@ -18,14 +18,13 @@ module.exports = {
             if (reaction.me) return
 
             data.configs[reaction.message.guild.id].reactions.forEach(reactiondata => {
-                if (reaction.message.channel.id == reactiondata.channel && reaction.message.id == reactiondata.message) {
+                if (reaction.emoji.name == reactiondata.emoji && reaction.message.channel.id == reactiondata.channel && reaction.message.id == reactiondata.message) {
                     console.log("Remove role")
                 }
             })
         } else {
             client.guilds.cache.forEach(guild => {
                 data.configs[guild.id].reactions.forEach(reaction => {
-                    console.log(reaction)
                     guild.channels.cache.get(reaction.channel).messages.fetch(reaction.message)
                 })
             })
