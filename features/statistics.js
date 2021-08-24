@@ -13,7 +13,7 @@ module.exports = {
         } else if (name == "guildCreate") {
             module.exports.update(event)
         } else if (name == "channelCreate" || name == "channelDelete" || name == "guildMemberAdd" || name == "guildMemberRemove" || name == "roleCreate" || name == "roleDelete") {
-            if (name == "channelCreate" || name == "channelDelete") { if (event.name != "Stats" && event.parent != event.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0).id) module.exports.update(event.guild) } else module.exports.update(event.guild)
+            if (name == "channelCreate" || name == "channelDelete") { if (event.name != "Stats" && event.parent != event.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats").id) module.exports.update(event.guild) } else module.exports.update(event.guild)
         } else if (name == "guildMemberUpdate") {
             var max = new Date()
             max.setMinutes(max.getMinutes() + 1)
@@ -28,25 +28,47 @@ module.exports = {
 
         var config = data.configs[guild.id]
 
-        var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
-
+        var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats")
         if (statsCategory == null) guild.channels.create("Stats", { type: "category", position: 0, permissionOverwrites: [{ id: guild.roles.cache.find(role => role.name === '@everyone').id, deny: ["CONNECT"] }] })
 
-        if (statsCategory == null) return
+        var membersstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Members: "))
+        var channelsstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Channels: "))
+        var rolesstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Roles: "))
+        var boostsstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Boosts: "))
 
-        statsCategory.children.forEach(channel => channel.delete())
+        if (config.stats.members || config.stats.channels || config.stats.roles || config.stats.boosts) {
+            if (config.stats.members) {
+                if (membersstat == null) {
+                    guild.channels.create("Members: " + guild.memberCount, { type: "voice", parent: statsCategory.id })
+                } else {
+                    membersstat.name = "Members: " + guild.memberCount
+                }
+            }
+            if (config.stats.channels) {
+                if (channelsstat == null) {
+                    guild.channels.create("Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size, { type: "voice", parent: statsCategory.id })
+                } else {
+                    channelsstat.name = "Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size
+                }
+            }
+            if (config.stats.roles) {
+                if (rolesstat == null) {
+                    guild.channels.create("Roles: " + guild.roles.cache.filter(role => true).size, { type: "voice", parent: statsCategory.id })
+                } else {
+                    rolesstat.name = "Roles: " + guild.roles.cache.filter(role => true).size
+                }
+            }
+            if (config.stats.boosts) {
+                if (boostsstat == null) {
+                    guild.channels.create("Boosts: " + guild.premiumSubscriptionCount, { type: "voice", parent: statsCategory.id })
+                } else {
+                    boostsstat.name = "Boosts: " + guild.premiumSubscriptionCount
+                }
+            }
+        } else if (statsCategory != null) {
+            statsCategory.children.forEach(channel => { channel.delete() })
 
-        if (config.stats.members) guild.channels.create("Members: " + guild.memberCount, { type: "voice", parent: statsCategory.id })
-        if (config.stats.channels) guild.channels.create("Channels: " + guild.channels.cache.filter(channel => channel.parent != statsCategory.id).size, { type: "voice", parent: statsCategory.id })
-        if (config.stats.roles) guild.channels.create("Roles: " + guild.roles.cache.filter(role => true).size, { type: "voice", parent: statsCategory.id })
-        if (config.stats.boosts) guild.channels.create("Boosts: " + guild.premiumSubscriptionCount, { type: "voice", parent: statsCategory.id })
-
-        /*var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats" && channel.position == 0)
-        
-        if (statsCategory != null) {
-            statsCategory.children.forEach(channel => channel.delete())
-        
             statsCategory.delete()
-        }*/
+        }
     }
 }
