@@ -167,6 +167,8 @@ module.exports = {
                     return
                 }
 
+                if (config.features[JSON.parse(fs.readFileSync("./commands/" + customCommand.category + "/category.json")).feature] == false) return
+
                 if (hasPerms) customCommand.run(message, command.args, client, config); else sendEmbed(message.channel, message.author, config, "Denied", "You need to have the permission " + failedPerm + " to use that command")
 
                 ran = true

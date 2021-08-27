@@ -3,6 +3,7 @@ var numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣",
 module.exports = {
     name: "poll",
     description: "Add reactions to polls",
+    feature: "fun",
     events: ["message"],
     run: (name, message) => {
         if (message.embeds[0] != null) {

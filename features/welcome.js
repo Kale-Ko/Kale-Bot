@@ -1,8 +1,9 @@
 const { sendEmbed } = require("../util.js")
 
 module.exports = {
-    name: "welcomemessage",
+    name: "welcome",
     description: "Send join and leave messages",
+    feature: "welcome",
     events: ["guildMemberAdd", "guildMemberRemove"],
     run: (name, user) => {
         if (name == "guildMemberAdd") {

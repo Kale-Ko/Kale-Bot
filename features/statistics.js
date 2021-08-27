@@ -4,6 +4,7 @@ var { data } = require("./data.js")
 module.exports = {
     name: "statistics",
     description: "Puts statistics at the top of your server",
+    feature: "stats",
     events: ["register", "guildCreate", "channelCreate", "channelDelete", "guildMemberAdd", "guildMemberRemove", "guildMemberUpdate", "roleCreate", "roleDelete"],
     run: (name, event) => {
         if (event.type == "dm") return
