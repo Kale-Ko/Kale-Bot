@@ -84,12 +84,16 @@ module.exports = {
         } else {
             if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
-            if (!message.author.bot && message.content.startsWith(config.prefix)) module.exports.runCommand(message, config)
+            if (!message.author.bot && (message.content.startsWith(config.prefix) || message.content.startsWith("<@" + client.user.id + ">") || message.content.startsWith("<@!" + client.user.id + ">"))) module.exports.runCommand(message, config)
         }
     },
     runCommand: (message, config) => {
-        var name = message.content.toLowerCase().split(" ")[0].replace(config.prefix, "")
-        var args = message.content.toLowerCase().split(" "); args.shift()
+        var data = (message.content.toLowerCase().startsWith("<@") ? message.content.toLowerCase().replace("<@" + client.user.id + "> ", "").replace("<@!" + client.user.id + "> ", "").replace("<@" + client.user.id + ">", "").replace("<@!" + client.user.id + ">", "") : message.content.toLowerCase().replace(config.prefix, ""))
+
+        var name = data.split(" ")[0]
+        var args = data.split(" "); args.shift()
+
+        console.log(name, args)
 
         var index = 0
 
