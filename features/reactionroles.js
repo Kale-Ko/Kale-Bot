@@ -4,6 +4,7 @@ var { data } = require("./data.js")
 module.exports = {
     name: "reactionroles",
     description: "Give users roles when they react to a message",
+    feature: "reactions",
     events: ["register", "messageReactionAdd", "messageReactionRemove"],
     run: (name, reaction, user) => {
         if (name == "messageReactionAdd") {

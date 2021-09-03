@@ -5,18 +5,25 @@
         "prefix",
         "deletetimeout",
         "atsender",
-        "stats"
+        "stats",
+        "features"
     ],
     "defaultConfig": {
         "name": "(Private)",
         "prefix": "?",
-        "deletetimeout": 8,
         "atsender": true,
         "stats": {
             "members": true,
             "channels": true,
             "roles": true,
             "boosts": true
+        },
+        "features": {
+            "moderation": true,
+            "reactions": true,
+            "fun": true,
+            "welcome": true,
+            "stats": true
         },
         "reactions": []
     },

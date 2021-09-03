@@ -43,16 +43,11 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
 
                 const feature = require("./features/" + file)
 
-                features.push({ name: feature.name, description: feature.description, events: feature.events, run: feature.run })
+                features.push(feature)
 
                 feature.events.forEach(event => {
-                    if (event == "register") {
-                        feature.run(event, "", "")
-                    } else {
-                        client.on(event, (data, extradata) => {
-                            feature.run(event, data, extradata)
-                        })
-                    }
+                    if (event == "register") feature.run(event, "", "")
+                    else client.on(event, (data, extradata) => { feature.run(event, data, extradata) })
                 })
             })
 

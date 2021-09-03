@@ -31,9 +31,7 @@ module.exports = {
                 guild(data)
             })
         } else if (name == "register") {
-            client.guilds.cache.forEach(guild => {
-                module.exports.fixConfig(guild)
-            })
+            client.guilds.cache.forEach(guild => { module.exports.fixConfig(guild) })
 
             module.exports.uploadData()
         } else if (name == "guildCreate") {

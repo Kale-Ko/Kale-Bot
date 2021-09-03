@@ -8,19 +8,21 @@ module.exports = {
     events: ["register"],
     run: (name, event) => {
         server.get("*", (req, res) => {
-            var file = "./features/webpage/" + req.path.replace("/", "").replace(new RegExp("../", "g"))
+            var file = "./features/webpage/" + req.path.replace("/", "").replace(new RegExp("../", "g"), "")
             if (!req.path.includes(".")) file += ".html"
 
             fs.stat(file, (err, stats) => {
                 if (err) {
-                    res.statusCode = 404; res.statusMessage = "Not Found"
+                    res.statusCode = 404
+                    res.statusMessage = "Not Found"
 
                     res.end("404 Not Found")
 
                     return
                 }
 
-                res.statusCode = 200; res.statusMessage = "Ok"
+                res.statusCode = 200
+                res.statusMessage = "Ok"
 
                 res.end(fs.readFileSync(file))
             })

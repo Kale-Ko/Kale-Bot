@@ -1,5 +1,6 @@
 {
     "name": "Fun",
     "description": "General fun commands",
+    "feature": "fun",
     "position": 2
 }

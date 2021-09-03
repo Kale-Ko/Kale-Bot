@@ -3,13 +3,14 @@ var numbers = ["1️⃣", "2️⃣", "3️⃣", "4️⃣", "5️⃣", "6️⃣",
 module.exports = {
     name: "poll",
     description: "Add reactions to polls",
+    feature: "fun",
     events: ["message"],
     run: (name, message) => {
         if (message.embeds[0] != null) {
             if (message.embeds[0].title == "Poll") {
                 var args = message.content.toLowerCase().split(" "); args.shift()
 
-                for (var index = 0; index < (parseInt(message.embeds[0].description.split("\n").pop().split(".")[0]) + 1); index++) if (!message.deleted) message.react(numbers[index])
+                for (var index = 0; index < (parseInt(message.embeds[0].description.split("\n").pop().split(".")[0])); index++) if (!message.deleted) message.react(numbers[index])
             }
         }
     }

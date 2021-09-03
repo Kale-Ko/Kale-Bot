@@ -1,5 +1,6 @@
 {
     "name": "Reaction Roles",
     "description": "Reaction role commands",
+    "feature": "reactions",
     "position": 3
 }
