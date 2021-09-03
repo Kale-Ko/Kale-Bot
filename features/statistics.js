@@ -29,7 +29,10 @@ module.exports = {
         var config = data.configs[guild.id]
 
         var statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats")
-        if (statsCategory == null) guild.channels.create("Stats", { type: "category", position: 0, permissionOverwrites: [{ id: guild.roles.cache.find(role => role.name === '@everyone').id, deny: ["CONNECT"] }] })
+        if (statsCategory == null) {
+            guild.channels.create("Stats", { type: "category", position: 0, permissionOverwrites: [{ id: guild.roles.cache.find(role => role.name === '@everyone').id, deny: ["CONNECT"] }] })
+            statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats")
+        }
 
         var membersstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Members: "))
         var channelsstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Channels: "))
