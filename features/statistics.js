@@ -34,6 +34,8 @@ module.exports = {
             guild.channels.create("Stats", { type: "category", position: 0, permissionOverwrites: [{ id: guild.roles.cache.find(role => role.name === '@everyone').id, deny: ["CONNECT"] }] })
             statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats")
         }
+        
+        if (statsCategory == null) return
 
         var membersstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Members: "))
         var channelsstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Channels: "))
