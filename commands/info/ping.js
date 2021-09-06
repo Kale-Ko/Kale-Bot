@@ -7,6 +7,6 @@ module.exports = {
     requiredPermissions: [],
     worksInDms: true,
     callback: (message, args, client, config) => {
-        sendEmbed(message.channel, message.author, config, "Pong!", "")
+        sendEmbed(message.channel, message.author, config, "Pong!", "Bot ping " + client.ws.ping + "ms")
     }
 }

@@ -93,8 +93,6 @@ module.exports = {
         var name = data.split(" ")[0]
         var args = data.split(" "); args.shift()
 
-        console.log(name, args)
-
         var index = 0
 
         args.forEach(arg => {
