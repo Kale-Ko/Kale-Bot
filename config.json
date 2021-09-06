@@ -12,6 +12,7 @@
         "name": "(Private)",
         "prefix": "?",
         "atsender": true,
+        "welcomeBots": false,
         "stats": {
             "members": true,
             "channels": true,
