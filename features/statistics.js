@@ -14,7 +14,9 @@ module.exports = {
         } else if (name == "guildCreate") {
             module.exports.update(event)
         } else if (name == "channelCreate" || name == "channelDelete" || name == "guildMemberAdd" || name == "guildMemberRemove" || name == "roleCreate" || name == "roleDelete") {
-            if (name == "channelCreate" || name == "channelDelete") { if (event.name != "Stats" && event.parent != event.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats").id) module.exports.update(event.guild) } else module.exports.update(event.guild)
+            var statsCategory = event.guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats") || {}
+
+            if (name == "channelCreate" || name == "channelDelete") { if (event.name != "Stats" && event.parent != statsCategory.id) module.exports.update(event.guild) } else module.exports.update(event.guild)
         } else if (name == "guildMemberUpdate") {
             var max = new Date()
             max.setMinutes(max.getMinutes() + 1)
@@ -34,7 +36,7 @@ module.exports = {
             guild.channels.create("Stats", { type: "category", position: 0, permissionOverwrites: [{ id: guild.roles.cache.find(role => role.name === '@everyone').id, deny: ["CONNECT"] }] })
             statsCategory = guild.channels.cache.find(channel => channel.type == "category" && channel.name == "Stats")
         }
-        
+
         if (statsCategory == null) return
 
         var membersstat = guild.channels.cache.find(channel => channel.type == "voice" && channel.name.startsWith("Members: "))
