@@ -9,7 +9,7 @@ var storage
 if (!development) {
     firebaseApp = firebaseAdmin.initializeApp({
         credential: firebaseAdmin.credential.cert((process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)).startsWith("{") ? JSON.parse(process.env.KALEBOTFIREBASECERT || JSON.stringify(env.KALEBOTFIREBASECERT)) : JSON.parse(fs.readFileSync(process.env.KALEBOTFIREBASECERT))),
-        databaseURL: "https://kale-bot-discord-default-rtdb.firebaseio.com"
+        databaseURL: process.env.KALEBOTFIREBASEDATABASE
     })
 
     storage = firebaseAdmin.storage(firebaseApp).bucket("gs://kale-bot-discord.appspot.com")
