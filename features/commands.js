@@ -12,7 +12,7 @@ module.exports = {
             var existingcommands = new Map()
             var reggisteredcommands = []
 
-            client.api.applications(client.user.id).commands.get().then(res => {
+            client.application.commands.fetch().then(res => {
                 res.forEach(command => { existingcommands.set(command.name, command.id) })
 
                 var categorylist = fs.readdirSync("./commands")
@@ -47,14 +47,13 @@ module.exports = {
                                 options.push({ name: paramiter.name, description: paramiter.description, type, required: !paramiter.optional })
                             })
 
-                            if (!existingcommands.has(command.name)) client.api.applications(client.user.id).commands.post({ data: { name: command.name, description: command.description, options } })
-                            else client.api.applications(client.user.id).commands(existingcommands.get(command.name)).patch({ data: { name: command.name, description: command.description, options } })
+                            if (!existingcommands.has(command.name)) client.application.commands.create({ name: command.name, description: command.description, options })
+                            client.application.commands.edit(existingcommands.get(command.name), { name: command.name, description: command.description, options })
                         }
                     })
                 })
 
-                client.api.applications(client.user.id).commands.get().then(res => { res.forEach(command => { if (!reggisteredcommands.includes(command.name)) client.api.applications(client.user.id).commands(command.id).delete() }) })
-                // client.guilds.cache.forEach(guild => { client.api.applications(client.user.id).guilds(guild.id).commands.get().then(res => { res.forEach(command => { client.api.applications(client.user.id).guilds(guild.id).commands(command.id).delete() }) }) })
+                client.application.commands.fetch().then(res => { res.forEach(command => { if (!reggisteredcommands.includes(command.name)) client.api.applications(client.user.id).commands(command.id).delete() }) })
 
                 client.ws.on("INTERACTION_CREATE", interaction => {
                     var command = interaction.data.name.toLowerCase()
@@ -63,7 +62,7 @@ module.exports = {
 
                     options.forEach(option => { args.push(option.value) })
 
-                    var message = {} //{ author: interaction.member, guild: client.guilds.cache.get(interaction.guild_id), channel: message.guild.channels.cache.get(interaction.channel_id) }
+                    var message = {}
                     message.author = interaction.member.user
                     message.guild = client.guilds.cache.get(interaction.guild_id)
                     message.channel = message.guild.channels.cache.get(interaction.channel_id)
@@ -76,7 +75,7 @@ module.exports = {
 
                     module.exports.runCommand(message, config)
 
-                    client.fetchApplication().then(application => { client.api.webhooks(application.id, interaction.token).messages["@original"].patch({ data: { content: "Ran!" } }) })
+                    client.api.webhooks(client.application.id, interaction.token).messages["@original"].patch({ data: { content: "Ran!" } })
                 })
 
                 console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))

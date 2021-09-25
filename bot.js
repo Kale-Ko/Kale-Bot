@@ -2,7 +2,7 @@ const fs = require("fs")
 var env = {}
 if (fs.existsSync("./env.json")) env = require("./env.json")
 const Discord = require("discord.js")
-const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "GUILD_MEMBERS", "GUILD_BANS", "DIRECT_MESSAGES"] })
+const client = new Discord.Client({ intents: ["GUILDS", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS", "GUILD_MEMBERS", "GUILD_INTEGRATIONS", "GUILD_WEBHOOKS", "GUILD_BANS", "DIRECT_MESSAGES"] })
 
 var development = process.env.KALEBOTDEV || process.env.DEV || env.DEV
 var config = {}
