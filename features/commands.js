@@ -6,7 +6,7 @@ const { sendEmbed } = require("../util.js")
 module.exports = {
     name: "commands",
     description: "Adds commands to your server",
-    events: ["register", "message"],
+    events: ["register", "messageCreate"],
     run: (name, message) => {
         if (name == "register") {
             var existingcommands = new Map()
@@ -68,7 +68,7 @@ module.exports = {
                     message.guild = client.guilds.cache.get(interaction.guild_id)
                     message.channel = message.guild.channels.cache.get(interaction.channel_id)
 
-                    if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
+                    if (message.channel.type != "DM") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
                     message.content = config.prefix + command + " " + args.join(" ")
 
@@ -82,7 +82,7 @@ module.exports = {
                 console.log("Commands > Loaded " + commands.length + (commands.length == 1 ? " command." : " commands."))
             })
         } else {
-            if (message.channel.type != "dm") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
+            if (message.channel.type != "DM") var config = data.configs[message.guild.id]; else var config = { prefix: "?", deleteTimeout: 2147483.647, atSender: false }
 
             if (!message.author.bot && (message.content.startsWith(config.prefix) || message.content.startsWith("<@" + client.user.id + ">") || message.content.startsWith("<@!" + client.user.id + ">"))) module.exports.runCommand(message, config)
         }
@@ -138,14 +138,14 @@ module.exports = {
 
         var ran = false
         commands.forEach(customCommand => {
-            if (!customCommand.worksInDms && message.channel.type == "dm") return
+            if (!customCommand.worksInDms && message.channel.type == "DM") return
 
             if (customCommand.name == command.name) {
                 var hasPerms = true
                 var failedPerm = ""
 
                 customCommand.requiredPermissions.forEach(permission => {
-                    if (!message.guild.member(message.author).hasPermission(permission, { checkAdmin: true, checkOwner: true })) {
+                    if (!message.guild.members.cache.get(message.author.id).permissions.has(permission, { checkAdmin: true, checkOwner: true })) {
                         hasPerms = false
                         failedPerm = permission
                     }
@@ -178,7 +178,7 @@ module.exports = {
         })
 
         if (!ran) {
-            if (message.channel.type != "dm") sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
+            if (message.channel.type != "DM") sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command, use " + config.prefix + "help for a list of commands")
             else sendEmbed(message.channel, message.author, config, "Unknown Command", "That is not a command or you cant use that command in dms, use " + config.prefix + "help for a list of commands")
         } else {
             stats.commands++

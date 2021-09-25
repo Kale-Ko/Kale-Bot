@@ -4,7 +4,7 @@ module.exports = {
     name: "poll",
     description: "Add reactions to polls",
     feature: "fun",
-    events: ["message"],
+    events: ["messageCreate"],
     run: (name, message) => {
         if (message.embeds[0] != null) {
             if (message.embeds[0].title == "Poll") {

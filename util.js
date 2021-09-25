@@ -4,8 +4,8 @@ const { uploadData, downloadData } = require("./features/data.js")
 function sendEmbed(channel, author, config, title, description, thumbnail) {
     if (channel == null) return
 
-    if (config.atsender) channel.send("<@" + author.id + ">\n", { embed: createEmbed(title, description, thumbnail) })
-    else channel.send(createEmbed(title, description, thumbnail))
+    if (config.atsender) channel.send({ content: "<@" + author.id + ">\n", embeds: [createEmbed(title, description, thumbnail)] })
+    else channel.send({ embeds: [createEmbed(title, description, thumbnail)] })
 }
 
 function createEmbed(title, description, thumbnail) {
