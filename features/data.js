@@ -55,8 +55,12 @@ module.exports = {
             var newdata = { configs: {}, logs: {} }
 
             client.guilds.cache.forEach(guild => {
-                storage.file("data/" + guild.id + "/config.json").download().then(newConfig => { newdata.configs[guild.id] = newConfig })
-                storage.file("data/" + guild.id + "/log.json").download().then(newLog => { newdata.logs[guild.id] = newLog })
+                storage.exists().then(exists => {
+                    if (!exists) return
+
+                    storage.file("data/" + guild.id + "/config.json").download().then(newConfig => { newdata.configs[guild.id] = newConfig })
+                    storage.file("data/" + guild.id + "/log.json").download().then(newLog => { newdata.logs[guild.id] = newLog })
+                })
             })
 
             callback(newdata)
