@@ -45,11 +45,11 @@ module.exports = {
     uploadData: () => {
         if (!development) {
             for (var key in Object.keys(data.configs)) {
-                storage.file("/data/" + key + "/data.json").save(JSON.stringify(data.configs[key], null, 4))
+                storage.file("data/" + key + "/data.json").save(JSON.stringify(data.configs[key], null, 4))
             }
 
             for (var key in Object.keys(data.logs)) {
-                storage.file("/data/" + key + "/log.json").save(JSON.stringify(data.logs[key], null, 4))
+                storage.file("data/" + key + "/log.json").save(JSON.stringify(data.logs[key], null, 4))
             }
 
             storage.file("data.json").save(JSON.stringify(data, null, 4))
