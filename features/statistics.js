@@ -80,5 +80,7 @@ module.exports = {
 
             statsCategory.delete()
         }
+
+        console.log("Finish")
     }
 }
