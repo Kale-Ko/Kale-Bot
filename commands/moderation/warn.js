@@ -1,4 +1,4 @@
-const { data, uploadData } = require("../../features/data.js")
+const { data } = require("../../features/data.js")
 const { createEmbed, sendEmbed } = require("../../util.js")
 
 module.exports = {
@@ -17,8 +17,6 @@ module.exports = {
                 data.logs[message.guild.id].warns[user.id].push({ "by": message.author.id, "for": args[1] || "" })
 
                 data.logs[message.guild.id].actions.push({ "type": "warn", "by": message.author.id, "against": user.id, "for": args[1] || "" })
-
-                uploadData()
             })
         })
     }

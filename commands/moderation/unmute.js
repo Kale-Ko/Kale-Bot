@@ -1,4 +1,4 @@
-const { data, uploadData } = require("../../features/data.js")
+const { data } = require("../../features/data.js")
 const { createEmbed, sendEmbed } = require("../../util.js")
 
 module.exports = {
@@ -15,8 +15,6 @@ module.exports = {
                 delete data.logs[message.guild.id].mutes[user.id]
 
                 data.logs[message.guild.id].actions.push({ "type": "unmute", "by": message.author.id, "against": user.id, "for": args[1] || "" })
-
-                uploadData()
             })
         })
     }

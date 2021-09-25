@@ -1,4 +1,4 @@
-const { data, uploadData } = require("../../features/data.js")
+const { data } = require("../../features/data.js")
 const { sendEmbed } = require("../../util.js")
 
 module.exports = {
@@ -20,8 +20,6 @@ module.exports = {
             delete data.logs[message.guild.id].bans[ban.user.id]
 
             data.logs[message.guild.id].actions.push({ "type": "unban", "by": message.author.id, "against": ban.user.id, "for": args[1] || "" })
-
-            uploadData()
         }).catch(err => {
             if (err.code == 10026) { sendEmbed(message.channel, message.author, config, "Error", "That user is not banned") } else console.error(err)
         })

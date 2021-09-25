@@ -1,4 +1,4 @@
-const { data, uploadData } = require("../../features/data.js")
+const { data } = require("../../features/data.js")
 const { sendEmbed, createEmbed } = require("../../util.js")
 
 module.exports = {
@@ -17,8 +17,6 @@ module.exports = {
                 data.logs[message.guild.id].bans[user.id] = { "banned": true, "by": message.author.id, "for": args[1] || "" }
 
                 data.logs[message.guild.id].actions.push({ "type": "ban", "by": message.author.id, "against": user.id, "for": args[1] || "" })
-
-                uploadData()
             })
         })
     }

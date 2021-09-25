@@ -1,4 +1,4 @@
-const { data, uploadData } = require("../../features/data.js")
+const { data } = require("../../features/data.js")
 const { createEmbed, sendEmbed } = require("../../util.js")
 
 module.exports = {
@@ -15,8 +15,6 @@ module.exports = {
                 sendEmbed(message.channel, message.author, config, "Kicked", "Successfully kicked <@" + user.id + "> for " + (args[1] || ""))
 
                 data.logs[message.guild.id].actions.push({ "type": "kick", "by": message.author.id, "against": user.id, "for": args[1] || "" })
-
-                uploadData()
             })
         })
     }

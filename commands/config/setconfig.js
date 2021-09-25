@@ -1,5 +1,5 @@
 const { sendEmbed } = require("../../util.js")
-const { data, uploadData } = require("../../features/data.js")
+const { data } = require("../../features/data.js")
 
 module.exports = {
     name: "setconfig",
@@ -21,9 +21,6 @@ module.exports = {
         updateNestedValueOfObj(config, args[0], value)
 
         data.configs[message.guild.id] = config
-
-        uploadData()
-
 
         sendEmbed(message.channel, message.author, config, "Config", "Successfully set " + args[0] + " to " + args[1])
 

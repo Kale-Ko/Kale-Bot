@@ -33,16 +33,12 @@ module.exports = {
         } else if (name == "register") {
             client.guilds.cache.forEach(guild => { module.exports.fixConfig(guild) })
 
-            module.exports.uploadData()
+            setInterval(() => { module.exports.uploadData() }, 5000);
         } else if (name == "guildCreate") {
             module.exports.fixConfig(guild)
-
-            module.exports.uploadData()
-        } else {
+        } else if (name == "guildDelete") {
             delete data.configs[guild.id]
             delete data.logs[guild.id]
-
-            module.exports.uploadData()
         }
     },
     data,
@@ -87,7 +83,5 @@ module.exports = {
 
         data.configs[guild.id] = serverconfig
         data.logs[guild.id] = logs
-
-        module.exports.uploadData()
     }
 }

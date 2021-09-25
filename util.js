@@ -1,5 +1,5 @@
 const Discord = require("discord.js")
-const { uploadData, downloadData } = require("./features/data.js")
+const { downloadData } = require("./features/data.js")
 
 function sendEmbed(channel, author, config, title, description, thumbnail) {
     if (channel == null) return
@@ -21,4 +21,4 @@ function createEmbed(title, description, thumbnail) {
     return embed
 }
 
-module.exports = { sendEmbed, createEmbed, uploadData, downloadData }
+module.exports = { sendEmbed, createEmbed, downloadData }

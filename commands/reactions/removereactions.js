@@ -1,4 +1,4 @@
-const { data, uploadData } = require("../../features/data.js")
+const { data } = require("../../features/data.js")
 const { sendEmbed } = require("../../util.js")
 
 module.exports = {
@@ -10,7 +10,6 @@ module.exports = {
     callback: (message, args, client, config) => {
         config.reactions.forEach(reaction => { if (reaction.channel == args[0].split("/")[args[0].split("/").length - 2] && reaction.message == args[0].split("/")[args[0].split("/").length - 1]) config.reactions.splice(config.reactions.indexOf(reaction), 1) })
         data.configs[message.guild.id] = config
-        uploadData()
 
         var channel = message.guild.channels.cache.get(args[0].split("/")[args[0].split("/").length - 2])
         channel.messages.fetch(args[0].split("/")[args[0].split("/").length - 1]).then(rrmessage => {
