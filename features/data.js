@@ -44,17 +44,22 @@ module.exports = {
     data,
     uploadData: () => {
         if (!development) {
-            for (var key in data.configs) { storage.file("data/" + key + "/data.json").save(JSON.stringify(data.configs[key], null, 4)) }
+            for (var key in data.configs) { storage.file("data/" + key + "/config.json").save(JSON.stringify(data.configs[key], null, 4)) }
             for (var key in data.logs) { storage.file("data/" + key + "/log.json").save(JSON.stringify(data.logs[key], null, 4)) }
-
-            storage.file("data.json").save(JSON.stringify(data, null, 4))
         } else {
             fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
         }
     },
     downloadData: (callback) => {
         if (!development) {
-            storage.file("data.json").download().then(newData => { callback(JSON.parse(newData)) }).catch(err => { throw err })
+            var newdata = { configs: {}, logs: {} }
+
+            client.guilds.cache.forEach(guild => {
+                storage.file("data/" + guild.id + "/config.json").download().then(newConfig => { newdata.configs[guild.id] = newConfig })
+                storage.file("data/" + guild.id + "/log.json").download().then(newLog => { newdata.logs[guild.id] = newLog })
+            })
+
+            callback(newdata)
         } else {
             callback(JSON.parse(fs.readFileSync("./data.json")))
         }
