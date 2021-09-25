@@ -54,16 +54,11 @@ module.exports = {
         if (!development) {
             var newdata = { configs: {}, logs: {} }
 
-            console.log(client.guilds.cache)
-
             client.guilds.cache.forEach(guild => {
-                console.log("E")
                 console.log(guild.id, guild.name)
 
                 storage.file("data/" + guild.id + "/config.json").download().then(newConfig => { newdata.configs[guild.id] = newConfig })
                 storage.file("data/" + guild.id + "/log.json").download().then(newLog => { newdata.logs[guild.id] = newLog })
-
-                newdata.configs[guild.id].name = guild.name
             })
 
             callback(newdata)

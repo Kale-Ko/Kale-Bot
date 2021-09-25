@@ -26,34 +26,36 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
 
     module.exports = { client, development, config, stats }
 
-    require("./features/data.js").run("preregister", data => {
-        client.on("ready", () => {
+    client.on("ready", () => {
+        require("./features/data.js").run("preregister", data => {
             console.log("Bot Logged in as " + client.user.tag)
 
+            module.exports = { client, development, config, stats }
+
             registerFeatures()
+
+            module.exports = { client, development, config, stats, features, commands }
+        })
+    })
+
+    client.login(process.env.KALEBOTTOKEN || env.BOTTOKEN)
+
+    function registerFeatures() {
+        var featureList = fs.readdirSync("./features")
+
+        featureList.forEach(file => {
+            if (!file.endsWith(".js")) return
+
+            const feature = require("./features/" + file)
+
+            features.push(feature)
+
+            feature.events.forEach(event => {
+                if (event == "register") feature.run(event, "", "")
+                else client.on(event, (data, extradata) => { feature.run(event, data, extradata) })
+            })
         })
 
-        client.login(process.env.KALEBOTTOKEN || env.BOTTOKEN)
-
-        function registerFeatures() {
-            var featureList = fs.readdirSync("./features")
-
-            featureList.forEach(file => {
-                if (!file.endsWith(".js")) return
-
-                const feature = require("./features/" + file)
-
-                features.push(feature)
-
-                feature.events.forEach(event => {
-                    if (event == "register") feature.run(event, "", "")
-                    else client.on(event, (data, extradata) => { feature.run(event, data, extradata) })
-                })
-            })
-
-            console.log("Features > Loaded " + features.length + (features.length == 1 ? " feature." : " features."))
-        }
-
-        module.exports = { client, development, config, stats, features, commands }
-    })
+        console.log("Features > Loaded " + features.length + (features.length == 1 ? " feature." : " features."))
+    }
 })
