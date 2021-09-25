@@ -29,7 +29,7 @@ module.exports = {
     update: (guild) => {
         if (!guild.me.permissions.has("MANAGE_CHANNELS", true)) return
 
-        console.log(guild.name)
+        return
 
         var config = data.configs[guild.id]
 
@@ -80,7 +80,5 @@ module.exports = {
 
             statsCategory.delete()
         }
-
-        console.log("Finish")
     }
 }
