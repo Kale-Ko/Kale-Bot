@@ -44,7 +44,11 @@ module.exports = {
     data,
     uploadData: () => {
         if (!development) {
-            for (var key in data.configs) { storage.file("data/" + key + "/config.json").save(JSON.stringify(data.configs[key], null, 4)) }
+            for (var key in data.configs) {
+                console.log(key)
+
+                storage.file("data/" + key + "/config.json").save(JSON.stringify(data.configs[key], null, 4))
+            }
             for (var key in data.logs) { storage.file("data/" + key + "/log.json").save(JSON.stringify(data.logs[key], null, 4)) }
         } else {
             fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
@@ -55,8 +59,12 @@ module.exports = {
             var newdata = { configs: {}, logs: {} }
 
             client.guilds.cache.forEach(guild => {
+                console.log(guild.id, guild.name)
+
                 storage.file("data/" + guild.id + "/config.json").download().then(newConfig => { newdata.configs[guild.id] = newConfig })
                 storage.file("data/" + guild.id + "/log.json").download().then(newLog => { newdata.logs[guild.id] = newLog })
+
+                newdata.configs[guild.id].name = guild.name
             })
 
             callback(newdata)
