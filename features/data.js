@@ -33,7 +33,7 @@ module.exports = {
         } else if (name == "register") {
             client.guilds.cache.forEach(guild => { module.exports.fixConfig(guild) })
 
-            setInterval(() => { module.exports.uploadData() }, 5000);
+            setInterval(() => { module.exports.uploadData() }, 15000);
         } else if (name == "guildCreate") {
             module.exports.fixConfig(guild)
         } else if (name == "guildDelete") {
@@ -44,13 +44,8 @@ module.exports = {
     data,
     uploadData: () => {
         if (!development) {
-            for (var key in data.configs) {
-                storage.file("data/" + key + "/data.json").save(JSON.stringify(data.configs[key], null, 4))
-            }
-
-            for (var key in data.logs) {
-                storage.file("data/" + key + "/log.json").save(JSON.stringify(data.logs[key], null, 4))
-            }
+            for (var key in data.configs) { storage.file("data/" + key + "/data.json").save(JSON.stringify(data.configs[key], null, 4)) }
+            for (var key in data.logs) { storage.file("data/" + key + "/log.json").save(JSON.stringify(data.logs[key], null, 4)) }
 
             storage.file("data.json").save(JSON.stringify(data, null, 4))
         } else {
