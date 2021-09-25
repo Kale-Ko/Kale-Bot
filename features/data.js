@@ -56,8 +56,6 @@ module.exports = {
 
             client.guilds.cache.forEach(guild => {
                 storage.file("data/" + guild.id).exists().then(exists => {
-                    console.log(exists[0])
-
                     if (!exists[0]) return
 
                     storage.file("data/" + guild.id + "/config.json").download().then(newConfig => { newdata.configs[guild.id] = newConfig })
