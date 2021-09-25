@@ -44,6 +44,18 @@ module.exports = {
     data,
     uploadData: () => {
         if (!development) {
+            for (var key in data.configs.keys()) {
+                console.log(key)
+
+                // storage.file("/data/" + key + "/data.json").save(JSON.stringify(data.configs[key], null, 4))
+            }
+
+            for (var key in data.logs.keys()) {
+                console.log(key)
+
+                // storage.file("/data/" + key + "/log.json").save(JSON.stringify(data.logs[key], null, 4))
+            }
+
             storage.file("data.json").save(JSON.stringify(data, null, 4))
         } else {
             fs.writeFileSync("./data.json", JSON.stringify(data, null, 4))
