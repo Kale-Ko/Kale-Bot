@@ -29,6 +29,8 @@ module.exports = {
     update: (guild) => {
         if (!guild.me.permissions.has("MANAGE_CHANNELS", true)) return
 
+        console.log(guild.name)
+
         var config = data.configs[guild.id]
 
         var statsCategory = guild.channels.cache.find(channel => channel.type == "GUILD_CATEGORY" && channel.name == "Stats")
