@@ -30,11 +30,9 @@ fs.readFile("./config.json", "utf8", (err, newConfig) => {
         require("./features/data.js").run("preregister", data => {
             console.log("Bot Logged in as " + client.user.tag)
 
-            module.exports = { client, development, config, stats }
+            module.exports = { client, development, config, stats, features, commands }
 
             registerFeatures()
-
-            module.exports = { client, development, config, stats, features, commands }
         })
     })
 
