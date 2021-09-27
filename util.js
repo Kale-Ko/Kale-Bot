@@ -1,8 +1,9 @@
 const Discord = require("discord.js")
+const { client } = require("./bot.js")
 const { downloadData } = require("./features/data.js")
 
 function sendEmbed(channel, author, config, title, description, thumbnail) {
-    if (channel == null) return
+    if (channel == null || !channel.permissionsFor(client.user).has("SEND_MESSAGES")) return
 
     if (config.atsender) channel.send({ content: "<@" + author.id + ">\n", embeds: [createEmbed(title, description, thumbnail)] })
     else channel.send({ embeds: [createEmbed(title, description, thumbnail)] })

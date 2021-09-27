@@ -10,6 +10,8 @@ var stats = { commands: 0 }
 var features = []
 var commands = []
 
+module.exports = { client, development }
+
 if (process.env.WEBPAGEONLY == "true" || process.env.WEBPAGEONLY == true) {
     require("./features/webpage.js").run()
 
