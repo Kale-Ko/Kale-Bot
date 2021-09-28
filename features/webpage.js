@@ -1,6 +1,5 @@
 const express = require("express")
 const server = express()
-const fs = require("fs")
 
 module.exports = {
     name: "webpage",
@@ -8,28 +7,12 @@ module.exports = {
     events: ["register"],
     run: (name, event) => {
         server.get("*", (req, res) => {
-            var file = "./features/webpage/" + req.path.replace("/", "").replace(new RegExp("../", "g"), "")
-            if (!req.path.includes(".")) file += ".html"
+            res.statusCode = 200
+            res.statusMessage = "Ok"
 
-            fs.stat(file, (err, stats) => {
-                if (err) {
-                    res.statusCode = 404
-                    res.statusMessage = "Not Found"
-
-                    res.end("404 Not Found")
-
-                    return
-                }
-
-                res.statusCode = 200
-                res.statusMessage = "Ok"
-
-                res.end(fs.readFileSync(file))
-            })
+            res.end("200 Ok")
         })
 
-        var port = process.env.PORT || 3000
-
-        server.listen(port, () => { console.log("Launched web server on " + port) })
+        server.listen(process.env.PORT || 3000, () => { })
     }
 }
