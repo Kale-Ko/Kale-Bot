@@ -3,7 +3,6 @@
     "status": "for ?help",
     "allowedConfig": [
         "prefix",
-        "deletetimeout",
         "atsender",
         "stats",
         "features"
