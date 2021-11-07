@@ -1,3 +1,10 @@
+/**
+    @license
+    MIT License
+    Copyright (c) 2021 Kale Ko
+    See https://kaleko.ga/license.txt
+*/
+
 const fs = require("fs")
 var env = {}
 if (fs.existsSync("./env.json")) env = require("./env.json")

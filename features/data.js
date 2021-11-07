@@ -1,3 +1,10 @@
+/**
+    @license
+    MIT License
+    Copyright (c) 2021 Kale Ko
+    See https://kaleko.ga/license.txt
+*/
+
 var { client, development, config } = require("../bot.js")
 const fs = require("fs")
 var env = {}
