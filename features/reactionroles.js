@@ -1,10 +1,3 @@
-/**
-    @license
-    MIT License
-    Copyright (c) 2021 Kale Ko
-    See https://kaleko.ga/license.txt
-*/
-
 var { client } = require("../bot.js")
 var { data } = require("./data.js")
 

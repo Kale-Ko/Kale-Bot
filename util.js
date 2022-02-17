@@ -1,10 +1,3 @@
-/**
-    @license
-    MIT License
-    Copyright (c) 2021 Kale Ko
-    See https://kaleko.ga/license.txt
-*/
-
 const Discord = require("discord.js")
 const { client } = require("./bot.js")
 const { downloadData } = require("./features/data.js")

@@ -1,10 +1,3 @@
-/**
-    @license
-    MIT License
-    Copyright (c) 2021 Kale Ko
-    See https://kaleko.ga/license.txt
-*/
-
 const fs = require("fs")
 var { commands } = require("../../bot.js")
 const { sendEmbed } = require("../../util.js")
